@@ -3,57 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material You Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Your Name - Portfolio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+        header {
+            background: #007bff;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        nav {
+            margin-top: 1rem;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        .project {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .project img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .project h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        footer a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            nav {
+                margin-top: 0.5rem;
+            }
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>My Portfolio</h1>
+            <h1>Your Name</h1>
             <nav>
-                <a href="#about" class="nav-link">About Me</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
             </nav>
         </div>
     </header>
-
-    <main>
+    
+    <div class="container">
         <section id="about">
-            <div class="container">
-                <h2>About Me</h2>
-                <p>Welcome to my portfolio! I am a passionate developer skilled in various technologies.</p>
-                <button class="primary-button">Learn More</button>
-            </div>
+            <h2>About Me</h2>
+            <p>Hello! I’m Your Name, a passionate [Your Profession] based in [Your Location]. With experience in [Your Specialization], I thrive on creating solutions that drive results and exceed expectations. Here’s a bit more about my journey and expertise.</p>
         </section>
-
+        
         <section id="projects">
-            <div class="container">
-                <h2>Projects</h2>
-                <div class="project-card">
-                    <h3>Project One</h3>
-                    <p>Description of project one.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Project Two</h3>
-                    <p>Description of project two.</p>
-                </div>
+            <h2>Projects</h2>
+            <div class="project">
+                <h3>Project Title 1</h3>
+                <img src="project1.jpg" alt="Project 1">
+                <p>Description of project 1. Highlight technologies used, challenges faced, and outcomes achieved.</p>
             </div>
+            <div class="project">
+                <h3>Project Title 2</h3>
+                <img src="project2.jpg" alt="Project 2">
+                <p>Description of project 2. Include details on project scope, your role, and the impact of the project.</p>
+            </div>
+            <!-- Add more projects as needed -->
         </section>
-
+        
         <section id="contact">
-            <div class="container">
-                <h2>Contact</h2>
-                <p>Feel free to reach out to me through any of the following:</p>
-                <!-- Add contact information here -->
-            </div>
+            <h2>Contact</h2>
+            <p>I'd love to hear from you! Feel free to reach out via email at <a href="mailto:youremail@example.com">youremail@example.com</a> or connect with me on <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>.</p>
         </section>
-    </main>
-
+    </div>
+    
     <footer>
-        <div class="container">
-            <p>&copy; 2024 My Portfolio. All rights reserved.</p>
-        </div>
+        <p>&copy; 2024 Your Name. All rights reserved. | <a href="#">Privacy Policy</a></p>
     </footer>
 </body>
 </html>
