@@ -1,121 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Portfolio</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material You Portfolio</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        header, footer {
+            background-color: #6200ea;
+            color: white;
+        }
+        
+        .hero-section {
+            min-height: 50vh;
+            background: url('https://via.placeholder.com/1600x900') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .hero-section .btn {
+            background-color: #03dac6;
+        }
+        
+        .projects .card .card-title {
+            color: #6200ea;
+        }
+        
+        .btn, .btn:hover, .btn:focus {
+            background-color: #03dac6;
+            color: black;
+        }
+        
+        footer {
+            padding: 10px 0;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<!-- Navigation Bar -->
-<nav>
-<div class="nav-wrapper">
-<a href="#" class="brand-logo">My Portfolio</a>
-<ul id="nav-mobile" class="right hide-on-med-and-down">
+    <!-- Navigation bar -->
+    <header>
+        <nav>
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo">My Portfolio</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+[21:35]
 <li><a href="#about">About</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-</div>
-</nav>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </header>
 
-<!-- Hero Section -->
-<div class="section no-pad-bot" id="index-banner">
-<div class="container">
-<h1 class="header center teal-text text-lighten-2">Welcome</h1>
-<div class="row center">
-<h5 class="header col s12 light">I'm Erdem, a web developer.</h5>
-</div>
-<div class="row center">
-<a href="#about" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
-</div>
-</div>
-</div>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1>Welcome to My Portfolio</h1>
+            <p>Designing the future, one project at a time.</p>
+            <a href="#about" class="btn-large waves-effect waves-light">Learn More</a>
+        </div>
+    </div>
 
-<!-- About Section -->
-<div class="container" id="about">
-<div class="section">
-<div class="row">
-<div class="col s12 center">
-<h3><i class="mdi-content-send brown-text"></i></h3>
-<h4>About Me</h4>
-<p class="left-align light">Here's a brief introduction about me.</p>
-</div>
-</div>
-</div>
-</div>
+    <!-- About Section -->
+    <div id="about" class="container section scrollspy">
+        <h2 class="header">About Me</h2>
+        <p>I am a passionate web developer with a flair for creating stylish and functional websites. Here's a bit about my background, skills, and what drives me to keep innovating.</p>
+    </div>
 
-<!-- Projects Section -->
-<div class="container" id="projects">
-<div class="section">
-<div class="row">
-<div class="col s12 center">
-<h4>Projects</h4>
-</div>
-<div class="col s12 m4">
-<div class="icon-block">
-<h2 class="center brown-text"><i class="material-icons">code</i></h2>
-<h5 class="center">Project One</h5>
-<p class="light center">Description of Project One.</p>
-</div>
-</div>
-<div class="col s12 m4">
-<div class="icon-block">
-<h2 class="center brown-text"><i class="material-icons">code</i></h2>
-<h5 class="center">Project Two</h5>
-[21:24]
-<p class="light center">Description of Project Two.</p>
-</div>
-</div>
-<div class="col s12 m4">
-<div class="icon-block">
-<h2 class="center brown-text"><i class="material-icons">code</i></h2>
-<h5 class="center">Project Three</h5>
-<p class="light center">Description of Project Three.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <!-- Projects Section -->
+    <div id="projects" class="container section scrollspy">
+        <h2 class="header">My Projects</h2>
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://via.placeholder.com/600x400">
+                        <span class="card-title">Project One</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Details about Project One. This project showcases my ability to build dynamic, responsive web applications.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card">
+[21:35]
+<div class="card-image">
+                        <img src="https://via.placeholder.com/600x400">
+                        <span class="card-title">Project Two</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Details about Project Two. This project highlights my design skills and attention to detail.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://via.placeholder.com/600x400">
+                        <span class="card-title">Project Three</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Details about Project Three. This project demonstrates my proficiency in backend development and database integration.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- Contact Section -->
-<div class="container" id="contact">
-<div class="section">
-<div class="row">
-<div class="col s12 center">
-<h4>Contact</h4>
-<p>Email: <a href="mailto:info@myportfolio.com">info@myportfolio.com</a></p>
-</div>
-</div>
-</div>
-</div>
+    <!-- Contact Section -->
+    <div id="contact" class="container section scrollspy">
+        <h2 class="header">Contact Me</h2>
+        <form action="#">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="name" type="text" class="validate">
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="email" type="email" class="validate">
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s12">
+                    <textarea id="message" class="materialize-textarea"></textarea>
+[21:35]
+[]
+                    <label for="message">Message</label>
+                </div>
+                <div class="col s12">
+                    <button type="submit" class="btn waves-effect waves-light">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-<!-- Footer -->
-<footer class="page-footer teal">
-<div class="container">
-<div class="row">
-<div class="col l6 s12">
-<h5 class="white-text">Stay Connected</h5>
-<p class="grey-text text-lighten-4">Follow me on social media.</p>
-</div>
-<div class="col l4 offset-l2 s12">
-<h5 class="white-text">Links</h5>
-<ul>
-<li><a class="grey-text text-lighten-3" href="#!">LinkedIn</a></li>
-<li><a class="grey-text text-lighten-3" href="#!">GitHub</a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="footer-copyright">
-<div class="container">
-© 2024 Erdem's Portfolio
-</div>
-</div>
-</footer>
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Erdem's Portfolio</p>
+    </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems);
+        });
+    </script>
 </body>
 </html>
