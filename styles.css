@@ -1,0 +1,15 @@
+body {
+font-family: 'Roboto', sans-serif;
+}
+
+.nav-wrapper .brand-logo {
+padding-left: 20px;
+}
+
+#projects .icon-block {
+padding: 20px 0;
+}
+
+footer.page-footer {
+padding-top: 0;
+}
