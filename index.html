@@ -1,69 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+	<meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="script.js"></script>
+	<link rel="stylesheet" href="style.css">
+	<title>Static TV Noise Screen</title>
+    <link rel="canonical" href="https://geekprank.com/static-tv-noise/">
+    <meta name="description" content="You might remember the static TV noise with vibrating random black and white dots from old analog TVs. This screen will bring this effect back on your computer.">
+    <meta name="keywords" content="static,tv,noise">
+    <meta property="og:title" content="Static TV Noise Screen">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://geekprank.com/static-tv-noise/">
+    <meta property="og:image" content="https://geekprank.com/static-tv-noise/og.jpg">
+    <meta property="og:description" content="You might remember the static TV noise with vibrating random black and white dots from old analog TVs. This screen will bring this effect back on your computer.">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Welcome to My Portfolio</h1>
-            <nav>
-                <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section id="about" class="container">
-        <h2>About Me</h2>
-        <p>Hello! I'm a web developer with a passion for creating beautiful and functional websites. I specialize in front-end development and have experience with various technologies.</p>
-    </section>
-
-    <section id="portfolio" class="container">
-        <h2>My Work</h2>
-        <div class="portfolio-items">
-            <div class="portfolio-item">
-                <img src="project1.jpg" alt="Project 1">
-                <h3>Project 1</h3>
-                <p>Description of project 1.</p>
-            </div>
-            <div class="portfolio-item">
-                <img src="project2.jpg" alt="Project 2">
-                <h3>Project 2</h3>
-                <p>Description of project 2.</p>
-            </div>
-            <!-- Add more portfolio items here -->
-        </div>
-    </section>
-
-    <section id="contact" class="container">
-        <h2>Contact Me</h2>
-        <form id="contact-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-
-            <button type="submit">Send</button>
-        </form>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Your Name. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+<div id="container">
+    <div class="grained"></div>
+</div>
+<div class="grainpopup">
+    <span class="helper"></span>
+    <div>
+        <div title="Close" class="popupCloseButton">X</div>
+		<h1>Static TV Noise Screen</h1>
+		<p class="intro">You might remember the static TV noise with vibrating random black and white dots from old analog TVs. This screen will bring this effect back on your computer.</p>
+        <p>Make sure you have <br>Full Screen enabled (<strong>F11 button</strong>)!</p>
+		<p>(Go to the <a href="/">home page here</a>)</p>
+    </div>
+</div>
+<div class="gradientFrame">
+</div>
 </body>
+<script>
+var options = {
+  "animate": true,
+  "patternWidth": 285.56,
+  "patternHeight": 42.42,
+  "grainOpacity": 1,
+  "grainDensity": 1.5,
+  "grainWidth": 1.89,
+  "grainHeight": 1.5
+}
+grained("#container", options);
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YSFP0RLNB7"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-YSFP0RLNB7');</script>
 </html>
