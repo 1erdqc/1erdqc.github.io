@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERDQC_WEBSITE</title>
+    <title>Windows 10 Blue Screen of Death</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #0000ff; /* Windows 10 BSOD blue */
+            background-color: #003399; /* Windows 10 BSOD blue */
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
@@ -18,37 +18,45 @@
             height: 100vh;
             overflow: hidden;
         }
-        .container {
-            max-width: 600px;
+        .bsod-container {
+            max-width: 800px;
             padding: 20px;
-            background-color: #000000;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            background-color: #003399;
+            text-align: center;
         }
         h1 {
             font-size: 24px;
             margin: 0 0 10px;
-        }
-        p {
-            margin: 5px 0;
-            font-size: 16px;
+            font-weight: bold;
         }
         .error-code {
             font-size: 20px;
+            margin: 20px 0;
             font-weight: bold;
         }
+        p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .small {
+            font-size: 14px;
+            color: #cccccc;
+        }
         .suggestion {
-            font-style: italic;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #a0a0a0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>💥 Your PC ran into a problem and needs to restart</h1>
-        <p class="error-code">Stop Code: ERDQC_WEBSITE</p>
+    <div class="bsod-container">
+        <h1>🛑 Your PC ran into a problem and needs to restart</h1>
+        <p class="error-code">Stop Code: SYSTEM_THREAD_EXCEPTION_NOT_HANDLED</p>
         <p>We’re just collecting some error info, and then we’ll restart for you.</p>
         <p class="suggestion">(0% complete)</p>
-        <p>If you’d like to know more, you can search online later for this error: <code>https://discord.gg/8TjzSUGrya</code></p>
+        <p class="small">If you’d like to know more, you can search online later for this error: <code>INACCESSIBLE_BOOT_DEVICE</code></p>
+        <p class="small">For more information about this issue and possible fixes, visit <a href="https://support.microsoft.com" style="color: #a0a0a0; text-decoration: underline;">Microsoft Support</a>.</p>
     </div>
 </body>
 </html>
