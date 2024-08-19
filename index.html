@@ -18,7 +18,8 @@
             font-family: 'Google Sans', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #121212;
+            background: url('https://www.ytechb.com/wp-content/uploads/2024/07/Windows-95-Wallpaper-3.webp') no-repeat center center fixed;
+            background-size: cover; /* Ensure the background covers the entire viewport */
             color: #e0e0e0;
             display: flex;
             flex-direction: column;
@@ -28,7 +29,9 @@
         .content {
             flex: 1;
             padding: 20px;
-            position: relative; /* Needed for the shadow effect */
+            position: relative; /* Needed for positioning content */
+            background: rgba(18, 18, 18, 0.8); /* Slightly opaque background for better text readability */
+            border-radius: 8px; /* Optional: Rounded corners for the content */
         }
         .clock {
             background-color: #1e1e1e;
@@ -36,16 +39,6 @@
             padding: 10px;
             text-align: center;
             border-top: 1px solid #333;
-        }
-        .shadow {
-            position: absolute;
-            width: 50px; /* Reduced width */
-            height: 50px; /* Reduced height */
-            background-color: rgba(0, 0, 0, 0.3); /* Lower opacity */
-            border-radius: 50%;
-            pointer-events: none; /* Allow clicks to pass through */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Reduced shadow size */
-            transform: translate(-50%, -50%);
         }
         .discord-link, .tiktok-link {
             position: fixed;
@@ -56,8 +49,10 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
+            justify-content: center; /* Center the text horizontally */
             transition: all 0.3s ease; /* Smooth transition for hover effects */
             white-space: nowrap; /* Prevent text wrapping */
+            height: 50px; /* Ensuring fixed height for vertical centering */
         }
         .discord-link {
             bottom: 20px;
@@ -91,7 +86,6 @@
         <p>I love tech</p>
         <p>Discord: erdqc</p>
         <!-- Add your portfolio content here -->
-        <div class="shadow" id="shadow"></div>
     </div>
     <div class="clock" id="clock"></div>
 
@@ -114,12 +108,6 @@
 
         setInterval(updateClock, 1000);
         updateClock(); // Initial call to display the clock immediately
-
-        document.addEventListener('mousemove', (e) => {
-            const shadow = document.getElementById('shadow');
-            shadow.style.left = `${e.pageX}px`;
-            shadow.style.top = `${e.pageY}px`;
-        });
     </script>
 </body>
 </html>
