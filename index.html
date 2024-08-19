@@ -18,7 +18,7 @@
             font-family: 'Google Sans', sans-serif;
             margin: 0;
             padding: 0;
-            background: url('https://www.ytechb.com/wp-content/uploads/2024/07/Windows-95-Wallpaper-3.webp') no-repeat center center fixed;
+            background: url('https://media.discordapp.net/attachments/1204117895232098364/1275163946080272415/Windows_Me.jpg?ex=66c4e478&is=66c392f8&hm=6bdd0e0709af6c639a373551194c85d70030eab4ae656dfe1a7406ec0954b083&=&format=webp&width=631&height=473') no-repeat center center fixed;
             background-size: cover; /* Ensure the background covers the entire viewport */
             color: #e0e0e0;
             display: flex;
@@ -39,20 +39,21 @@
             padding: 10px;
             text-align: center;
             border-top: 1px solid #333;
+            font-weight: bold; /* Make the font bold */
         }
         .discord-link, .tiktok-link {
             position: fixed;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 8px 16px; /* Smaller padding for smaller buttons */
+            border-radius: 25px; /* Fully rounded buttons */
             text-decoration: none;
-            font-size: 16px;
+            font-size: 14px; /* Smaller font size */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center; /* Center the text horizontally */
             transition: all 0.3s ease; /* Smooth transition for hover effects */
             white-space: nowrap; /* Prevent text wrapping */
-            height: 50px; /* Ensuring fixed height for vertical centering */
+            height: 40px; /* Smaller height */
         }
         .discord-link {
             bottom: 20px;
@@ -68,15 +69,15 @@
         }
         .discord-link:hover {
             background-color: #5b6eae; /* Darker Discord blue on hover */
-            box-shadow: 0 0 15px rgba(88, 101, 242, 0.6); /* Blue shadow on hover */
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.6); /* Blue shadow on hover */
         }
         .tiktok-link:hover {
             background-color: #333333; /* Darker TikTok black on hover */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); /* Black shadow on hover */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Black shadow on hover */
         }
         .social-icon {
             margin-right: 8px;
-            font-size: 20px;
+            font-size: 18px; /* Adjust icon size for smaller buttons */
         }
     </style>
 </head>
@@ -100,10 +101,13 @@
     <script>
         function updateClock() {
             const now = new Date();
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const day = days[now.getDay()];
+            const date = now.toLocaleDateString(); // Use locale date string format
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = `${day}, ${date} ${hours}:${minutes}:${seconds}`;
         }
 
         setInterval(updateClock, 1000);
