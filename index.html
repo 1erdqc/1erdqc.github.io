@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>erdqc-droid</title>
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @font-face {
             font-family: 'Google Sans';
@@ -46,20 +47,37 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Reduced shadow size */
             transform: translate(-50%, -50%);
         }
-        .discord-link {
+        .discord-link, .tiktok-link {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #5865F2; /* Discord blue */
+            background-color: #7289da; /* Default color for Discord */
             color: #ffffff;
             padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             font-size: 16px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+        }
+        .discord-link {
+            bottom: 20px;
+            right: 20px;
+            background-color: #7289da; /* Discord blue */
+        }
+        .tiktok-link {
+            bottom: 20px;
+            left: 20px;
+            background-color: #000000; /* TikTok black */
         }
         .discord-link:hover {
             background-color: #5b6eae; /* Darker Discord blue on hover */
+        }
+        .tiktok-link:hover {
+            background-color: #333333; /* Darker TikTok black on hover */
+        }
+        .social-icon {
+            margin-right: 8px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -73,7 +91,13 @@
     </div>
     <div class="clock" id="clock"></div>
 
-    <a href="https://discord.gg/8TjzSUGrya" class="discord-link" target="_blank">Join our Discord server</a>
+    <a href="https://discord.gg/8TjzSUGrya" class="discord-link" target="_blank">
+        <i class="fab fa-discord social-icon"></i> Join my Discord
+    </a>
+
+    <a href="https://www.tiktok.com/@j5ltehype" class="tiktok-link" target="_blank">
+        <i class="fab fa-tiktok social-icon"></i> Follow on TikTok
+    </a>
 
     <script>
         function updateClock() {
