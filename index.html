@@ -34,8 +34,8 @@
             border-radius: 8px;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center horizontally */
-            justify-content: center; /* Center vertically */
+            align-items: center;
+            justify-content: center;
             text-align: center;
             margin-bottom: 60px; /* Ensure space for the fixed clock */
         }
@@ -93,8 +93,9 @@
         iframe {
             border-radius: 12px;
             margin-top: 20px;
-            width: 80%; /* Narrowed width */
-            max-width: 600px; /* Maximum width for larger screens */
+            width: 90%; /* Adjust width */
+            max-width: 500px; /* Max width for larger screens */
+            height: 352px; /* Fixed height */
         }
     </style>
 </head>
@@ -104,7 +105,7 @@
         <p>I love tech</p>
         <p>Discord: erdqc</p>
         <!-- Spotify Playlist Embed -->
-        <iframe src="https://open.spotify.com/embed/playlist/6YQz3qqC9hDTiAjkAY6k5A?utm_source=generator&theme=0" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <iframe src="https://open.spotify.com/embed/playlist/6YQz3qqC9hDTiAjkAY6k5A?utm_source=generator&theme=0" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
     <div class="clock" id="clock"></div>
 
