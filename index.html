@@ -51,6 +51,7 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 10; /* Ensure it is above other content */
+            border-radius: 12px; /* Rounded corners */
         }
         .discord-link, .tiktok-link {
             position: fixed;
@@ -90,12 +91,6 @@
             margin-right: 8px;
             font-size: 18px;
         }
-        iframe {
-            border-radius: 12px;
-            width: 450px; /* Fixed width */
-            height: 352px; /* Fixed height */
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -103,8 +98,6 @@
         <h1>Oh, you just landed into my site</h1>
         <p>I love tech</p>
         <p>Discord: erdqc</p>
-        <!-- Spotify Playlist Embed -->
-        <iframe src="https://open.spotify.com/embed/playlist/6YQz3qqC9hDTiAjkAY6k5A?utm_source=generator&theme=0" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
     <div class="clock" id="clock"></div>
 
