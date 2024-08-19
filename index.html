@@ -24,6 +24,7 @@
             flex-direction: column;
             min-height: 100vh;
             overflow: hidden; /* Prevent scrollbars */
+            position: relative; /* Positioning for the play/pause button */
         }
         .content {
             flex: 1;
@@ -79,6 +80,26 @@
             margin-right: 8px;
             font-size: 18px; /* Adjust icon size for smaller buttons */
         }
+        .play-pause-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .play-pause-button:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +119,12 @@
         <i class="fab fa-tiktok social-icon"></i> Follow on TikTok
     </a>
 
+    <button class="play-pause-button" id="playPauseButton">
+        <i class="fas fa-play"></i>
+    </button>
+
+    <audio id="backgroundMusic" src="https://www.youtube.com/watch?v=0uwFtyOx8oI" preload="auto"></audio>
+
     <script>
         function updateClock() {
             const now = new Date();
@@ -112,6 +139,21 @@
 
         setInterval(updateClock, 1000);
         updateClock(); // Initial call to display the clock immediately
+
+        const playPauseButton = document.getElementById('playPauseButton');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        let isPlaying = false;
+
+        playPauseButton.addEventListener('click', () => {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                backgroundMusic.play();
+                playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
     </script>
 </body>
 </html>
