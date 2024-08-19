@@ -100,6 +100,9 @@
         .play-pause-button:hover {
             background-color: #f0f0f0;
         }
+        .play-pause-button i {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -123,7 +126,8 @@
         <i class="fas fa-play"></i>
     </button>
 
-    <audio id="backgroundMusic" src="https://www.youtube.com/watch?v=0uwFtyOx8oI" preload="auto"></audio>
+    <!-- SoundCloud Embed -->
+    <iframe id="soundcloudPlayer" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/143645077&color=%23ff5500&inverse=false&auto_play=false&show_user=false"></iframe>
 
     <script>
         function updateClock() {
@@ -141,15 +145,15 @@
         updateClock(); // Initial call to display the clock immediately
 
         const playPauseButton = document.getElementById('playPauseButton');
-        const backgroundMusic = document.getElementById('backgroundMusic');
+        const soundcloudPlayer = document.getElementById('soundcloudPlayer');
         let isPlaying = false;
 
         playPauseButton.addEventListener('click', () => {
             if (isPlaying) {
-                backgroundMusic.pause();
+                soundcloudPlayer.contentWindow.postMessage('{"method":"pause"}', '*');
                 playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
             } else {
-                backgroundMusic.play();
+                soundcloudPlayer.contentWindow.postMessage('{"method":"play"}', '*');
                 playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
             }
             isPlaying = !isPlaying;
