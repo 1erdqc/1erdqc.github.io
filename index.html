@@ -46,6 +46,21 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Reduced shadow size */
             transform: translate(-50%, -50%);
         }
+        .discord-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #7289da; /* Discord blue */
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .discord-link:hover {
+            background-color: #5b6eae; /* Darker Discord blue on hover */
+        }
     </style>
 </head>
 <body>
@@ -57,6 +72,8 @@
         <div class="shadow" id="shadow"></div>
     </div>
     <div class="clock" id="clock"></div>
+
+    <a href="https://discord.gg/8TjzSUGrya" class="discord-link" target="_blank">Join my Discord</a>
 
     <script>
         function updateClock() {
