@@ -37,21 +37,20 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            margin-bottom: 80px; /* Space for the fixed clock */
+            margin-bottom: 20px; /* Adjusted margin to fit the clock positioning */
         }
         .clock {
             background-color: #1e1e1e;
             color: #e0e0e0;
             padding: 10px;
             text-align: center;
-            border-top: 1px solid #333;
-            font-weight: bold;
-            position: fixed;
-            bottom: 20px;
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Optional shadow for better visibility */
+            position: absolute; /* Position absolutely within the content container */
+            bottom: 20px; /* Distance from the bottom of the content */
             left: 50%;
             transform: translateX(-50%);
             z-index: 10; /* Ensure it is above other content */
-            border-radius: 12px; /* Rounded corners */
         }
         .discord-link, .tiktok-link {
             position: fixed;
@@ -98,8 +97,8 @@
         <h1>Oh, you just landed into my site</h1>
         <p>I love tech</p>
         <p>Discord: erdqc</p>
+        <div class="clock" id="clock"></div> <!-- Moved clock inside content -->
     </div>
-    <div class="clock" id="clock"></div>
 
     <a href="https://discord.gg/8TjzSUGrya" class="discord-link" target="_blank">
         <i class="fab fa-discord social-icon"></i> Join my Discord
