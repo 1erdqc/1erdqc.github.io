@@ -47,7 +47,7 @@
             border-radius: 12px; /* Rounded corners */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Optional shadow for better visibility */
             position: absolute; /* Position absolutely within the content container */
-            bottom: 40px; /* Adjusted distance from the bottom of the content */
+            bottom: 60px; /* Adjusted distance from the bottom of the content */
             left: 50%;
             transform: translateX(-50%);
             z-index: 10; /* Ensure it is above other content */
@@ -90,6 +90,12 @@
             margin-right: 8px;
             font-size: 18px;
         }
+        iframe {
+            border-radius: 12px; /* Rounded corners for the iframe */
+            width: 500px;
+            height: 152px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -97,6 +103,8 @@
         <h1>Oh, you just landed into my site</h1>
         <p>I love tech</p>
         <p>Discord: erdqc</p>
+        <!-- Spotify Playlist Embed -->
+        <iframe src="https://open.spotify.com/embed/playlist/6YQz3qqC9hDTiAjkAY6k5A?utm_source=generator&theme=0" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         <div class="clock" id="clock"></div> <!-- Clock inside content -->
     </div>
 
