@@ -49,8 +49,6 @@
         }
         .discord-link, .tiktok-link {
             position: fixed;
-            background-color: #7289da; /* Default color for Discord */
-            color: #ffffff;
             padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
@@ -58,22 +56,28 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
+            white-space: nowrap; /* Prevent text wrapping */
         }
         .discord-link {
             bottom: 20px;
             right: 20px;
             background-color: #5865F2; /* Discord blue */
+            color: #ffffff;
         }
         .tiktok-link {
             bottom: 20px;
             left: 20px;
             background-color: #000000; /* TikTok black */
+            color: #ffffff;
         }
         .discord-link:hover {
             background-color: #5b6eae; /* Darker Discord blue on hover */
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.6); /* Blue shadow on hover */
         }
         .tiktok-link:hover {
             background-color: #333333; /* Darker TikTok black on hover */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); /* Black shadow on hover */
         }
         .social-icon {
             margin-right: 8px;
