@@ -1,115 +1,130 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>erdqc</title>
-  <!-- Google Fonts: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <!-- Font Awesome (icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    :root{
-      --bg: #1C1C1C;
-      --fg: #E6E6E6;
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
-      color: var(--fg);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      overflow: hidden; /* scroll kaldırıldı */
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>erdqc Terminal</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<!-- Cascadia Code font -->
+<link href="https://fonts.googleapis.com/css2?family=Cascadia+Code&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1C1C1C;
+    --fg: #E6E6E6;
+  }
 
-    .terminal {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: monospace;
-      width: 80%;
-      max-width: 800px;
-      height: 60vh;
-      margin: 0 auto;
-      padding: 20px;
-      border-radius: 5px;
-      box-sizing: border-box;
-      overflow-y: auto;
-    }
+  html, body {
+    margin:0;
+    height:100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    overflow: hidden;
+  }
 
-    .line {
-      display: flex;
-      margin-bottom: 5px;
-    }
+  /* Sayfa ortasında Hello! */
+  .center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    font-weight: bold;
+  }
 
-    .prompt {
-      margin-right: 5px;
-      font-weight: bold;
-    }
+  /* Terminal */
+  .terminal {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 400px;
+    height: 300px;
+    background: var(--bg);
+    color: var(--fg);
+    padding: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    font-family: 'Cascadia Code', monospace; /* sadece terminal */
+  }
 
-    .terminal input {
-      background: transparent;
-      border: none;
-      color: var(--fg);
-      outline: none;
-      flex: 1;
-      font-family: monospace;
-      font-size: 1rem;
-    }
+  .line {
+    display: flex;
+    margin-bottom: 5px;
+  }
 
-    /* Social links (bottom center) */
-    .social-links {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display:flex;
-      gap:20px;
-    }
-    .social-links a {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:60px;
-      height:60px;
-      border-radius:10px;
-      background: rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.1);
-      color: var(--fg);
-      font-size:28px;
-      text-decoration:none;
-      transition: all 0.3s ease;
-    }
-    .social-links a:hover {
-      background: rgba(255,255,255,0.15);
-      transform: scale(1.1);
-    }
+  .prompt {
+    margin-right: 5px;
+    font-weight: bold;
+  }
 
-    /* Info boxes */
-    .info-box {
-      position: fixed;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      max-width: 280px;
-      word-break: break-word;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    .info-box strong {
-      display:block;
-      margin-bottom:4px;
-      font-weight:600;
-    }
-    /* Positions */
-    .right-bottom { bottom: 20px; right: 20px; }
-    .left-bottom { bottom: 20px; left: 20px; }
-  </style>
+  .terminal input {
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    outline: none;
+    flex: 1;
+    font-family: 'Cascadia Code', monospace;
+    font-size: 1rem;
+  }
+
+  /* Social links (bottom center) */
+  .social-links {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display:flex;
+    gap:20px;
+  }
+  .social-links a {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:60px;
+    height:60px;
+    border-radius:10px;
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    color: var(--fg);
+    font-size:28px;
+    text-decoration:none;
+    transition: all 0.3s ease;
+  }
+  .social-links a:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.1);
+  }
+
+  /* Info boxes */
+  .info-box {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    max-width: 280px;
+    word-break: break-word;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .info-box strong {
+    display:block;
+    margin-bottom:4px;
+    font-weight:600;
+  }
+  /* Positions */
+  .right-bottom { bottom: 20px; right: 20px; }
+  .left-bottom { bottom: 20px; left: 20px; }
+</style>
 </head>
 <body>
+  <!-- Sayfa ortasında Hello! -->
+  <div class="center-text">Hello!</div>
+
   <!-- Terminal -->
   <div class="terminal" id="terminal">
     <div class="line">
@@ -142,14 +157,41 @@
   <script>
     // Terminal input
     const terminal = document.getElementById("terminal");
-    const input = document.getElementById("input");
+    let input = document.getElementById("input");
+
+    const commands = {
+      help: "Available commands: help, ls, pwd, clear",
+      ls: "Desktop  Documents  Downloads",
+      pwd: "/home/user",
+      clear: ""
+    };
 
     input.addEventListener("keydown", function(e){
       if(e.key === "Enter"){
-        const command = input.value;
+        const cmd = input.value.trim();
         const newLine = document.createElement("div");
-        newLine.textContent = `user@user:$ ${command}`;
-        terminal.insertBefore(newLine, terminal.lastElementChild);
+        newLine.textContent = `user@user:$ ${cmd}`;
+        terminal.insertBefore(newLine, input.parentNode.nextSibling);
+
+        // Komut sonucu
+        const result = document.createElement("div");
+        if(commands[cmd]) {
+          if(cmd === "clear") {
+            terminal.innerHTML = '';
+            const line = document.createElement("div");
+            line.classList.add("line");
+            line.innerHTML = `<span class="prompt">user@user:$</span><input type="text" id="input" autofocus />`;
+            terminal.appendChild(line);
+            input = document.getElementById("input");
+          } else {
+            result.textContent = commands[cmd];
+            terminal.insertBefore(result, input.parentNode.nextSibling);
+          }
+        } else {
+          result.textContent = `command not found: ${cmd}`;
+          terminal.insertBefore(result, input.parentNode.nextSibling);
+        }
+
         input.value = "";
         terminal.scrollTop = terminal.scrollHeight;
       }
@@ -158,19 +200,13 @@
     // Device info
     const infoBox = document.getElementById("infoBox");
     const userAgent = navigator.userAgent;
-
     let platform = navigator.platform || "Unknown";
     let browser = "Unknown";
 
-    if(userAgent.indexOf("Firefox") > -1) {
-      browser = "Mozilla Firefox";
-    } else if(userAgent.indexOf("Edg") > -1) {
-      browser = "Microsoft Edge";
-    } else if(userAgent.indexOf("Chrome") > -1) {
-      browser = "Google Chrome";
-    } else if(userAgent.indexOf("Safari") > -1) {
-      browser = "Safari";
-    }
+    if(userAgent.indexOf("Firefox") > -1) browser = "Mozilla Firefox";
+    else if(userAgent.indexOf("Edg") > -1) browser = "Microsoft Edge";
+    else if(userAgent.indexOf("Chrome") > -1) browser = "Google Chrome";
+    else if(userAgent.indexOf("Safari") > -1) browser = "Safari";
 
     const resolution = screen.width + "x" + screen.height;
 
@@ -184,13 +220,11 @@
 
     // Date & Time box
     const timeBox = document.getElementById("timeBox");
-
     function updateTime() {
       const now = new Date();
       const date = now.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
       const time = now.toLocaleTimeString("en-GB");
       const gmt = "GMT " + (now.getTimezoneOffset() === 0 ? "+0" : (now.getTimezoneOffset() > 0 ? "-" : "+") + Math.abs(now.getTimezoneOffset()/60));
-
       timeBox.innerHTML = `
         <strong>Date & Time</strong>
         <b>Date:</b> ${date}<br>
@@ -198,7 +232,6 @@
         <b>Timezone:</b> ${gmt}
       `;
     }
-
     updateTime();
     setInterval(updateTime, 1000);
   </script>
