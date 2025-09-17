@@ -14,14 +14,25 @@
       --fg: #E6E6E6;
     }
     html,body{
-      height:100%;
       margin:0;
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background: var(--bg);
       color: var(--fg);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      scroll-behavior: smooth;
+
+      /* Scroll snap */
+      height:100%;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    section{
+      height:100vh;
+      scroll-snap-align: start;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     /* Progress bar */
@@ -34,20 +45,13 @@
       border-radius: 6px;
       width: 0%;
       z-index: 9999;
-      transition: width 0.2s ease-out, opacity 0.8s ease;
+      transition: width 0.2s ease-out;
     }
 
     .center-text{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      text-align:center;
       font-size:4rem;
       font-weight:600;
       animation: slideDown 1.5s ease-out forwards;
-      position: relative;
-      z-index: 5;
     }
 
     @keyframes slideDown {
@@ -105,20 +109,20 @@
     }
     .right-bottom { bottom: 20px; right: 20px; }
     .left-bottom { bottom: 20px; left: 20px; }
-
-    /* Extra empty section */
-    .extra-space {
-      height: 150vh;
-    }
   </style>
 </head>
 <body>
   <!-- Progress bar -->
   <div id="progress-bar"></div>
 
-  <div class="center-text">
-    erdqc
-  </div>
+  <!-- 1. Sayfa -->
+  <section>
+    <div class="center-text">erdqc</div>
+  </section>
+
+  <!-- 2. Sayfa (boş) -->
+  <section>
+  </section>
 
   <!-- Social Media -->
   <div class="social-links" id="socialLinks">
@@ -140,9 +144,6 @@
     <strong>Date & Time</strong>
     Loading...
   </div>
-
-  <!-- Empty section -->
-  <div class="extra-space"></div>
 
   <script>
     // Device info
@@ -186,7 +187,7 @@
     updateTime();
     setInterval(updateTime, 1000);
 
-    // Scroll progress bar
+    // Scroll progress bar + fade-out
     const progressBar = document.getElementById("progress-bar");
     const socialLinks = document.getElementById("socialLinks");
 
@@ -196,14 +197,11 @@
       const scrollPercent = (scrollTop / docHeight) * 100;
       progressBar.style.width = scrollPercent + "%";
 
-      // Scroll sonrası fade-out
       if(scrollTop > 50){
-        progressBar.style.opacity = 0;
         socialLinks.style.opacity = 0;
         infoBox.style.opacity = 0;
         timeBox.style.opacity = 0;
       } else {
-        progressBar.style.opacity = 1;
         socialLinks.style.opacity = 1;
         infoBox.style.opacity = 1;
         timeBox.style.opacity = 1;
