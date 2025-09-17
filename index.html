@@ -3,19 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Full Page Scroll</title>
+  <title>Dark Background — #1C1C1C</title>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root{
       --bg: #1C1C1C;
       --fg: #E6E6E6;
     }
     html,body{
-      margin:0;
       height:100%;
-      font-family: 'Inter', sans-serif;
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background: var(--bg);
       color: var(--fg);
-      overflow:hidden; /* kendi scrollu kapattık */
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      scroll-behavior: smooth;
     }
 
     /* Progress bar */
@@ -28,58 +34,168 @@
       border-radius: 6px;
       width: 0%;
       z-index: 9999;
-      transition: width 0.3s ease-out;
+      transition: width 0.2s ease-out;
     }
 
-    section {
-      height:100vh;
+    .center-text{
       display:flex;
       align-items:center;
       justify-content:center;
+      height:100vh;
+      text-align:center;
       font-size:4rem;
       font-weight:600;
+      animation: slideDown 1.5s ease-out forwards;
     }
 
-    .page1 { background:#1C1C1C; }
-    .page2 { background:#111; }
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Social links (bottom center) */
+    .social-links {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display:flex;
+      gap:20px;
+    }
+    .social-links a {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:60px;
+      height:60px;
+      border-radius:10px;
+      background: rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      color: var(--fg);
+      font-size:28px;
+      text-decoration:none;
+      transition: all 0.3s ease;
+    }
+    .social-links a:hover {
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.1);
+    }
+
+    /* Info boxes */
+    .info-box {
+      position: fixed;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      max-width: 280px;
+      word-break: break-word;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .info-box strong {
+      display:block;
+      margin-bottom:4px;
+      font-weight:600;
+    }
+    /* Positions */
+    .right-bottom { bottom: 20px; right: 20px; }
+    .left-bottom { bottom: 20px; left: 20px; }
   </style>
 </head>
 <body>
+  <!-- Progress bar -->
   <div id="progress-bar"></div>
 
-  <section class="page1">erdqc</section>
-  <section class="page2"></section>
+  <div class="center-text">
+    erdqc
+  </div>
+
+  <!-- Social Media -->
+  <div class="social-links">
+    <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
+    <a href="https://instagram.com/ebrdqc" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=5bf052eee22e42e5" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+    <a href="https://steamcommunity.com/id/erdqc1/" target="_blank"><i class="fa-brands fa-steam"></i></a>
+    <a href="https://github.com/1erdqc/1erdqc.github.io/commits?author=1erdqc" target="_blank"><i class="fa-brands fa-github"></i></a>
+  </div>
+
+  <!-- Device info -->
+  <div class="info-box right-bottom" id="infoBox">
+    <strong>Device Info</strong>
+    Loading...
+  </div>
+
+  <!-- Date & Time -->
+  <div class="info-box left-bottom" id="timeBox">
+    <strong>Date & Time</strong>
+    Loading...
+  </div>
 
   <script>
-    const sections = document.querySelectorAll("section");
-    let current = 0;
-    let scrolling = false;
+    // Device info
+    const infoBox = document.getElementById("infoBox");
+    const userAgent = navigator.userAgent;
 
-    function scrollToSection(index) {
-      if(index < 0 || index >= sections.length) return;
-      scrolling = true;
-      sections[index].scrollIntoView({behavior:"smooth"});
-      current = index;
+    let platform = navigator.platform || "Unknown";
+    let browser = "Unknown";
 
-      // progress bar update
-      const percent = ((index+1)/sections.length)*100;
-      document.getElementById("progress-bar").style.width = percent+"%";
-
-      setTimeout(()=> scrolling=false, 1000); // animasyon bitene kadar kilit
+    if(userAgent.indexOf("Firefox") > -1) {
+      browser = "Mozilla Firefox";
+    } else if(userAgent.indexOf("Edg") > -1) {
+      browser = "Microsoft Edge";
+    } else if(userAgent.indexOf("Chrome") > -1) {
+      browser = "Google Chrome";
+    } else if(userAgent.indexOf("Safari") > -1) {
+      browser = "Safari";
     }
 
-    // mouse wheel kontrol
-    window.addEventListener("wheel", (e)=>{
-      if(scrolling) return;
-      if(e.deltaY > 0) { // aşağı
-        scrollToSection(current+1);
-      } else { // yukarı
-        scrollToSection(current-1);
-      }
-    });
+    const resolution = screen.width + "x" + screen.height;
 
-    // ilk yüklemede bar ayarı
-    scrollToSection(0);
+    infoBox.innerHTML = `
+      <strong>Device Info</strong>
+      <b>Browser:</b> ${browser}<br>
+      <b>Platform:</b> ${platform}<br>
+      <b>Resolution:</b> ${resolution}<br>
+      <b>UserAgent:</b> ${userAgent}
+    `;
+
+    // Date & Time box
+    const timeBox = document.getElementById("timeBox");
+
+    function updateTime() {
+      const now = new Date();
+      const date = now.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+      const time = now.toLocaleTimeString("en-GB"); // 24h format
+      const gmt = "GMT " + (now.getTimezoneOffset() === 0 ? "+0" : (now.getTimezoneOffset() > 0 ? "-" : "+") + Math.abs(now.getTimezoneOffset()/60));
+
+      timeBox.innerHTML = `
+        <strong>Date & Time</strong>
+        <b>Date:</b> ${date}<br>
+        <b>Time:</b> ${time}<br>
+        <b>Timezone:</b> ${gmt}
+      `;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Scroll progress bar
+    const progressBar = document.getElementById("progress-bar");
+
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      progressBar.style.width = scrollPercent + "%";
+    });
   </script>
 </body>
 </html>
