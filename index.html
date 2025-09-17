@@ -22,21 +22,22 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
-    .center-wrapper {
+    .center-text{
       display:flex;
-      flex-direction:column;
       align-items:center;
       justify-content:center;
       height:100vh;
       text-align:center;
-    }
-    .center-text{
       font-size:4rem;
       font-weight:600;
-      margin-bottom:40px;
     }
-    /* Social links container */
+
+    /* Social links (bottom center) */
     .social-links {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       display:flex;
       gap:20px;
     }
@@ -59,7 +60,7 @@
       transform: scale(1.1);
     }
 
-    /* Info boxes (unchanged) */
+    /* Info boxes */
     .info-box {
       position: fixed;
       background: rgba(255, 255, 255, 0.05);
@@ -83,15 +84,15 @@
   </style>
 </head>
 <body>
-  <div class="center-wrapper">
-    <div class="center-text">
-      erdqc
-    </div>
-    <div class="social-links">
-      <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
-      <a href="https://instagram.com/ebrdqc" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=5bf052eee22e42e5" target="_blank"><i class="fa-brands fa-spotify"></i></a>
-    </div>
+  <div class="center-text">
+    erdqc
+  </div>
+
+  <!-- Social Media -->
+  <div class="social-links">
+    <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
+    <a href="https://instagram.com/ebrdqc" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=5bf052eee22e42e5" target="_blank"><i class="fa-brands fa-spotify"></i></a>
   </div>
 
   <!-- Device info -->
