@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dark Background — #1C1C1C</title>
+  <title>erdqc</title>
   <!-- Google Fonts: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <!-- Font Awesome (icons) -->
@@ -21,20 +21,7 @@
       color: var(--fg);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      scroll-behavior: smooth;
-    }
-
-    /* Progress bar */
-    #progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 6px;
-      background: white;
-      border-radius: 6px;
-      width: 0%;
-      z-index: 9999;
-      transition: width 0.2s ease-out;
+      overflow: hidden; /* scroll kaldırıldı */
     }
 
     .center-text{
@@ -45,18 +32,6 @@
       text-align:center;
       font-size:4rem;
       font-weight:600;
-      animation: slideDown 1.5s ease-out forwards;
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
     }
 
     /* Social links (bottom center) */
@@ -111,11 +86,8 @@
   </style>
 </head>
 <body>
-  <!-- Progress bar -->
-  <div id="progress-bar"></div>
-
   <div class="center-text">
-    erdqc
+    Hello!
   </div>
 
   <!-- Social Media -->
@@ -186,16 +158,6 @@
 
     updateTime();
     setInterval(updateTime, 1000);
-
-    // Scroll progress bar
-    const progressBar = document.getElementById("progress-bar");
-
-    window.addEventListener("scroll", () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = (scrollTop / docHeight) * 100;
-      progressBar.style.width = scrollPercent + "%";
-    });
   </script>
 </body>
 </html>
