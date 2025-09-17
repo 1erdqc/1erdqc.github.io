@@ -34,7 +34,7 @@
       border-radius: 6px;
       width: 0%;
       z-index: 9999;
-      transition: width 0.2s ease-out;
+      transition: width 0.2s ease-out, opacity 0.8s ease;
     }
 
     .center-text{
@@ -46,17 +46,13 @@
       font-size:4rem;
       font-weight:600;
       animation: slideDown 1.5s ease-out forwards;
+      position: relative;
+      z-index: 5;
     }
 
     @keyframes slideDown {
-      from {
-        transform: translateY(-100px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(-100px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
     }
 
     /* Social links (bottom center) */
@@ -67,6 +63,7 @@
       transform: translateX(-50%);
       display:flex;
       gap:20px;
+      transition: opacity 0.8s ease;
     }
     .social-links a {
       display:flex;
@@ -99,15 +96,20 @@
       word-break: break-word;
       backdrop-filter: blur(6px);
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: opacity 0.8s ease;
     }
     .info-box strong {
       display:block;
       margin-bottom:4px;
       font-weight:600;
     }
-    /* Positions */
     .right-bottom { bottom: 20px; right: 20px; }
     .left-bottom { bottom: 20px; left: 20px; }
+
+    /* Extra empty section */
+    .extra-space {
+      height: 150vh;
+    }
   </style>
 </head>
 <body>
@@ -119,7 +121,7 @@
   </div>
 
   <!-- Social Media -->
-  <div class="social-links">
+  <div class="social-links" id="socialLinks">
     <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
     <a href="https://instagram.com/ebrdqc" target="_blank"><i class="fa-brands fa-instagram"></i></a>
     <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=5bf052eee22e42e5" target="_blank"><i class="fa-brands fa-spotify"></i></a>
@@ -139,6 +141,9 @@
     Loading...
   </div>
 
+  <!-- Empty section -->
+  <div class="extra-space"></div>
+
   <script>
     // Device info
     const infoBox = document.getElementById("infoBox");
@@ -147,15 +152,10 @@
     let platform = navigator.platform || "Unknown";
     let browser = "Unknown";
 
-    if(userAgent.indexOf("Firefox") > -1) {
-      browser = "Mozilla Firefox";
-    } else if(userAgent.indexOf("Edg") > -1) {
-      browser = "Microsoft Edge";
-    } else if(userAgent.indexOf("Chrome") > -1) {
-      browser = "Google Chrome";
-    } else if(userAgent.indexOf("Safari") > -1) {
-      browser = "Safari";
-    }
+    if(userAgent.indexOf("Firefox") > -1) browser = "Mozilla Firefox";
+    else if(userAgent.indexOf("Edg") > -1) browser = "Microsoft Edge";
+    else if(userAgent.indexOf("Chrome") > -1) browser = "Google Chrome";
+    else if(userAgent.indexOf("Safari") > -1) browser = "Safari";
 
     const resolution = screen.width + "x" + screen.height;
 
@@ -173,7 +173,7 @@
     function updateTime() {
       const now = new Date();
       const date = now.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
-      const time = now.toLocaleTimeString("en-GB"); // 24h format
+      const time = now.toLocaleTimeString("en-GB");
       const gmt = "GMT " + (now.getTimezoneOffset() === 0 ? "+0" : (now.getTimezoneOffset() > 0 ? "-" : "+") + Math.abs(now.getTimezoneOffset()/60));
 
       timeBox.innerHTML = `
@@ -183,18 +183,31 @@
         <b>Timezone:</b> ${gmt}
       `;
     }
-
     updateTime();
     setInterval(updateTime, 1000);
 
     // Scroll progress bar
     const progressBar = document.getElementById("progress-bar");
+    const socialLinks = document.getElementById("socialLinks");
 
     window.addEventListener("scroll", () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = (scrollTop / docHeight) * 100;
       progressBar.style.width = scrollPercent + "%";
+
+      // Scroll sonrası fade-out
+      if(scrollTop > 50){
+        progressBar.style.opacity = 0;
+        socialLinks.style.opacity = 0;
+        infoBox.style.opacity = 0;
+        timeBox.style.opacity = 0;
+      } else {
+        progressBar.style.opacity = 1;
+        socialLinks.style.opacity = 1;
+        infoBox.style.opacity = 1;
+        timeBox.style.opacity = 1;
+      }
     });
   </script>
 </body>
