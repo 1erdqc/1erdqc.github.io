@@ -6,6 +6,8 @@
   <title>Dark Background — #1C1C1C</title>
   <!-- Google Fonts: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root{
       --bg: #1C1C1C;
@@ -20,22 +22,44 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
-    .center-text{
+    .center-wrapper {
       display:flex;
+      flex-direction:column;
       align-items:center;
       justify-content:center;
       height:100vh;
       text-align:center;
+    }
+    .center-text{
       font-size:4rem;
       font-weight:600;
-      color: var(--fg);
-      text-shadow: 
-        0 0 15px rgba(255,255,255,1),
-        0 0 30px rgba(255,255,255,1),
-        0 0 60px rgba(255,255,255,1),
-        0 0 100px rgba(255,255,255,1);
+      margin-bottom:40px;
     }
-    /* Info boxes */
+    /* Social links container */
+    .social-links {
+      display:flex;
+      gap:20px;
+    }
+    .social-links a {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:60px;
+      height:60px;
+      border-radius:10px; /* same radius as info boxes */
+      background: rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      color: var(--fg);
+      font-size:28px;
+      text-decoration:none;
+      transition: all 0.3s ease;
+    }
+    .social-links a:hover {
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.1);
+    }
+
+    /* Info boxes (unchanged) */
     .info-box {
       position: fixed;
       background: rgba(255, 255, 255, 0.05);
@@ -59,8 +83,15 @@
   </style>
 </head>
 <body>
-  <div class="center-text">
-    erdqc
+  <div class="center-wrapper">
+    <div class="center-text">
+      erdqc
+    </div>
+    <div class="social-links">
+      <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
+      <a href="https://instagram.com/ebrdqc" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=5bf052eee22e42e5" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+    </div>
   </div>
 
   <!-- Device info -->
