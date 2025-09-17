@@ -29,13 +29,61 @@
       font-size:2rem;
       font-weight:600;
     }
+    /* Sağ altta bilgi kutusu */
+    .info-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      max-width: 280px;
+      word-break: break-word;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .info-box strong {
+      display:block;
+      margin-bottom:4px;
+      font-weight:600;
+    }
   </style>
 </head>
 <body>
   <div class="center-text">
     Ortadaki Yazı — Inter Fontu
   </div>
+
+  <div class="info-box" id="infoBox">
+    <strong>Cihaz Bilgileri</strong>
+    Yükleniyor...
+  </div>
+
+  <script>
+    const infoBox = document.getElementById("infoBox");
+    const userAgent = navigator.userAgent;
+
+    let platform = navigator.platform || "Bilinmiyor";
+    let browser = "Bilinmiyor";
+
+    if(userAgent.indexOf("Firefox") > -1) {
+      browser = "Mozilla Firefox";
+    } else if(userAgent.indexOf("Edg") > -1) {
+      browser = "Microsoft Edge";
+    } else if(userAgent.indexOf("Chrome") > -1) {
+      browser = "Google Chrome";
+    } else if(userAgent.indexOf("Safari") > -1) {
+      browser = "Safari";
+    }
+
+    infoBox.innerHTML = `
+      <strong>Cihaz Bilgileri</strong>
+      <b>Tarayıcı:</b> ${browser}<br>
+      <b>Platform:</b> ${platform}<br>
+      <b>UserAgent:</b> ${userAgent}
+    `;
+  </script>
 </body>
 </html>
-
-
