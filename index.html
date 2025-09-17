@@ -24,14 +24,38 @@
       overflow: hidden; /* scroll kaldırıldı */
     }
 
-    .center-text{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      text-align:center;
-      font-size:4rem;
-      font-weight:600;
+    .terminal {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: monospace;
+      width: 80%;
+      max-width: 800px;
+      height: 60vh;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 5px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .line {
+      display: flex;
+      margin-bottom: 5px;
+    }
+
+    .prompt {
+      margin-right: 5px;
+      font-weight: bold;
+    }
+
+    .terminal input {
+      background: transparent;
+      border: none;
+      color: var(--fg);
+      outline: none;
+      flex: 1;
+      font-family: monospace;
+      font-size: 1rem;
     }
 
     /* Social links (bottom center) */
@@ -86,8 +110,12 @@
   </style>
 </head>
 <body>
-  <div class="center-text">
-    Hello!
+  <!-- Terminal -->
+  <div class="terminal" id="terminal">
+    <div class="line">
+      <span class="prompt">user@user:$</span>
+      <input type="text" id="input" autofocus />
+    </div>
   </div>
 
   <!-- Social Media -->
@@ -112,6 +140,21 @@
   </div>
 
   <script>
+    // Terminal input
+    const terminal = document.getElementById("terminal");
+    const input = document.getElementById("input");
+
+    input.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        const command = input.value;
+        const newLine = document.createElement("div");
+        newLine.textContent = `user@user:$ ${command}`;
+        terminal.insertBefore(newLine, terminal.lastElementChild);
+        input.value = "";
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+    });
+
     // Device info
     const infoBox = document.getElementById("infoBox");
     const userAgent = navigator.userAgent;
@@ -145,7 +188,7 @@
     function updateTime() {
       const now = new Date();
       const date = now.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
-      const time = now.toLocaleTimeString("en-GB"); // 24h format
+      const time = now.toLocaleTimeString("en-GB");
       const gmt = "GMT " + (now.getTimezoneOffset() === 0 ? "+0" : (now.getTimezoneOffset() > 0 ? "-" : "+") + Math.abs(now.getTimezoneOffset()/60));
 
       timeBox.innerHTML = `
