@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,11 +29,9 @@
       font-size:2rem;
       font-weight:600;
     }
-    /* Sağ altta bilgi kutusu */
+    /* Info boxes */
     .info-box {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255,255,255,0.1);
       padding: 12px 16px;
@@ -49,24 +47,35 @@
       margin-bottom:4px;
       font-weight:600;
     }
+    /* Positions */
+    .right-bottom { bottom: 20px; right: 20px; }
+    .left-bottom { bottom: 20px; left: 20px; }
   </style>
 </head>
 <body>
   <div class="center-text">
-    Ortadaki Yazı — Inter Fontu
+    Center Text — Inter Font
   </div>
 
-  <div class="info-box" id="infoBox">
-    <strong>Cihaz Bilgileri</strong>
-    Yükleniyor...
+  <!-- Device info -->
+  <div class="info-box right-bottom" id="infoBox">
+    <strong>Device Info</strong>
+    Loading...
+  </div>
+
+  <!-- Date & Time -->
+  <div class="info-box left-bottom" id="timeBox">
+    <strong>Date & Time</strong>
+    Loading...
   </div>
 
   <script>
+    // Device info
     const infoBox = document.getElementById("infoBox");
     const userAgent = navigator.userAgent;
 
-    let platform = navigator.platform || "Bilinmiyor";
-    let browser = "Bilinmiyor";
+    let platform = navigator.platform || "Unknown";
+    let browser = "Unknown";
 
     if(userAgent.indexOf("Firefox") > -1) {
       browser = "Mozilla Firefox";
@@ -78,12 +87,35 @@
       browser = "Safari";
     }
 
+    const resolution = screen.width + "x" + screen.height;
+
     infoBox.innerHTML = `
-      <strong>Cihaz Bilgileri</strong>
-      <b>Tarayıcı:</b> ${browser}<br>
+      <strong>Device Info</strong>
+      <b>Browser:</b> ${browser}<br>
       <b>Platform:</b> ${platform}<br>
+      <b>Resolution:</b> ${resolution}<br>
       <b>UserAgent:</b> ${userAgent}
     `;
+
+    // Date & Time box
+    const timeBox = document.getElementById("timeBox");
+
+    function updateTime() {
+      const now = new Date();
+      const date = now.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+      const time = now.toLocaleTimeString("en-GB"); // 24h format
+      const gmt = "GMT " + (now.getTimezoneOffset() === 0 ? "+0" : (now.getTimezoneOffset() > 0 ? "-" : "+") + Math.abs(now.getTimezoneOffset()/60));
+
+      timeBox.innerHTML = `
+        <strong>Date & Time</strong>
+        <b>Date:</b> ${date}<br>
+        <b>Time:</b> ${time}<br>
+        <b>Timezone:</b> ${gmt}
+      `;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
   </script>
 </body>
 </html>
