@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>erdqc Terminal</title>
+<title>erdqc</title>
+
 <!-- Google Fonts: Inter -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<!-- Cascadia Code font -->
-<link href="https://fonts.googleapis.com/css2?family=Cascadia+Code&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 <style>
   :root{
     --bg: #1C1C1C;
@@ -31,43 +34,6 @@
     transform: translate(-50%, -50%);
     font-size: 4rem;
     font-weight: bold;
-  }
-
-  /* Terminal */
-  .terminal {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 400px;
-    height: 300px;
-    background: var(--bg);
-    color: var(--fg);
-    padding: 20px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    font-family: 'Cascadia Code', monospace; /* sadece terminal */
-  }
-
-  .line {
-    display: flex;
-    margin-bottom: 5px;
-  }
-
-  .prompt {
-    margin-right: 5px;
-    font-weight: bold;
-  }
-
-  .terminal input {
-    background: transparent;
-    border: none;
-    color: var(--fg);
-    outline: none;
-    flex: 1;
-    font-family: 'Cascadia Code', monospace;
-    font-size: 1rem;
   }
 
   /* Social links (bottom center) */
@@ -125,14 +91,6 @@
   <!-- Sayfa ortasında Hello! -->
   <div class="center-text">Hello!</div>
 
-  <!-- Terminal -->
-  <div class="terminal" id="terminal">
-    <div class="line">
-      <span class="prompt">user@user:$</span>
-      <input type="text" id="input" autofocus />
-    </div>
-  </div>
-
   <!-- Social Media -->
   <div class="social-links">
     <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
@@ -155,48 +113,6 @@
   </div>
 
   <script>
-    // Terminal input
-    const terminal = document.getElementById("terminal");
-    let input = document.getElementById("input");
-
-    const commands = {
-      help: "Available commands: help, ls, pwd, clear",
-      ls: "Desktop  Documents  Downloads",
-      pwd: "/home/user",
-      clear: ""
-    };
-
-    input.addEventListener("keydown", function(e){
-      if(e.key === "Enter"){
-        const cmd = input.value.trim();
-        const newLine = document.createElement("div");
-        newLine.textContent = `user@user:$ ${cmd}`;
-        terminal.insertBefore(newLine, input.parentNode.nextSibling);
-
-        // Komut sonucu
-        const result = document.createElement("div");
-        if(commands[cmd]) {
-          if(cmd === "clear") {
-            terminal.innerHTML = '';
-            const line = document.createElement("div");
-            line.classList.add("line");
-            line.innerHTML = `<span class="prompt">user@user:$</span><input type="text" id="input" autofocus />`;
-            terminal.appendChild(line);
-            input = document.getElementById("input");
-          } else {
-            result.textContent = commands[cmd];
-            terminal.insertBefore(result, input.parentNode.nextSibling);
-          }
-        } else {
-          result.textContent = `command not found: ${cmd}`;
-          terminal.insertBefore(result, input.parentNode.nextSibling);
-        }
-
-        input.value = "";
-        terminal.scrollTop = terminal.scrollHeight;
-      }
-    });
-
     // Device info
     const infoBox = document.getElementById("infoBox");
     const userAgent = navigator.userAgent;
