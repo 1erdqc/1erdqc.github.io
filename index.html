@@ -5,15 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>erdqc</title>
 
-<!-- Font: SF Pro Display -->
-<style>
-  @font-face {
-    font-family: 'SF Pro Display';
-    src: url('https://github.com/fefelixa/macfonts/raw/refs/heads/master/SF%20Pro%20Display/SF-Pro-Display-Regular.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
   :root{
     --bg: #1C1C1C;
     --fg: #E6E6E6;
@@ -24,28 +22,9 @@
     height:100%;
     background: var(--bg);
     color: var(--fg);
-    font-family: 'SF Pro Display', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
     overflow: hidden;
   }
-
-  /* macOS tarzı pencere butonları */
-  .window-buttons {
-    position: fixed;
-    top: 12px;
-    right: 20px;
-    display: flex;
-    gap: 8px;
-  }
-  .window-buttons button {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-  }
-  .btn-close { background: #ff5f57; }
-  .btn-minimize { background: #ffbd2e; }
-  .btn-maximize { background: #28c940; }
 
   /* Ortadaki yazı */
   .center-text {
@@ -107,19 +86,8 @@
   .right-bottom { bottom: 20px; right: 20px; }
   .left-bottom { bottom: 20px; left: 20px; }
 </style>
-
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
 </head>
 <body>
-  <!-- macOS butonları -->
-  <div class="window-buttons">
-    <button class="btn-close" onclick="window.close()"></button>
-    <button class="btn-minimize"></button>
-    <button class="btn-maximize"></button>
-  </div>
-
   <!-- Sayfa ortasında Hello! -->
   <div class="center-text">Hello!</div>
 
