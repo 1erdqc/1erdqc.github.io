@@ -85,11 +85,58 @@
   /* Positions */
   .right-bottom { bottom: 20px; right: 20px; }
   .left-bottom { bottom: 20px; left: 20px; }
+
+  /* Did you know bölüm */
+  .did-you-know {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    color: var(--fg);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .did-you-know h2 {
+    margin: 0 0 8px 0;
+    font-size: 2rem;
+    text-align: center;
+  }
+  .did-you-know ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .did-you-know li {
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+  .did-you-know a {
+    color: #66ccff;
+    text-decoration: none;
+  }
+  .did-you-know a:hover {
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
   <!-- Sayfa ortasında Hello! -->
   <div class="center-text">Hello!</div>
+
+  <!-- Did you know bölümü -->
+  <div class="did-you-know">
+    <h2>Did you know?</h2>
+    <ul id="techFactsList">
+      <!-- JavaScript ile buraya eklenecek -->
+    </ul>
+  </div>
 
   <!-- Social Media -->
   <div class="social-links">
@@ -119,14 +166,11 @@
     const userAgent = navigator.userAgent;
     let platform = navigator.platform || "Unknown";
     let browser = "Unknown";
-
     if(userAgent.indexOf("Firefox") > -1) browser = "Mozilla Firefox";
     else if(userAgent.indexOf("Edg") > -1) browser = "Microsoft Edge";
     else if(userAgent.indexOf("Chrome") > -1) browser = "Google Chrome";
     else if(userAgent.indexOf("Safari") > -1) browser = "Safari";
-
     const resolution = screen.width + "x" + screen.height;
-
     infoBox.innerHTML = `
       <strong>Device Info</strong>
       <b>Browser:</b> ${browser}<br>
@@ -151,7 +195,94 @@
     }
     updateTime();
     setInterval(updateTime, 1000);
+
+    // 100 tech facts listesi
+    const techFacts = [
+      { text: "The first computer mouse was made of wood.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The term 'bug' to describe a glitch originated when a moth caused a malfunction in an early computer.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The world’s first website is still online, created by Tim Berners‑Lee in 1991.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The storage capacity of the first commercially available hard drive (1956) was only 5 megabytes.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first-ever text message was sent in 1992 and said 'Merry Christmas'.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first digital camera (1975) weighed 8 lbs and had 0.01 megapixel resolution.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The entire source code for Apollo 11’s guidance computer was only 72 kilobytes.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Ada Lovelace is considered the first computer programmer, writing algorithms in the 1840s.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The term 'Wi-Fi' doesn’t actually stand for anything — it's a marketing term.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Apple’s iPhone has more computing power than the computers used in the Apollo 11 mission.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first-ever smartphone (IBM Simon, 1992) included features like email, calendar, and a touchscreen.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "About 90% of all the data in the world was created in the last two years.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first 1-gigabyte USB flash drive in 2000 cost $10,000.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Nintendo started in 1889 as a playing card company.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first YouTube video ('Me at the zoo') was uploaded on April 23, 2005.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first computer virus ('Elk Cloner', 1983) was created as a joke.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first 1-terabyte hard drive (2007) was the size of a small refrigerator.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The original Apple Macintosh had only 128 KB of RAM.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first-ever computer virus was ‘Brain’ in 1986, targeting MS-DOS.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first 1-petabyte hard drive was announced in 2018.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first computer animation, 'Hummingbird', was made in 1962.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Motorola DynaTAC 8000X (1983) cost $3,995 as an early mobile phone.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Kyocera VP‑210 (1999) was the first smartphone with a built‑in camera.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first touchscreen tablet computer was the GRiDPad (1989).", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "HTC EVO 4G (2010) was one of the first 4G smartphones.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first computer printer (IBM 3800) could print 1,100 lines per minute.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The first search engine, Archie (1990), indexed FTP sites.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Bell 101 was the first modem, at 300 bps.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "The Morris Worm (1988) was one of the first internet‑spreading worms.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Apple’s Siri (2011) was the first widely known smartphone voice assistant.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "UNIVAC I (1951) was one of the earliest commercial computers, weighing ~29,000 lbs.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Firefox logo originally represented a red panda, not a fox.", url: "https://thefactsite.com/top-100-technology-facts/" },
+      { text: "Google hires goats to mow their lawn at their headquarters.", url: "https://thefactsite.com/top-100-technology-facts/" },
+      { text: "The first Apple logo showed Newton under an apple tree.", url: "https://thefactsite.com/top-100-technology-facts/" },
+      { text: "In 1994, GIF patent holders attempted to charge usage fees.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "CDs read from the inside to the outside.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "Average typist’s fingers travel about 12.6 miles per workday.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "The first VCR (1956) was the size of a piano.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "A man once threw away a hard drive containing 7,500 Bitcoins.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "In 2010, the U.S. Air Force used 1,760 PlayStation 3’s as a supercomputer.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "Nintendo’s Sega Dreamcast was the first console to support real‑time online play.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "Surgeons who played video games make 37% fewer mistakes.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "Nintendo began as a playing card company in 1889.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "On April 1, 2005, NASA tricked the world into believing it found water on Mars.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "The radio took 38 years to reach 50 million users; iPod took 3 years.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "The original Xbox had snippets from Apollo mission transmissions.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "Charles Babbage created the first mechanical computer (1822).", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "1024 GB = 1 TB; 1024 TB = 1 PB.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "86% of people try to plug in USB upside down.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "The last Sega Mega Drive game (2010) sold out before it released.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "The first alarm clock could ring only at 4 a.m.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "The average gamer age in the U.S. is 35.", url: "https://www.wheelhouseit.com/trivia/" },
+      { text: "The first domain name registered was Symbolics.com on March 15, 1985.", url: "https://medium.com/womenintechnology/100-mind-blowing-facts-related-to-technology-that-will-leave-you-astonished-46cda3f56718" },
+      { text: "Over 6,000 new computer viruses are created every month.", url: "https://premierepc.com/techbytes/12-fun-tech-facts-you-may-not-know" },
+      { text: "“Phantom Vibration Syndrome”: feeling phone vibrate when it doesn’t.", url: "https://thefactsite.com/top-100-technology-facts/" },
+      { text: "Facebook rewards bug‑finders with at least $500.", url: "https://funfactoday.com/tech-facts/unknown-technology-facts" },
+      { text: "Sophia is the first robot granted citizenship (Saudi Arabia).", url: "https://funfactoday.com/tech-facts/unknown-technology-facts" },
+      { text: "You can theoretically store the internet in grams of DNA.", url: "https://em360tech.com/top-10/shocking-tech-facts" },
+      { text: "Samsung was founded in 1938, making it 38 years older than Apple.", url: "https://crispbot.com/top-10-5/top-10-technology-facts" },
+      { text: "More mobile phones exist than people globally.", url: "https://em360tech.com/top-10/shocking-tech-facts" },
+      { text: "The internet weighs roughly the same as a strawberry (≈50 g of electrons).", url: "https://em360tech.com/top-10/shocking-tech-facts" },
+      { text: "A single Google search uses more energy than the Apollo program.", url: "https://em360tech.com/top-10/shocking-tech-facts" },
+      { text: "The first bug (literal moth) was found in the Harvard Mark II computer.", url: "https://em360tech.com/top-10/shocking-tech-facts" },
+      { text: "Domain name registration was free before 1995.", url: "https://timesofindia.indiatimes.com/12-weird-but-true-facts-about-technology" },
+      { text: "The first digital camera took 23 seconds to take a photo.", url: "https://em360tech.com/top-10/shocking-tech-facts" },
+      { text: "You read about 10% slower on screen than on paper.", url: "https://crispbot.com/top-10-5/top-10-technology-facts" },
+      { text: "Over 85% of Instagram posts go unseen.", url: "https://100utils.com/facts/" },
+      { text: "The first email was sent in 1971 by Ray Tomlinson.", url: "https://100utils.com/facts/" },
+      { text: "Every minute, 400 hours of video are uploaded to YouTube.", url: "https://100utils.com/facts/" },
+      { text: "The first webcam watched a coffee pot at Cambridge.", url: "https://100utils.com/facts/" },
+      { text: "Twitter was originally named 'Twttr'.", url: "https://100utils.com/facts/" },
+      { text: "It takes ~2 billion electrons to produce one email.", url: "https://100utils.com/facts/" },
+      { text: "250 billion emails are sent daily; 81% is spam.", url: "https://100utils.com/facts/" }
+    ];
+
+    const listElem = document.getElementById("techFactsList");
+    techFacts.forEach(f => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = f.url;
+      a.target = "_blank";
+      a.innerText = f.text;
+      li.appendChild(a);
+      listElem.appendChild(li);
+    });
   </script>
 </body>
 </html>
-
