@@ -31,6 +31,7 @@
       transform: translate(-50%, -50%);
       font-size: 4rem;
       font-weight: bold;
+      text-align: center;
     }
 
     .social-links {
@@ -83,6 +84,40 @@
 
     .right-bottom { bottom: 20px; right: 20px; }
     .left-bottom  { bottom: 20px; left: 20px; }
+
+    .did-you-know-container {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .did-you-know-label {
+      font-weight: 600;
+      margin-right: 6px;
+      color: #aaa;
+    }
+
+    .did-you-know-text a {
+      color: var(--fg);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .did-you-know-text a:hover {
+      color: #00bfff;
+    }
+  </style>
+</head>
+<body>
 
   <div class="center-text">Hello!</div>
 
@@ -153,47 +188,16 @@
 
     // --- Tech Facts ---
     const techFacts = [
-      {
-        text: "The Firefox logo was originally a red panda, not a fox.",
-        url: "https://www.thefactsite.com/top-100-technology-facts/"
-      },
-      {
-        text: "The first computer mouse was made of wood in 1964.",
-        url: "https://www.crispbot.com/top-10-5/top-10-technology-facts/"
-      },
-      {
-        text: "Nintendo was founded in 1889 as a playing card company.",
-        url: "https://www.thefactsite.com/top-100-technology-facts/"
-      },
-      {
-        text: "The first domain name ever registered was Symbolics.com in 1985.",
-        url: "https://www.symbolics.com/"
-      },
-      {
-        text: "More than 90% of the world’s currency exists only on computers.",
-        url: "https://www.cnbc.com/2021/08/13/how-much-money-is-in-the-world.html"
-      },
-      {
-        text: "Email existed before the World Wide Web.",
-        url: "https://en.wikipedia.org/wiki/History_of_email"
-      },
-      {
-        text: "Google’s original name was BackRub.",
-        url: "https://www.businessinsider.com/google-backrub-2015-9"
-      },
-      {
-        text: "The first 1GB hard drive, made by IBM in 1980, weighed over 500 pounds.",
-        url: "https://techmonitor.ai/technology/the_evolution_of_data_storage"
-      },
-      {
-        text: "Over 6,000 new computer viruses are created and released every month.",
-        url: "https://www.kaspersky.com/resource-center/threats/computer-viruses"
-      },
-      {
-        text: "YouTube was originally created as a dating site.",
-        url: "https://www.businessinsider.com/youtube-originally-a-dating-site-2016-3"
-      },
-      // ... 90 tane daha buraya eklenebilir
+      { text: "The Firefox logo was originally a red panda, not a fox.", url: "https://www.thefactsite.com/top-100-technology-facts/" },
+      { text: "The first computer mouse was made of wood in 1964.", url: "https://www.crispbot.com/top-10-5/top-10-technology-facts/" },
+      { text: "Nintendo was founded in 1889 as a playing card company.", url: "https://www.thefactsite.com/top-100-technology-facts/" },
+      { text: "The first domain name ever registered was Symbolics.com in 1985.", url: "https://www.symbolics.com/" },
+      { text: "More than 90% of the world’s currency exists only on computers.", url: "https://www.cnbc.com/2021/08/13/how-much-money-is-in-the-world.html" },
+      { text: "Email existed before the World Wide Web.", url: "https://en.wikipedia.org/wiki/History_of_email" },
+      { text: "Google’s original name was BackRub.", url: "https://www.businessinsider.com/google-backrub-2015-9" },
+      { text: "The first 1GB hard drive, made by IBM in 1980, weighed over 500 pounds.", url: "https://techmonitor.ai/technology/the_evolution_of_data_storage" },
+      { text: "Over 6,000 new computer viruses are created every month.", url: "https://www.kaspersky.com/resource-center/threats/computer-viruses" },
+      { text: "YouTube was originally created as a dating site.", url: "https://www.businessinsider.com/youtube-originally-a-dating-site-2016-3" },
     ];
 
     let currentFactIndex = 0;
@@ -205,10 +209,10 @@
       currentFactIndex = (currentFactIndex + 1) % techFacts.length;
     }
 
-    dykText.addEventListener("click", updateFact);
+    // Değişimi her 10 saniyede bir yapalım
+    setInterval(updateFact, 10000);
     updateFact();
   </script>
 
 </body>
 </html>
-
