@@ -5,42 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>erdqc</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Pasifico&display=swap" rel="stylesheet" />
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
   <style>
     :root {
-      --bg: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center/cover;
-      --fg: #FFFFFF;
+      --bg: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center fixed;
+      --fg: #E6E6E6;
     }
 
     html, body {
       margin: 0;
       height: 100%;
       background: var(--bg);
+      background-size: cover;
+      color: var(--fg);
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--fg);
     }
 
-    /* Center Hello */
-    .hello-container {
-      font-family: 'Pasifico', cursive;
-      font-size: 5rem;
-      font-weight: normal;
+    /* Apple Hello Animation */
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Pacifico', cursive;
+      font-size: 6rem;
+      font-weight: bold;
+      text-align: center;
       color: white;
       opacity: 0;
-      transform: scale(0.8);
-      animation: fadeInScale 2s ease forwards;
+      animation: fadeInHello 3s ease-in-out forwards;
     }
 
-    @keyframes fadeInScale {
-      0% { opacity: 0; transform: scale(0.8); }
-      50% { opacity: 0.5; transform: scale(1.05); }
-      100% { opacity: 1; transform: scale(1); }
+    @keyframes fadeInHello {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
 
     /* Social Links */
@@ -59,18 +62,19 @@
       justify-content: center;
       width: 60px;
       height: 60px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       color: var(--fg);
       font-size: 28px;
       text-decoration: none;
       transition: all 0.3s ease;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
 
     .social-links a:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
       transform: scale(1.1);
     }
 
@@ -80,13 +84,12 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255,255,255,0.1);
       padding: 12px 16px;
-      border-radius: 16px;
+      border-radius: 20px;
       font-size: 0.85rem;
       max-width: 280px;
       word-break: break-word;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-      color: var(--fg);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
 
     .info-box strong {
@@ -96,25 +99,31 @@
     }
 
     .right-bottom { bottom: 20px; right: 20px; }
-    .left-bottom { bottom: 20px; left: 20px; }
-    .right-top { top: 20px; right: 20px; }
+    .left-bottom  { bottom: 20px; left: 20px; }
+    .right-top    { top: 20px; right: 20px; text-align: left; }
 
-    .specs-box b { color: #fff; font-weight: 600; }
+    /* Laptop specs styling */
+    .specs-box {
+      line-height: 1.4em;
+    }
+    .specs-box b {
+      color: #fff;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Hello Animation -->
-  <div class="hello-container">Hello</div>
+  <!-- Apple Hello Animation -->
+  <div class="center-text">Hello</div>
 
   <!-- Social Links -->
   <div class="social-links">
-    <a href="#"><i class="fa-brands fa-discord"></i></a>
-    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-    <a href="#"><i class="fa-brands fa-spotify"></i></a>
-    <a href="#"><i class="fa-brands fa-steam"></i></a>
-    <a href="#"><i class="fa-brands fa-github"></i></a>
-    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
+    <a href="https://instagram.com/ifykykerdem/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=f2fe928cb5134282" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+    <a href="https://github.com/1erdqc" target="_blank"><i class="fa-brands fa-github"></i></a>
+    <a href="https://www.youtube.com/@ldontgiveafrlly" target="_blank"><i class="fa-brands fa-youtube"></i></a>
   </div>
 
   <!-- Laptop Specs (Top Right) -->
@@ -122,7 +131,7 @@
     <strong>💻 My Laptop Specs</strong>
     🪟 <b>OS:</b> Windows 11 Home Single Language 25H2<br>
     ⚙️ <b>CPU:</b> Intel Core i5-7200U @ 2.50GHz (Kaby Lake-R)<br>
-    🧠 <b>RAM:</b> 4.00 GB DDR4<br>
+    🧠 <b>RAM:</b> 4.00 GB Single-Channel DDR4 @ 1064 MHz<br>
     💾 <b>Storage:</b> 250 GB SSD | 500 GB HDD<br>
     🧩 <b>Motherboard:</b> Dell Inc. 0D53F5<br>
     🖥️ <b>Monitor:</b> LG ULTRAGEAR 24GQ50F-B<br>
@@ -130,13 +139,14 @@
     🖱️ <b>Mouse:</b> Havit Gamenote MS1014
   </div>
 
-  <!-- Device Info (Bottom Right) -->
+  <!-- Device Info (Right Bottom) -->
   <div class="info-box right-bottom" id="infoBox"><strong>🖥️ Device Info</strong>Loading...</div>
-  <!-- Date & Time (Bottom Left) -->
+
+  <!-- Date & Time (Left Bottom) -->
   <div class="info-box left-bottom" id="timeBox"><strong>⏰ Date & Time</strong>Loading...</div>
 
   <script>
-    // Device Info
+    // --- Device Info ---
     const infoBox = document.getElementById("infoBox");
     const userAgent = navigator.userAgent;
     let platform = navigator.platform || "Unknown";
@@ -157,7 +167,7 @@
       <b>UserAgent:</b> ${userAgent}
     `;
 
-    // Time Box
+    // --- Time Box ---
     const timeBox = document.getElementById("timeBox");
     function updateTime() {
       const now = new Date();
@@ -180,5 +190,6 @@
     updateTime();
     setInterval(updateTime, 1000);
   </script>
+
 </body>
 </html>
