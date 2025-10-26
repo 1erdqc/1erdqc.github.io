@@ -11,16 +11,14 @@
 
   <style>
     :root {
-      --bg: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center fixed;
-      --bg-size: cover;
+      --bg: #1C1C1C;
       --fg: #E6E6E6;
     }
 
     html, body {
       margin: 0;
       height: 100%;
-      background: var(--bg);
-      background-size: var(--bg-size);
+      background: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center/cover;
       color: var(--fg);
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       overflow: hidden;
@@ -35,53 +33,26 @@
       font-family: 'Pacifico', cursive;
       font-weight: bold;
       text-align: center;
-      background: linear-gradient(90deg, #FF2D55, #5856D6, #FF9500, #34C759, #007AFF, #FF2D55);
+      background: linear-gradient(90deg, #0af, #f0a, #0fa, #fa0, #0af);
+      background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: gradient 3s ease infinite;
+      animation: gradientMove 6s linear infinite;
     }
 
-    @keyframes gradient {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    .social-links {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 20px;
-    }
-
-    .social-links a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 60px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--fg);
-      font-size: 28px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .social-links a:hover {
-      background: rgba(255,255,255,0.15);
-      transform: scale(1.1);
-    }
-
+    /* Info Boxes */
     .info-box {
       position: fixed;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255,255,255,0.1);
       padding: 12px 16px;
-      border-radius: 12px;
+      border-radius: 10px;
       font-size: 0.85rem;
       max-width: 280px;
       word-break: break-word;
@@ -100,34 +71,70 @@
     .left-bottom  { bottom: 20px; left: 20px; }
     .right-top    { top: 20px; right: 20px; text-align: left; }
 
-    /* Buttons */
-    .box-buttons {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 6px;
+    /* Laptop specs styling */
+    .specs-box {
+      line-height: 1.4em;
     }
-
-    .min-btn, .max-btn {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-    }
-
-    .min-btn { background: #FFCC00; }
-    .max-btn { background: #34C759; }
-
     .specs-box b {
       color: #fff;
       font-weight: 600;
     }
 
+    /* Minimize/Maximize buttons */
+    .box-controls {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 4px;
+    }
+    .box-controls button {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .min-btn { background: #f0c330; }
+    .max-btn { background: #33c930; }
+    .box-controls button:hover { transform: scale(1.2); }
+
+    /* Social Links */
+    .social-links {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05); /* cam efekti */
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(6px);
+      color: var(--fg);
+      font-size: 28px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Center Apple Hello -->
+  <!-- Center Hello -->
   <div class="center-text">Hello</div>
 
   <!-- Social Links -->
@@ -139,11 +146,11 @@
     <a href="https://www.youtube.com/@ldontgiveafrlly" target="_blank"><i class="fa-brands fa-youtube"></i></a>
   </div>
 
-  <!-- Laptop Specs (Top Right) -->
+  <!-- Laptop Specs -->
   <div class="info-box right-top specs-box" id="laptopBox">
-    <div class="box-buttons">
-      <button class="min-btn" onclick="minimizeBox('laptopBox')"></button>
-      <button class="max-btn" onclick="maximizeBox('laptopBox')"></button>
+    <div class="box-controls">
+      <button class="min-btn" onclick="toggleBox('laptopBox', true)"></button>
+      <button class="max-btn" onclick="toggleBox('laptopBox', false)"></button>
     </div>
     <strong>💻 My Laptop Specs</strong>
     🪟 <b>OS:</b> Windows 11 Home Single Language 25H2<br>
@@ -158,38 +165,37 @@
 
   <!-- Device Info -->
   <div class="info-box right-bottom" id="infoBox">
-    <div class="box-buttons">
-      <button class="min-btn" onclick="minimizeBox('infoBox')"></button>
-      <button class="max-btn" onclick="maximizeBox('infoBox')"></button>
+    <div class="box-controls">
+      <button class="min-btn" onclick="toggleBox('infoBox', true)"></button>
+      <button class="max-btn" onclick="toggleBox('infoBox', false)"></button>
     </div>
-    <strong>🖥️ Device Info</strong>Loading...
+    <strong>🖥️ Device Info</strong>
+    Loading...
   </div>
 
-  <!-- Time Box -->
+  <!-- Time & Date -->
   <div class="info-box left-bottom" id="timeBox">
-    <div class="box-buttons">
-      <button class="min-btn" onclick="minimizeBox('timeBox')"></button>
-      <button class="max-btn" onclick="maximizeBox('timeBox')"></button>
+    <div class="box-controls">
+      <button class="min-btn" onclick="toggleBox('timeBox', true)"></button>
+      <button class="max-btn" onclick="toggleBox('timeBox', false)"></button>
     </div>
-    <strong>⏰ Date & Time</strong>Loading...
+    <strong>⏰ Date & Time</strong>
+    Loading...
   </div>
 
   <script>
-    // Minimize / Maximize
-    const minimized = {};
-    function minimizeBox(id) {
-      const el = document.getElementById(id);
-      if (!minimized[id]) {
-        el.style.height = '30px';
-        el.style.overflow = 'hidden';
-        minimized[id] = true;
+    // Minimize/Maximize
+    const boxSizes = {};
+    function toggleBox(id, minimize) {
+      const box = document.getElementById(id);
+      if(minimize){
+        if(!boxSizes[id]) boxSizes[id] = box.style.width;
+        box.style.height = '30px';
+        box.style.overflow = 'hidden';
+      } else {
+        box.style.height = '';
+        box.style.overflow = '';
       }
-    }
-    function maximizeBox(id) {
-      const el = document.getElementById(id);
-      el.style.height = '';
-      el.style.overflow = '';
-      minimized[id] = false;
     }
 
     // Device Info
@@ -206,13 +212,13 @@
     const resolution = screen.width + "x" + screen.height;
 
     infoBox.innerHTML += `
-      <b>Browser:</b> ${browser}<br>
+      <br><b>Browser:</b> ${browser}<br>
       <b>Platform:</b> ${platform}<br>
       <b>Resolution:</b> ${resolution}<br>
       <b>UserAgent:</b> ${userAgent}
     `;
 
-    // Time & Date
+    // Time Box
     const timeBox = document.getElementById("timeBox");
     function updateTime() {
       const now = new Date();
@@ -225,14 +231,12 @@
       const time = now.toLocaleTimeString("en-GB");
       const gmtOffset = now.getTimezoneOffset();
       const gmt = "GMT " + (gmtOffset === 0 ? "+0" : (gmtOffset > 0 ? "-" : "+") + Math.abs(gmtOffset / 60));
-
-      // İçeriği tamamen yenile
       timeBox.innerHTML = `
-        <div class="box-buttons">
-          <button class="min-btn" onclick="minimizeBox('timeBox')"></button>
-          <button class="max-btn" onclick="maximizeBox('timeBox')"></button>
+        <div class="box-controls">
+          <button class="min-btn" onclick="toggleBox('timeBox', true)"></button>
+          <button class="max-btn" onclick="toggleBox('timeBox', false)"></button>
         </div>
-        <strong>⏰ Date & Time</strong><br>
+        <strong>⏰ Date & Time</strong>
         <b>Date:</b> ${date}<br>
         <b>Time:</b> ${time}<br>
         <b>Timezone:</b> ${gmt}
@@ -240,8 +244,6 @@
     }
     updateTime();
     setInterval(updateTime, 1000);
-
   </script>
-
 </body>
 </html>
