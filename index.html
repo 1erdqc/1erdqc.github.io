@@ -1,251 +1,245 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>erdqc</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>erdqc</title>
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
-  <style>
-    :root {
-      --bg: #1C1C1C;
-      --fg: #E6E6E6;
-      --glass-bg: rgba(255, 255, 255, 0.15);
-      --glass-border: rgba(255,255,255,0.25);
-      --glass-shadow: rgba(0,0,0,0.2);
-    }
+<style>
+:root {
+  --bg: #1C1C1C;
+  --fg: #E6E6E6;
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255,255,255,0.25);
+  --glass-shadow: rgba(0,0,0,0.2);
+}
 
-    html, body {
-      margin: 0;
-      height: 100%;
-      background: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center/cover;
-      color: var(--fg);
-      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, Arial, sans-serif;
-      overflow: hidden;
-    }
+html, body {
+  margin: 0;
+  height: 100%;
+  background: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center/cover;
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, Arial, sans-serif;
+  overflow: hidden;
+}
 
-    .center-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 6rem;
-      font-family: 'Pacifico', cursive;
-      font-weight: bold;
-      text-align: center;
-      background: linear-gradient(90deg, #0af, #f0a, #0fa, #fa0, #0af);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientMove 6s linear infinite;
-    }
+.center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 6rem;
+  font-family: 'Pacifico', cursive;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(90deg, #0af, #f0a, #0fa, #fa0, #0af);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 6s linear infinite;
+}
 
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-    .info-box {
-      position: fixed;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      padding: 14px 18px;
-      border-radius: 16px;
-      font-size: 0.9rem;
-      max-width: 300px;
-      word-break: break-word;
-      backdrop-filter: blur(12px) saturate(180%);
-      box-shadow: 0 8px 32px var(--glass-shadow);
-      transition: all 0.3s ease;
-    }
+/* Info Boxes */
+.info-box {
+  position: fixed;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  font-size: 0.9rem;
+  max-width: 300px;
+  word-break: break-word;
+  backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: all 0.3s ease;
+}
 
-    .info-box strong {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      text-align: center;
-      border-bottom: 2px solid var(--fg);
-      padding-bottom: 6px;
-    }
+/* Title Bar */
+.box-titlebar {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  font-weight: 600;
+  user-select: none;
+}
 
-    .right-bottom { bottom: 20px; right: 20px; }
-    .left-bottom  { bottom: 20px; left: 20px; }
-    .right-top    { top: 20px; right: 20px; }
+/* MacOS Buttons */
+.box-controls {
+  display: flex;
+  gap: 6px;
+  margin-right: 8px;
+}
 
-    .specs-box { line-height: 1.5em; }
-    .specs-box b { color: #fff; font-weight: 600; }
+.box-controls button {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
 
-    /* Min/Max buttons (macOS style) */
-    .box-controls {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      display: flex;
-      gap: 6px;
-      z-index: 10;
-    }
-    .box-controls button {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-    .min-btn { background: #f0c330; }
-    .max-btn { background: #33c930; }
-    .box-controls button:hover { transform: scale(1.2); }
+.min-btn { background: #f0c330; }  /* yellow */
+.max-btn { background: #33c930; }  /* green */
+.box-controls button:hover { transform: scale(1.2); }
 
-    /* Social Links (Glass style) */
-    .social-links {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 16px;
-    }
+/* Minimized */
+.info-box.minimized {
+  backdrop-filter: blur(12px) saturate(180%) brightness(0.7);
+  height: 30px !important;
+  overflow: hidden;
+}
 
-    .social-links a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px) saturate(180%);
-      color: var(--fg);
-      font-size: 28px;
-      text-decoration: none;
-      box-shadow: 0 8px 32px var(--glass-shadow);
-      transition: all 0.3s ease;
-    }
+/* Box Positions */
+.right-top { top: 20px; right: 20px; }
+.right-bottom { bottom: 20px; right: 20px; }
+.left-bottom  { bottom: 20px; left: 20px; }
 
-    .social-links a:hover {
-      background: rgba(255,255,255,0.25);
-      transform: scale(1.1);
-    }
+/* Social Links */
+.social-links {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+}
 
-    /* Minimize efekti */
-    .minimized {
-      height: 40px !important;
-      overflow: hidden;
-      backdrop-filter: blur(18px) saturate(180%);
-    }
-    .minimized .content {
-      display: none;
-    }
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px) saturate(180%);
+  color: var(--fg);
+  font-size: 28px;
+  text-decoration: none;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: all 0.3s ease;
+}
 
-    /* Title bar space */
-    .title-bar {
-      text-align: center;
-      font-weight: 600;
-      border-bottom: 2px solid var(--fg);
-      padding-bottom: 6px;
-      margin-bottom: 6px;
-    }
-  </style>
+.social-links a:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.1);
+}
+</style>
 </head>
 <body>
 
-  <div class="center-text">Hello</div>
+<div class="center-text">Hello</div>
 
-  <div class="social-links">
-    <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
-    <a href="https://instagram.com/ifykykerdem/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-    <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=f2fe928cb5134282" target="_blank"><i class="fa-brands fa-spotify"></i></a>
-    <a href="https://github.com/1erdqc" target="_blank"><i class="fa-brands fa-github"></i></a>
-    <a href="https://www.youtube.com/@ldontgiveafrlly" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-  </div>
+<div class="social-links">
+  <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
+  <a href="https://instagram.com/ifykykerdem/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+  <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=f2fe928cb5134282" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+  <a href="https://github.com/1erdqc" target="_blank"><i class="fa-brands fa-github"></i></a>
+  <a href="https://www.youtube.com/@ldontgiveafrlly" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+</div>
 
-  <!-- Laptop Specs -->
-  <div class="info-box right-top specs-box" id="laptopBox">
+<!-- Laptop Specs -->
+<div class="info-box right-top" id="laptopBox">
+  <div class="box-titlebar">
     <div class="box-controls">
       <button class="min-btn" onclick="toggleBox('laptopBox', true)"></button>
       <button class="max-btn" onclick="toggleBox('laptopBox', false)"></button>
     </div>
-    <div class="title-bar">💻 My Laptop Specs</div>
-    <div class="content">
-      🪟 <b>OS:</b> Windows 11 Home Single Language 25H2<br>
-      ⚙️ <b>CPU:</b> Intel Core i5-7200U @ 2.50GHz (Kaby Lake-R)<br>
-      🧠 <b>RAM:</b> 4.00 GB Single-Channel DDR4 @ 1064 MHz<br>
-      💾 <b>Storage:</b> 250 GB SSD | 500 GB HDD<br>
-      🧩 <b>Motherboard:</b> Dell Inc. 0D53F5<br>
-      🖥️ <b>Monitor:</b> LG ULTRAGEAR 24GQ50F-B<br>
-      ⌨️ <b>Keyboard:</b> Gamepower Eva 3<br>
-      🖱️ <b>Mouse:</b> Havit Gamenote MS1014
-    </div>
+    <div style="flex:1; text-align:center;">💻 My Laptop Specs</div>
   </div>
+  <div class="specs-box">
+    🪟 <b>OS:</b> Windows 11 Home Single Language 25H2<br>
+    ⚙️ <b>CPU:</b> Intel Core i5-7200U @ 2.50GHz<br>
+    🧠 <b>RAM:</b> 4.00 GB DDR4<br>
+    💾 <b>Storage:</b> 250 GB SSD | 500 GB HDD<br>
+    🧩 <b>Motherboard:</b> Dell Inc. 0D53F5<br>
+    🖥️ <b>Monitor:</b> LG ULTRAGEAR 24GQ50F-B<br>
+    ⌨️ <b>Keyboard:</b> Gamepower Eva 3<br>
+    🖱️ <b>Mouse:</b> Havit Gamenote MS1014
+  </div>
+</div>
 
-  <!-- Device Info -->
-  <div class="info-box right-bottom" id="infoBox">
+<!-- Device Info -->
+<div class="info-box right-bottom" id="infoBox">
+  <div class="box-titlebar">
     <div class="box-controls">
       <button class="min-btn" onclick="toggleBox('infoBox', true)"></button>
       <button class="max-btn" onclick="toggleBox('infoBox', false)"></button>
     </div>
-    <div class="title-bar">🖥️ Device Info</div>
-    <div class="content" id="deviceInfo"></div>
+    <div style="flex:1; text-align:center;">🖥️ Device Info</div>
   </div>
+  <span id="deviceInfo"></span>
+</div>
 
-  <!-- Date & Time -->
-  <div class="info-box left-bottom" id="timeBox">
+<!-- Date & Time -->
+<div class="info-box left-bottom" id="timeBox">
+  <div class="box-titlebar">
     <div class="box-controls">
       <button class="min-btn" onclick="toggleBox('timeBox', true)"></button>
       <button class="max-btn" onclick="toggleBox('timeBox', false)"></button>
     </div>
-    <div class="title-bar">⏰ Date & Time</div>
-    <div class="content" id="timeInfo"></div>
+    <div style="flex:1; text-align:center;">⏰ Date & Time</div>
   </div>
+  <span id="timeInfo"></span>
+</div>
 
-  <script>
-    // Minimize/Maximize
-    function toggleBox(id, minimize) {
-      const box = document.getElementById(id);
-      if(minimize){
-        box.classList.add("minimized");
-      } else {
-        box.classList.remove("minimized");
-      }
-    }
+<script>
+// Minimize/Maximize
+function toggleBox(id, minimize) {
+  const box = document.getElementById(id);
+  if(minimize){
+    box.classList.add("minimized");
+  } else {
+    box.classList.remove("minimized");
+  }
+}
 
-    // Device Info
-    const deviceInfo = document.getElementById('deviceInfo');
-    const ua = navigator.userAgent;
-    let browser = "Unknown";
-    if(ua.includes("Firefox")) browser = "Mozilla Firefox";
-    else if(ua.includes("Edg")) browser = "Microsoft Edge";
-    else if(ua.includes("Chrome")) browser = "Google Chrome";
-    else if(ua.includes("Safari")) browser = "Safari";
+// Device Info
+const deviceInfo = document.getElementById('deviceInfo');
+const ua = navigator.userAgent;
+let browser = "Unknown";
+if(ua.includes("Firefox")) browser = "Mozilla Firefox";
+else if(ua.includes("Edg")) browser = "Microsoft Edge";
+else if(ua.includes("Chrome")) browser = "Google Chrome";
+else if(ua.includes("Safari")) browser = "Safari";
 
-    const platform = navigator.platform || "Unknown";
-    const resolution = screen.width + "x" + screen.height;
+const platform = navigator.platform || "Unknown";
+const resolution = screen.width + "x" + screen.height;
 
-    deviceInfo.innerHTML = `
-      <br><b>Browser:</b> ${browser}<br>
-      <b>Platform:</b> ${platform}<br>
-      <b>Resolution:</b> ${resolution}<br>
-      <b>UserAgent:</b> ${ua}
-    `;
+deviceInfo.innerHTML = `
+  <br><b>Browser:</b> ${browser}<br>
+  <b>Platform:</b> ${platform}<br>
+  <b>Resolution:</b> ${resolution}<br>
+  <b>UserAgent:</b> ${ua}
+`;
 
-    // Time & Date
-    const timeInfo = document.getElementById("timeInfo");
-    function updateTime() {
-      const now = new Date();
-      const date = now.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
-      const time = now.toLocaleTimeString("en-GB");
-      const gmtOffset = now.getTimezoneOffset();
-      const gmt = "GMT " + (gmtOffset===0 ? "+0" : (gmtOffset>0 ? "-" : "+") + Math.abs(gmtOffset/60));
-      timeInfo.innerHTML = `<b>Date:</b> ${date}<br><b>Time:</b> ${time}<br><b>Timezone:</b> ${gmt}`;
-    }
-    updateTime();
-    setInterval(updateTime, 1000);
-  </script>
+// Time & Date
+const timeInfo = document.getElementById("timeInfo");
+function updateTime() {
+  const now = new Date();
+  const date = now.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+  const time = now.toLocaleTimeString("en-GB");
+  const gmtOffset = now.getTimezoneOffset();
+  const gmt = "GMT " + (gmtOffset===0 ? "+0" : (gmtOffset>0 ? "-" : "+") + Math.abs(gmtOffset/60));
+  timeInfo.innerHTML = `<b>Date:</b> ${date}<br><b>Time:</b> ${time}<br><b>Timezone:</b> ${gmt}`;
+}
+updateTime();
+setInterval(updateTime, 1000);
+</script>
 </body>
 </html>
