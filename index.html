@@ -110,10 +110,6 @@
     <a href="https://www.youtube.com/@ebrdqc" target="_blank"><i class="fa-brands fa-youtube"></i></a>
   </div>
 
-  <!-- Info Boxes -->
-  <div class="info-box right-bottom" id="infoBox"><strong>Device Info</strong>Loading...</div>
-  <div class="info-box left-bottom" id="timeBox"><strong>Date & Time</strong>Loading...</div>
-
   <!-- Laptop Specs (Top Right) -->
   <div class="info-box right-top specs-box">
     <strong>💻 My Laptop Specs</strong>
@@ -126,6 +122,10 @@
     ⌨️ <b>Keyboard:</b> Gamepower Eva 3<br>
     🖱️ <b>Mouse:</b> Havit Gamenote MS1014
   </div>
+
+  <!-- Info Boxes -->
+  <div class="info-box right-bottom" id="infoBox"><strong>🖥️ Device Info</strong>Loading...</div>
+  <div class="info-box left-bottom" id="timeBox"><strong>⏰ Date & Time</strong>Loading...</div>
 
   <script>
     // --- Device Info ---
@@ -142,7 +142,7 @@
     const resolution = screen.width + "x" + screen.height;
 
     infoBox.innerHTML = `
-      <strong>Device Info</strong>
+      <strong>🖥️ Device Info</strong>
       <b>Browser:</b> ${browser}<br>
       <b>Platform:</b> ${platform}<br>
       <b>Resolution:</b> ${resolution}<br>
@@ -163,7 +163,7 @@
       const gmtOffset = now.getTimezoneOffset();
       const gmt = "GMT " + (gmtOffset === 0 ? "+0" : (gmtOffset > 0 ? "-" : "+") + Math.abs(gmtOffset / 60));
       timeBox.innerHTML = `
-        <strong>Date & Time</strong>
+        <strong>⏰ Date & Time</strong>
         <b>Date:</b> ${date}<br>
         <b>Time:</b> ${time}<br>
         <b>Timezone:</b> ${gmt}
