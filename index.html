@@ -6,7 +6,7 @@
   <title>erdqc</title>
 
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
   <style>
@@ -18,44 +18,33 @@
     html, body {
       margin: 0;
       height: 100%;
-      background: url('https://i.imgur.com/fdBA0Wl.jpeg') center/cover no-repeat;
+      background: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center fixed;
+      background-size: cover;
       color: var(--fg);
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       overflow: hidden;
     }
 
-    /* Apple Hello Text */
     .center-text {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-family: 'Pacifico', cursive;
       font-size: 6rem;
-      font-weight: bold;
-      text-align: center;
-      background: linear-gradient(90deg,
-        #ff3b30, #ff9500, #ffcc00, #34c759, #5ac8fa, #007aff, #af52de, #ff2d55);
+      font-family: 'Pacifico', cursive;
+      background: linear-gradient(90deg, #00C6FF, #0072FF, #00FFAA, #FFAA00, #FF0072);
+      background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-size: 400% 400%;
-      animation: gradientShift 8s ease infinite, fadeInHello 3s ease-in-out forwards;
-      opacity: 0;
+      animation: gradientShift 6s ease infinite;
     }
 
     @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
 
-    @keyframes fadeInHello {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    }
-
-    /* Social Links */
     .social-links {
       position: fixed;
       bottom: 20px;
@@ -71,14 +60,13 @@
       justify-content: center;
       width: 60px;
       height: 60px;
-      border-radius: 20px;
+      border-radius: 15px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       color: var(--fg);
       font-size: 28px;
       text-decoration: none;
       transition: all 0.3s ease;
-      backdrop-filter: blur(12px);
     }
 
     .social-links a:hover {
@@ -86,18 +74,18 @@
       transform: scale(1.1);
     }
 
-    /* Info Boxes */
     .info-box {
       position: fixed;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255,255,255,0.1);
       padding: 12px 16px;
-      border-radius: 20px;
+      border-radius: 15px;
       font-size: 0.85rem;
       max-width: 280px;
       word-break: break-word;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(6px);
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
     }
 
     .info-box strong {
@@ -110,18 +98,38 @@
     .left-bottom  { bottom: 20px; left: 20px; }
     .right-top    { top: 20px; right: 20px; text-align: left; }
 
-    /* Laptop specs styling */
-    .specs-box {
-      line-height: 1.4em;
+    .specs-box b { color: #fff; font-weight: 600; line-height: 1.4em; }
+
+    .minimized {
+      max-height: 30px !important;
+      overflow: hidden;
+      opacity: 0.6;
     }
-    .specs-box b {
-      color: #fff;
-      font-weight: 600;
+
+    .box-buttons {
+      float: right;
+      display: flex;
+      gap: 5px;
+      margin-bottom: 5px;
     }
+
+    .box-buttons button {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .box-buttons .min-btn { background: #FF5F57; }
+    .box-buttons .max-btn { background: #28C840; }
+    .box-buttons button:hover { transform: scale(1.1); }
   </style>
 </head>
 <body>
 
+  <!-- Apple Hello -->
   <div class="center-text">Hello</div>
 
   <!-- Social Links -->
@@ -134,7 +142,11 @@
   </div>
 
   <!-- Laptop Specs (Top Right) -->
-  <div class="info-box right-top specs-box">
+  <div class="info-box right-top specs-box" id="specsBox">
+    <div class="box-buttons">
+      <button class="min-btn" onclick="minimizeBox('specsBox')"></button>
+      <button class="max-btn" onclick="maximizeBox('specsBox')"></button>
+    </div>
     <strong>💻 My Laptop Specs</strong>
     🪟 <b>OS:</b> Windows 11 Home Single Language 25H2<br>
     ⚙️ <b>CPU:</b> Intel Core i5-7200U @ 2.50GHz (Kaby Lake-R)<br>
@@ -146,9 +158,23 @@
     🖱️ <b>Mouse:</b> Havit Gamenote MS1014
   </div>
 
-  <!-- Info Boxes -->
-  <div class="info-box right-bottom" id="infoBox"><strong>🖥️ Device Info</strong>Loading...</div>
-  <div class="info-box left-bottom" id="timeBox"><strong>⏰ Date & Time</strong>Loading...</div>
+  <!-- Device Info (Right Bottom) -->
+  <div class="info-box right-bottom" id="infoBox">
+    <div class="box-buttons">
+      <button class="min-btn" onclick="minimizeBox('infoBox')"></button>
+      <button class="max-btn" onclick="maximizeBox('infoBox')"></button>
+    </div>
+    <strong>🖥️ Device Info</strong>Loading...
+  </div>
+
+  <!-- Time Box (Left Bottom) -->
+  <div class="info-box left-bottom" id="timeBox">
+    <div class="box-buttons">
+      <button class="min-btn" onclick="minimizeBox('timeBox')"></button>
+      <button class="max-btn" onclick="maximizeBox('timeBox')"></button>
+    </div>
+    <strong>⏰ Date & Time</strong>Loading...
+  </div>
 
   <script>
     // --- Device Info ---
@@ -164,8 +190,7 @@
 
     const resolution = screen.width + "x" + screen.height;
 
-    infoBox.innerHTML = `
-      <strong>🖥️ Device Info</strong>
+    infoBox.innerHTML += `
       <b>Browser:</b> ${browser}<br>
       <b>Platform:</b> ${platform}<br>
       <b>Resolution:</b> ${resolution}<br>
@@ -185,8 +210,7 @@
       const time = now.toLocaleTimeString("en-GB");
       const gmtOffset = now.getTimezoneOffset();
       const gmt = "GMT " + (gmtOffset === 0 ? "+0" : (gmtOffset > 0 ? "-" : "+") + Math.abs(gmtOffset / 60));
-      timeBox.innerHTML = `
-        <strong>⏰ Date & Time</strong>
+      timeBox.innerHTML += `
         <b>Date:</b> ${date}<br>
         <b>Time:</b> ${time}<br>
         <b>Timezone:</b> ${gmt}
@@ -194,6 +218,15 @@
     }
     updateTime();
     setInterval(updateTime, 1000);
+
+    // --- Minimize / Maximize ---
+    function minimizeBox(id) {
+      document.getElementById(id).classList.add('minimized');
+    }
+
+    function maximizeBox(id) {
+      document.getElementById(id).classList.remove('minimized');
+    }
   </script>
 
 </body>
