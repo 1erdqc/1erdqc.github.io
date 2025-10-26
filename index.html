@@ -7,44 +7,59 @@
 
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
   <style>
     :root {
       --glass-bg: rgba(255, 255, 255, 0.15);
       --glass-border: rgba(255, 255, 255, 0.3);
-      --glass-highlight: rgba(255, 255, 255, 0.5);
       --text-color: #ffffff;
     }
 
     html, body {
       margin: 0;
       height: 100%;
-      background: url('https://i.imgur.com/XIMGpp6.jpeg') center center / cover no-repeat fixed;
+      background: url('https://i.imgur.com/fdBA0Wl.jpeg') center center / cover no-repeat fixed;
       color: var(--text-color);
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       overflow: hidden;
     }
 
-    /* Apple Glass effect */
-    .glass {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .center-text {
+    /* Hello Animation */
+    .hello {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 4rem;
-      font-weight: bold;
-      text-align: center;
-      text-shadow: 0 4px 25px rgba(0,0,0,0.6);
-      letter-spacing: 1px;
+      font-family: 'Pacifico', cursive;
+      font-size: 7rem;
+      text-transform: lowercase;
+      background: linear-gradient(270deg, #ff77aa, #ffb347, #00c6ff, #7afcff, #ff77aa);
+      background-size: 800% 800%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 8s ease infinite, fadeInHello 2s ease-out forwards, floatHello 6s ease-in-out infinite;
+      opacity: 0;
+      text-shadow: 0 8px 35px rgba(0,0,0,0.5);
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeInHello {
+      from { opacity: 0; transform: translate(-50%, -60%) scale(0.9); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @keyframes floatHello {
+      0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+      50% { transform: translate(-50%, -52%) translateY(-10px); }
     }
 
     /* Social links */
@@ -126,7 +141,8 @@
 </head>
 <body>
 
-  <div class="center-text">Hello!</div>
+  <!-- Apple Hello Animation -->
+  <div class="hello">hello</div>
 
   <!-- Social Links -->
   <div class="social-links">
