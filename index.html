@@ -49,12 +49,11 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Info Boxes */
     .info-box {
       position: fixed;
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      padding: 30px 18px 14px 18px; /* Üst padding arttırıldı */
+      padding: 14px 18px;
       border-radius: 16px;
       font-size: 0.9rem;
       max-width: 300px;
@@ -64,36 +63,31 @@
       transition: all 0.3s ease;
     }
 
-    /* MacOS style title bar */
-    .info-box .title-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 30px;
-      border-bottom: 2px solid rgba(255,255,255,0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: var(--fg);
-      pointer-events: none;
-      border-radius: 16px 16px 0 0;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(8px) saturate(150%);
-      z-index: 1;
+    .info-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      text-align: center;
+      border-bottom: 2px solid var(--fg);
+      padding-bottom: 6px;
     }
 
-    /* Box-controls ikonları */
+    .right-bottom { bottom: 20px; right: 20px; }
+    .left-bottom  { bottom: 20px; left: 20px; }
+    .right-top    { top: 20px; right: 20px; }
+
+    .specs-box { line-height: 1.5em; }
+    .specs-box b { color: #fff; font-weight: 600; }
+
+    /* Min/Max buttons (macOS style) */
     .box-controls {
       position: absolute;
-      top: 8px;
+      top: 10px;
       left: 10px;
       display: flex;
       gap: 6px;
-      z-index: 2;
+      z-index: 10;
     }
-
     .box-controls button {
       width: 14px;
       height: 14px;
@@ -107,19 +101,7 @@
     .max-btn { background: #33c930; }
     .box-controls button:hover { transform: scale(1.2); }
 
-    .info-box .content {
-      position: relative;
-      z-index: 0;
-    }
-
-    .right-bottom { bottom: 20px; right: 20px; }
-    .left-bottom  { bottom: 20px; left: 20px; }
-    .right-top    { top: 20px; right: 20px; }
-
-    .specs-box { line-height: 1.5em; }
-    .specs-box b { color: #fff; font-weight: 600; }
-
-    /* Social Links */
+    /* Social Links (Glass style) */
     .social-links {
       position: fixed;
       bottom: 20px;
@@ -150,6 +132,25 @@
       background: rgba(255,255,255,0.25);
       transform: scale(1.1);
     }
+
+    /* Minimize efekti */
+    .minimized {
+      height: 40px !important;
+      overflow: hidden;
+      backdrop-filter: blur(18px) saturate(180%);
+    }
+    .minimized .content {
+      display: none;
+    }
+
+    /* Title bar space */
+    .title-bar {
+      text-align: center;
+      font-weight: 600;
+      border-bottom: 2px solid var(--fg);
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+    }
   </style>
 </head>
 <body>
@@ -166,11 +167,11 @@
 
   <!-- Laptop Specs -->
   <div class="info-box right-top specs-box" id="laptopBox">
-    <div class="title-bar">💻 My Laptop Specs</div>
     <div class="box-controls">
       <button class="min-btn" onclick="toggleBox('laptopBox', true)"></button>
       <button class="max-btn" onclick="toggleBox('laptopBox', false)"></button>
     </div>
+    <div class="title-bar">💻 My Laptop Specs</div>
     <div class="content">
       🪟 <b>OS:</b> Windows 11 Home Single Language 25H2<br>
       ⚙️ <b>CPU:</b> Intel Core i5-7200U @ 2.50GHz (Kaby Lake-R)<br>
@@ -185,21 +186,21 @@
 
   <!-- Device Info -->
   <div class="info-box right-bottom" id="infoBox">
-    <div class="title-bar">🖥️ Device Info</div>
     <div class="box-controls">
       <button class="min-btn" onclick="toggleBox('infoBox', true)"></button>
       <button class="max-btn" onclick="toggleBox('infoBox', false)"></button>
     </div>
+    <div class="title-bar">🖥️ Device Info</div>
     <div class="content" id="deviceInfo"></div>
   </div>
 
   <!-- Date & Time -->
   <div class="info-box left-bottom" id="timeBox">
-    <div class="title-bar">⏰ Date & Time</div>
     <div class="box-controls">
       <button class="min-btn" onclick="toggleBox('timeBox', true)"></button>
       <button class="max-btn" onclick="toggleBox('timeBox', false)"></button>
     </div>
+    <div class="title-bar">⏰ Date & Time</div>
     <div class="content" id="timeInfo"></div>
   </div>
 
@@ -208,11 +209,9 @@
     function toggleBox(id, minimize) {
       const box = document.getElementById(id);
       if(minimize){
-        box.style.height = '30px';
-        box.style.overflow = 'hidden';
+        box.classList.add("minimized");
       } else {
-        box.style.height = '';
-        box.style.overflow = '';
+        box.classList.remove("minimized");
       }
     }
 
