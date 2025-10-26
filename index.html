@@ -25,25 +25,25 @@
       overflow: hidden;
     }
 
-    /* Hello animation */
+    /* Hello Animation (WWDC Style) */
     .center-text {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       font-family: 'Pasifico', cursive;
-      font-size: 6vw;
+      font-size: 8vw;
       color: white;
       text-align: center;
       opacity: 0;
-      animation: fadeIn 4s ease-in forwards;
+      animation: fadeInOut 4s ease-in-out forwards;
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      30% { opacity: 0; }
-      60% { opacity: 1; }
-      100% { opacity: 1; }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, -55%) scale(0.8); }
+      20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -45%) scale(0.8); }
     }
 
     /* Social Links */
@@ -91,23 +91,17 @@
       border: 1px solid rgba(255,255,255,0.2);
     }
 
-    .info-box strong {
-      display: block;
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-
+    .info-box strong { display: block; margin-bottom: 4px; font-weight: 600; }
     .right-bottom { bottom: 20px; right: 20px; }
     .left-bottom  { bottom: 20px; left: 20px; }
     .right-top    { top: 20px; right: 20px; text-align: left; }
 
     .specs-box b { font-weight: 600; }
-
   </style>
 </head>
 <body>
 
-  <!-- Hello Animation -->
+  <!-- WWDC Style Hello -->
   <div class="center-text">Hello</div>
 
   <!-- Social Links -->
