@@ -6,54 +6,44 @@
   <title>erdqc</title>
 
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pasifico&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
   <style>
     :root {
-      --bg: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center fixed;
-      --glass-bg: rgba(255, 255, 255, 0.12);
-      --glass-border: rgba(255, 255, 255, 0.25);
+      --bg: #1C1C1C;
       --fg: #E6E6E6;
-      --font-pacifico: 'Pacifico', cursive;
     }
 
     html, body {
       margin: 0;
       height: 100%;
-      background: var(--bg);
+      background: url('https://i.imgur.com/fdBA0Wl.jpeg') no-repeat center center fixed;
       background-size: cover;
       color: var(--fg);
-      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
     }
 
-    /* Glass style for boxes and buttons */
-    .glass {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      color: var(--fg);
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-
-    /* Center hello container */
+    /* Hello animation */
     .center-text {
-      position: relative;
-      width: 100%;
-      max-width: 700px;
-      height: 180px;
-      margin-bottom: 40px;
-      user-select: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Pasifico', cursive;
+      font-size: 6vw;
+      color: white;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 4s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      30% { opacity: 0; }
+      60% { opacity: 1; }
+      100% { opacity: 1; }
     }
 
     /* Social Links */
@@ -64,7 +54,6 @@
       transform: translateX(-50%);
       display: flex;
       gap: 20px;
-      z-index: 100;
     }
 
     .social-links a {
@@ -74,141 +63,69 @@
       width: 60px;
       height: 60px;
       border-radius: 15px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
       color: var(--fg);
       font-size: 28px;
       text-decoration: none;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
       transition: all 0.3s ease;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
     }
 
     .social-links a:hover {
-      background: rgba(255,255,255,0.25);
-      border-color: rgba(255,255,255,0.4);
-      transform: scale(1.12);
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.1);
     }
 
     /* Info Boxes */
     .info-box {
       position: fixed;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      padding: 14px 20px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
       border-radius: 15px;
-      font-size: 0.9rem;
+      padding: 14px 18px;
+      font-size: 0.85rem;
       max-width: 300px;
       word-break: break-word;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      color: var(--fg);
-      z-index: 100;
-      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.2);
     }
 
     .info-box strong {
       display: block;
-      margin-bottom: 6px;
-      font-weight: 700;
+      margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .right-bottom { bottom: 20px; right: 20px; }
     .left-bottom  { bottom: 20px; left: 20px; }
-    .right-top    { top: 20px; right: 20px; text-align: left; max-width: 320px; }
+    .right-top    { top: 20px; right: 20px; text-align: left; }
 
-    /* Laptop specs styling */
-    .specs-box b {
-      font-weight: 600;
-    }
-
-    /* Hello SVG container styling */
-    svg {
-      width: 100%;
-      height: 180px;
-      max-width: 700px;
-      user-select: none;
-    }
-
-    /* Stroke animation */
-    .path {
-      fill: none;
-      stroke: url(#gradient);
-      stroke-width: 4;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      stroke-dasharray: 1200;
-      stroke-dashoffset: 1200;
-      animation: draw 4s ease forwards;
-    }
-
-    /* Fill fade-in */
-    .text-fill {
-      fill: url(#gradient);
-      font-family: var(--font-pacifico);
-      font-size: 160px;
-      user-select: none;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 3.5s;
-    }
-
-    @keyframes draw {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
+    .specs-box b { font-weight: 600; }
 
   </style>
 </head>
 <body>
 
-  <!-- Center Hello Animation -->
-  <div class="center-text glass">
-    <svg viewBox="0 0 500 150" aria-label="hello" xmlns="http://www.w3.org/2000/svg" role="img">
-      <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ff3b30" />   <!-- kırmızı -->
-          <stop offset="25%" stop-color="#ff9500" />  <!-- turuncu -->
-          <stop offset="50%" stop-color="#ffcc00" />  <!-- sarı -->
-          <stop offset="75%" stop-color="#34c759" />  <!-- yeşil -->
-          <stop offset="100%" stop-color="#007aff" /> <!-- mavi -->
-        </linearGradient>
-      </defs>
-
-      <text class="path" x="50%" y="80%" dominant-baseline="middle" text-anchor="middle" font-family="Pacifico" font-size="160">
-        hello
-      </text>
-
-      <text class="text-fill" x="50%" y="80%" dominant-baseline="middle" text-anchor="middle">
-        hello
-      </text>
-    </svg>
-  </div>
+  <!-- Hello Animation -->
+  <div class="center-text">Hello</div>
 
   <!-- Social Links -->
-  <div class="social-links glass">
-    <a href="https://discord.gg/ue9kFgTs5k" target="_blank" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
-    <a href="https://instagram.com/ifykykerdem" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-    <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=5bf052eee22e42e5" target="_blank" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-    <a href="https://steamcommunity.com/id/erdqc1/" target="_blank" aria-label="Steam"><i class="fa-brands fa-steam"></i></a>
-    <a href="https://github.com/1erdqc/1erdqc.github.io/commits?author=1erdqc" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-    <a href="https://www.youtube.com/@ebrdqc" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+  <div class="social-links">
+    <a href="https://discord.gg/ue9kFgTs5k" target="_blank"><i class="fa-brands fa-discord"></i></a>
+    <a href="https://instagram.com/ifykykerdem" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://open.spotify.com/user/31bk2upkw65bpppulnqfucgclkbu?si=5bf052eee22e42e5" target="_blank"><i class="fa-brands fa-spotify"></i></a>
+    <a href="https://steamcommunity.com/id/erdqc1/" target="_blank"><i class="fa-brands fa-steam"></i></a>
+    <a href="https://github.com/1erdqc/1erdqc.github.io/commits?author=1erdqc" target="_blank"><i class="fa-brands fa-github"></i></a>
+    <a href="https://www.youtube.com/@ebrdqc" target="_blank"><i class="fa-brands fa-youtube"></i></a>
   </div>
 
   <!-- Laptop Specs (Top Right) -->
-  <div class="info-box right-top glass specs-box" aria-label="Laptop Specifications">
+  <div class="info-box right-top specs-box">
     <strong>💻 My Laptop Specs</strong>
     🪟 <b>OS:</b> Windows 11 Home Single Language 25H2<br>
     ⚙️ <b>CPU:</b> Intel Core i5-7200U @ 2.50GHz (Kaby Lake-R)<br>
-    🧠 <b>RAM:</b> 4.00 GB Single-Channel DDR4 @ 1064 MHz<br>
+    🧠 <b>RAM:</b> 4.00 GB DDR4 @ 1064 MHz<br>
     💾 <b>Storage:</b> 250 GB SSD | 500 GB HDD<br>
     🧩 <b>Motherboard:</b> Dell Inc. 0D53F5<br>
     🖥️ <b>Monitor:</b> LG ULTRAGEAR 24GQ50F-B<br>
@@ -216,12 +133,14 @@
     🖱️ <b>Mouse:</b> Havit Gamenote MS1014
   </div>
 
-  <!-- Info Boxes -->
-  <div class="info-box right-bottom glass" id="infoBox" aria-label="Device Info"><strong>🖥️ Device Info</strong>Loading...</div>
-  <div class="info-box left-bottom glass" id="timeBox" aria-label="Date and Time"><strong>⏰ Date & Time</strong>Loading...</div>
+  <!-- Device Info -->
+  <div class="info-box right-bottom" id="infoBox"><strong>🖥️ Device Info</strong>Loading...</div>
+
+  <!-- Date & Time -->
+  <div class="info-box left-bottom" id="timeBox"><strong>⏰ Date & Time</strong>Loading...</div>
 
   <script>
-    // --- Device Info ---
+    // Device Info
     const infoBox = document.getElementById("infoBox");
     const userAgent = navigator.userAgent;
     let platform = navigator.platform || "Unknown";
@@ -242,16 +161,11 @@
       <b>UserAgent:</b> ${userAgent}
     `;
 
-    // --- Time Box ---
+    // Date & Time
     const timeBox = document.getElementById("timeBox");
     function updateTime() {
       const now = new Date();
-      const date = now.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
+      const date = now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
       const time = now.toLocaleTimeString("en-GB");
       const gmtOffset = now.getTimezoneOffset();
       const gmt = "GMT " + (gmtOffset === 0 ? "+0" : (gmtOffset > 0 ? "-" : "+") + Math.abs(gmtOffset / 60));
