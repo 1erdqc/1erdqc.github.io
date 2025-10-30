@@ -3,9 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Örnek Sayfa</title>
+  <title>Liquid Glass Butonlar</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --glass-blur: 20px;
+      --glass-saturate: 180%;
+      --btn-padding: 0.8rem 2rem;
+      --btn-radius: 14px;
+      --btn-transition: 0.25s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background-color: #1A1A1A;
       color: white;
@@ -16,13 +32,12 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      gap: 3rem;
+      gap: 2.5rem;
     }
 
     h1 {
       font-size: 3rem;
       font-weight: 600;
-      margin: 0;
     }
 
     .buttons {
@@ -36,46 +51,66 @@
 
     .glass-btn {
       position: relative;
-      padding: 0.8rem 2rem;
+      padding: var(--btn-padding);
       font-size: 1rem;
       font-weight: 500;
       color: white;
       text-decoration: none;
-      border: none;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 12px;
-      backdrop-filter: blur(10px) saturate(180%);
-      transition: transform 0.2s ease, background 0.2s ease;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--btn-radius);
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+      transition: transform var(--btn-transition),
+                  background var(--btn-transition),
+                  box-shadow var(--btn-transition);
       cursor: pointer;
       overflow: hidden;
-    }
-
-    .glass-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-      transform: scale(1.05);
-    }
-
-    .glass-btn:active {
-      transform: scale(0.97);
     }
 
     .glass-btn::before {
       content: "";
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s, transform 0.4s;
-      transform: translate(-50%, -50%) scale(0.5);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: var(--btn-radius);
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      mix-blend-mode: overlay;
+      opacity: 0.4;
+      transition: opacity var(--btn-transition);
     }
 
-    .glass-btn:hover::before {
-      opacity: 0.2;
+    .glass-btn::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.25) 0%, transparent 70%);
+      transform: translate(-50%, -50%) scale(0.6);
+      opacity: 0;
+      transition: opacity var(--btn-transition), transform var(--btn-transition);
+      pointer-events: none;
+    }
+
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    .glass-btn:hover::after {
+      opacity: 0.15;
       transform: translate(-50%, -50%) scale(1);
+    }
+
+    .glass-btn:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
   </style>
 </head>
