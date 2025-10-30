@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Example Page</title>
+  <title>Örnek Sayfa</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -11,19 +11,82 @@
       color: white;
       font-family: 'Inter', sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      gap: 3rem;
     }
 
     h1 {
       font-size: 3rem;
       font-weight: 600;
+      margin: 0;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .glass-btn {
+      position: relative;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      text-decoration: none;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px) saturate(180%);
+      transition: transform 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: scale(1.05);
+    }
+
+    .glass-btn:active {
+      transform: scale(0.97);
+    }
+
+    .glass-btn::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s, transform 0.4s;
+      transform: translate(-50%, -50%) scale(0.5);
+    }
+
+    .glass-btn:hover::before {
+      opacity: 0.2;
+      transform: translate(-50%, -50%) scale(1);
     }
   </style>
 </head>
 <body>
   <h1>Example</h1>
+  <div class="buttons">
+    <a class="glass-btn" href="#">Link 1</a>
+    <a class="glass-btn" href="#">Link 2</a>
+    <a class="glass-btn" href="#">Link 3</a>
+    <a class="glass-btn" href="#">Link 4</a>
+    <a class="glass-btn" href="#">Link 5</a>
+  </div>
 </body>
 </html>
