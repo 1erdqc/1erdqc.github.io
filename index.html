@@ -1,182 +1,94 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerçek macOS Liquid Glass Butonlar + Shimmer</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
-<style>
-/* --- Genel Ayarlar --- */
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
-  font-family: 'Inter', sans-serif;
-  overflow: hidden;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal Arayüz</title>
 
-/* --- Arka Plan Cam Hissi --- */
-.background {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(30,30,30,0.6);
-  backdrop-filter: blur(25px) saturate(200%);
-  -webkit-backdrop-filter: blur(25px) saturate(200%);
-  z-index: 0;
-  overflow: hidden;
-}
+  <!-- Font Awesome ikonlar için -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
 
-/* --- Buton Container --- */
-.mac-btn-container {
-  display: flex;
-  gap: 14px;
-  position: relative;
-  z-index: 1;
-  transition: transform 0.3s ease;
-}
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+      font-family: "Inter", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+    }
 
-/* --- Buton Temeli --- */
-.mac-btn {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  box-shadow:
-    inset 1px 1px 2px rgba(255,255,255,0.25),
-    inset -2px -2px 4px rgba(0,0,0,0.25),
-    0 10px 30px rgba(0,0,0,0.35);
-  cursor: pointer;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
+    .bottom-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      box-sizing: border-box;
+    }
 
-/* --- Renkler --- */
-.close { background: linear-gradient(135deg, #ff6a56, #e0443e); }
-.minimize { background: linear-gradient(135deg, #ffce54, #dea618); }
-.maximize { background: linear-gradient(135deg, #4de157, #18a130); }
+    .social-icons {
+      display: flex;
+      gap: 20px;
+    }
 
-/* --- Üst Cam Parıltısı --- */
-.mac-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(145deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.15) 40%, rgba(255,255,255,0.05) 100%);
-  mix-blend-mode: overlay;
-  opacity: 0.35;
-  pointer-events: none;
-}
+    .social-icons a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 24px;
+      transition: color 0.3s ease;
+    }
 
-/* --- Mavi Hafif Ton + Hareketli Işık --- */
-.mac-btn::after {
-  content: "";
-  position: absolute;
-  top: -20%;
-  left: -20%;
-  width: 140%;
-  height: 140%;
-  border-radius: inherit;
-  background: radial-gradient(circle at 30% 30%, rgba(150,200,255,0.25), rgba(255,255,255,0) 60%);
-  mix-blend-mode: screen;
-  pointer-events: none;
-  animation: lightMove 4s ease-in-out infinite alternate;
-}
+    .social-icons a:hover {
+      color: #9e9e9e;
+    }
 
-/* --- Hover Efekti --- */
-.mac-btn:hover {
-  transform: scale(1.08);
-  box-shadow:
-    inset 1px 1px 2px rgba(255,255,255,0.4),
-    inset -2px -2px 5px rgba(0,0,0,0.25),
-    0 14px 35px rgba(0,0,0,0.45);
-  background: rgba(255,255,255,0.15);
-}
+    .datetime {
+      font-size: 14px;
+      color: #bfbfbf;
+    }
 
-/* --- Tıklama Efekti --- */
-.mac-btn:active {
-  transform: scale(0.97);
-  box-shadow:
-    inset 2px 2px 3px rgba(0,0,0,0.3),
-    0 8px 20px rgba(0,0,0,0.25);
-}
-
-/* --- Animasyonlu Işık Hareketi --- */
-@keyframes lightMove {
-  0% { transform: translate(0,0) rotate(0deg); opacity:0.3; }
-  50% { transform: translate(5px, -5px) rotate(45deg); opacity:0.5; }
-  100% { transform: translate(-5px,5px) rotate(0deg); opacity:0.3; }
-}
-
-/* --- Shimmer Efekti: üstten kayan ışık --- */
-.shimmer {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.0) 100%);
-  transform: rotate(25deg) translateX(-200%);
-  animation: shimmerMove 2s linear infinite;
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-@keyframes shimmerMove {
-  0% { transform: rotate(25deg) translateX(-200%); }
-  100% { transform: rotate(25deg) translateX(200%); }
-}
-
-/* --- Yazı --- */
-.mac-btn span {
-  position: relative;
-  z-index: 2;
-  color: rgba(255,255,255,0.9);
-  font-size: 1.2rem;
-  user-select: none;
-  pointer-events: none;
-  text-shadow: 0 0 3px rgba(255,255,255,0.25);
-}
-</style>
+    /* Sağ alt köşe bilerek boş */
+  </style>
 </head>
 <body>
-<div class="background"></div>
 
-<div class="mac-btn-container" id="container">
-  <div class="mac-btn close">
-    <span>×</span>
-    <div class="shimmer"></div>
-  </div>
-  <div class="mac-btn minimize">
-    <span>−</span>
-    <div class="shimmer"></div>
-  </div>
-  <div class="mac-btn maximize">
-    <span>+</span>
-    <div class="shimmer"></div>
-  </div>
-</div>
+  <div class="bottom-bar">
+    <div class="datetime" id="datetime"></div>
 
-<script>
-const container = document.getElementById('container');
-let pos = 0; // başlangıç ortada
+    <div class="social-icons">
+      <a href="https://instagram.com/ifykykerdem/" target="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://discord.gg/XPftbSRS7P" target="Discord"><i class="fab fa-discord"></i></a>
+      <a href="https://www.youtube.com/@ldontgiveafrlly" target="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://github.com/1erdqc" target="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+  </div>
 
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'ArrowRight') pos = Math.min(pos+1,3);
-  if(e.key === 'ArrowLeft') pos = Math.max(pos-1,-3);
-  container.style.transform = `translateX(${pos*80}px)`;
-});
-</script>
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const options = {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZoneName: "short"
+      };
+      document.getElementById("datetime").textContent = now.toLocaleString("tr-TR", options);
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
+
 </body>
 </html>
