@@ -32,7 +32,7 @@
     /* Ortadaki "erdqc" yazısı */
     .center-text {
       position: absolute;
-      bottom: 80px;
+      bottom: 120px;
       text-align: center;
       font-size: 28px;
       font-weight: 400;
@@ -49,15 +49,34 @@
                    0 0 25px rgba(255, 255, 255, 0.5);
     }
 
-    .bottom-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* Alt bar genel kutu */
+    .bottom-box {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
       padding: 20px 40px;
-      box-sizing: border-box;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
     }
 
+    .bottom-box:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Tarih-saat */
+    .datetime {
+      font-size: 14px;
+      color: #bfbfbf;
+    }
+
+    /* Sosyal medya ikonları */
     .social-icons {
       display: flex;
       gap: 20px;
@@ -72,7 +91,6 @@
       transform: scale(1);
     }
 
-    /* Hover efektleri */
     .social-icons a:hover {
       opacity: 1;
       transform: scale(1.25);
@@ -100,11 +118,6 @@
       color: #00adee;
     }
 
-    .datetime {
-      font-size: 14px;
-      color: #bfbfbf;
-    }
-
   </style>
 </head>
 <body>
@@ -112,8 +125,8 @@
   <!-- Ortadaki yazı -->
   <div class="center-text">erdqc</div>
 
-  <!-- Alt kısım -->
-  <div class="bottom-bar">
+  <!-- Alt kutu (tarih + ikonlar) -->
+  <div class="bottom-box">
     <div class="datetime" id="datetime"></div>
 
     <div class="social-icons">
