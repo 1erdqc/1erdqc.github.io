@@ -69,18 +69,42 @@
       font-size: 24px;
       opacity: 0.6;
       transition: all 0.3s ease;
+      transform: scale(1);
     }
 
+    /* Hover efektleri */
     .social-icons a:hover {
       opacity: 1;
+      transform: scale(1.25);
+      text-shadow: 0 0 12px currentColor, 0 0 25px currentColor;
+    }
+
+    /* Marka renkleri */
+    .social-icons a[href*="instagram"]:hover {
+      color: #E1306C;
+    }
+
+    .social-icons a[href*="discord"]:hover {
+      color: #5865F2;
+    }
+
+    .social-icons a[href*="youtube"]:hover {
+      color: #FF0000;
+    }
+
+    .social-icons a[href*="github"]:hover {
       color: #ffffff;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+
+    .social-icons a[href*="steam"]:hover {
+      color: #00adee;
     }
 
     .datetime {
       font-size: 14px;
       color: #bfbfbf;
     }
+
   </style>
 </head>
 <body>
@@ -113,7 +137,7 @@
         minute: "2-digit",
         second: "2-digit",
         timeZoneName: "short",
-        hour12: false // 24 saat formatı
+        hour12: false
       };
       document.getElementById("datetime").textContent = now.toLocaleString("tr-TR", options);
     }
