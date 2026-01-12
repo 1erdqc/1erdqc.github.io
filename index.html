@@ -1,163 +1,111 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minimal Arayüz</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clock Screensaver</title>
 
-  <!-- Font Awesome ikonlar -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap" rel="stylesheet">
 
-  <!-- Cascadia Code fontu -->
-  <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet" />
+<style>
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    font-family: "Noto Sans", sans-serif;
+    overflow: hidden;
+}
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background-color: #1a1a1a;
-      color: #e0e0e0;
-      font-family: 'Cascadia Code', monospace;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
+#bg {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s;
+    z-index: -2;
+}
 
-    /* Ortadaki "erdqc" yazısı */
-    .center-text {
-      position: absolute;
-      bottom: 120px;
-      text-align: center;
-      font-size: 28px;
-      font-weight: 400;
-      letter-spacing: 2px;
-      color: #e6e6e6;
-      text-shadow: 0 0 8px rgba(230, 230, 230, 0.6),
-                   0 0 15px rgba(230, 230, 230, 0.3);
-      user-select: none;
-      transition: text-shadow 0.3s ease;
-    }
+#overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: -1;
+}
 
-    .center-text:hover {
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.8),
-                   0 0 25px rgba(255, 255, 255, 0.5);
-    }
+#clock {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
 
-    /* Alt bar genel kutu */
-    .bottom-box {
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      padding: 20px 40px;
-      margin-bottom: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      backdrop-filter: blur(6px);
-      background: rgba(255, 255, 255, 0.03);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-      transition: all 0.3s ease;
-    }
+#time {
+    font-size: 15vw;
+    font-weight: 300;
+}
 
-    .bottom-box:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-
-    /* Tarih-saat */
-    .datetime {
-      font-size: 14px;
-      color: #bfbfbf;
-    }
-
-    /* Sosyal medya ikonları */
-    .social-icons {
-      display: flex;
-      gap: 20px;
-    }
-
-    .social-icons a {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-size: 24px;
-      opacity: 0.6;
-      transition: all 0.3s ease;
-      transform: scale(1);
-    }
-
-    .social-icons a:hover {
-      opacity: 1;
-      transform: scale(1.25);
-      text-shadow: 0 0 12px currentColor, 0 0 25px currentColor;
-    }
-
-    /* Marka renkleri */
-    .social-icons a[href*="instagram"]:hover {
-      color: #E1306C;
-    }
-
-    .social-icons a[href*="discord"]:hover {
-      color: #5865F2;
-    }
-
-    .social-icons a[href*="youtube"]:hover {
-      color: #FF0000;
-    }
-
-    .social-icons a[href*="github"]:hover {
-      color: #ffffff;
-    }
-
-    .social-icons a[href*="steam"]:hover {
-      color: #00adee;
-    }
-
-  </style>
+#date {
+    font-size: 4vw;
+    margin-top: 10px;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Ortadaki yazı -->
-  <div class="center-text">erdqc</div>
+<div id="bg"></div>
+<div id="overlay"></div>
 
-  <!-- Alt kutu (tarih + ikonlar) -->
-  <div class="bottom-box">
-    <div class="datetime" id="datetime"></div>
+<div id="clock">
+    <div id="time">00:00:00</div>
+    <div id="date"></div>
+</div>
 
-    <div class="social-icons">
-      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
-      <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://store.steampowered.com" target="_blank"><i class="fab fa-steam"></i></a>
-    </div>
-  </div>
+<script>
+function updateClock() {
+    const now = new Date();
 
-  <script>
-    function updateDateTime() {
-      const now = new Date();
-      const options = {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        timeZoneName: "short",
-        hour12: false
-      };
-      document.getElementById("datetime").textContent = now.toLocaleString("tr-TR", options);
-    }
+    document.getElementById("time").textContent =
+        now.toLocaleTimeString("tr-TR", {
+            timeZone: "Europe/Istanbul",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        });
 
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-  </script>
+    document.getElementById("date").textContent =
+        now.toLocaleDateString("tr-TR", {
+            timeZone: "Europe/Istanbul",
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+// 🔹 Arkaplan (STABİL)
+const bg = document.getElementById("bg");
+
+function updateBackground() {
+    bg.style.opacity = 0;
+    setTimeout(() => {
+        bg.style.backgroundImage =
+            "url(https://picsum.photos/1280/800?random=" + Date.now() + ")";
+        bg.style.opacity = 1;
+    }, 500);
+}
+
+updateBackground();
+setInterval(updateBackground, 300000); // 5 dk
+</script>
 
 </body>
 </html>
