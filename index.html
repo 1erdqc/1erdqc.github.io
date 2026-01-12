@@ -3,58 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Flip Clock + Weather</title>
+<title>Flip Clock + Weather</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap" rel="stylesheet">
+
 <style>
 html, body {
-    margin: 0; width: 100%; height: 100%;
-    background: black; color: white;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
     font-family: "Noto Sans", sans-serif;
-    display: flex; justify-content: center; align-items: center;
     overflow: hidden;
+    color: white;
 }
 
-#clock { display: flex; gap: 12px; }
-
-.flip-digit {
-    perspective: 1000px;
-    width: 80px; height: 120px;
-    position: relative;
-}
-
-.flip-card {
-    width: 100%; height: 100%;
+#clock {
     position: absolute;
-    transform-style: preserve-3d;
-    transition: transform 0.5s ease-in-out;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.flip-card .front, .flip-card .back {
-    position: absolute;
-    width: 100%; height: 50%;
-    overflow: hidden;
-    backface-visibility: hidden;
-    display: flex; justify-content: center; align-items: center;
+#time { display: flex; gap: 24px; }
+
+.digit { width: 90px; height: 200px; position: relative; text-align: center; }
+.prev, .current, .next { position: absolute; width: 100%; left: 0; font-variant-numeric: tabular-nums; }
+.prev { top: 0; font-size: 48px; opacity: 0.15; }
+.current { top: 50%; transform: translateY(-50%); font-size: 96px; font-weight: 300; }
+.next { bottom: 0; font-size: 48px; opacity: 0.15; }
+
+.separator { font-size: 96px; line-height: 200px; opacity: 0.8; }
+#date { margin-top: 25px; font-size: 32px; opacity: 0.8; }
+
+#device-info {
+    position: fixed; top: 12px; right: 14px;
+    font-size: 14px; line-height: 1.4;
+    opacity: 0.65; text-align: right;
     font-variant-numeric: tabular-nums;
 }
 
-.flip-card .front { 
-    font-size: 64px; font-weight: 300;
-    top: 0; border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.flip-card .back { 
-    font-size: 64px; font-weight: 300;
-    top: 50%; transform: rotateX(180deg);
-    border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-.separator {
-    font-size: 64px; line-height: 120px;
-    display: flex; align-items: center; justify-content: center;
-}
-
-/* Sol üst hava durumu */
 #weather-info {
     position: fixed; top: 12px; left: 14px;
     font-size: 14px; line-height: 1.4;
@@ -69,95 +59,55 @@ html, body {
     gap: 6px;
 }
 .weather-line span { white-space: nowrap; }
-
-/* Sağ üst cihaz info */
-#device-info {
-    position: fixed; top: 12px; right: 14px;
-    font-size: 14px; line-height: 1.4;
-    opacity: 0.65; text-align: right;
-    font-variant-numeric: tabular-nums;
-}
 </style>
 </head>
+
 <body>
 
 <div id="weather-info">Yükleniyor…</div>
 <div id="device-info"></div>
-<div id="clock"></div>
+
+<div id="clock">
+    <div id="time"></div>
+    <div id="date"></div>
+</div>
 
 <script>
-// Flip clock
-const clockEl = document.getElementById("clock");
-
-function pad(n){ return n.toString().padStart(2,'0'); }
-
-function createDigit(value) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "flip-digit";
-    wrapper.dataset.value = value;
-
-    const card = document.createElement("div");
-    card.className = "flip-card";
-
-    const front = document.createElement("div");
-    front.className = "front";
-    front.textContent = value;
-
-    const back = document.createElement("div");
-    back.className = "back";
-    back.textContent = value;
-
-    card.appendChild(front);
-    card.appendChild(back);
-    wrapper.appendChild(card);
-    return wrapper;
-}
-
-function updateDigit(wrapper, newValue) {
-    const card = wrapper.querySelector(".flip-card");
-    const front = wrapper.querySelector(".front");
-    const back = wrapper.querySelector(".back");
-
-    if(wrapper.dataset.value === newValue) return;
-
-    back.textContent = newValue;
-    card.style.transform = "rotateX(-180deg)";
-
-    setTimeout(()=>{
-        front.textContent = newValue;
-        card.style.transform = "rotateX(0deg)";
-        wrapper.dataset.value = newValue;
-    },500);
+// Flip-style saat
+function pad(n) { return n.toString().padStart(2, "0"); }
+function createDigit(value, max) {
+    const v = Number(value);
+    const prev = (v - 1 + max) % max;
+    const next = (v + 1) % max;
+    return `
+        <div class="digit">
+            <div class="prev">${pad(prev)}</div>
+            <div class="current">${pad(v)}</div>
+            <div class="next">${pad(next)}</div>
+        </div>
+    `;
 }
 
 function updateClock() {
     const now = new Date();
-    const h = pad(now.getHours());
-    const m = pad(now.getMinutes());
-    const s = pad(now.getSeconds());
 
-    const timeStr = h + m + s;
+    const h = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", hour:"2-digit" });
+    const m = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", minute:"2-digit" });
+    const s = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", second:"2-digit" });
 
-    if(clockEl.children.length === 0){
-        for(let i=0;i<timeStr.length;i++){
-            clockEl.appendChild(createDigit(timeStr[i]));
-            if(i===1 || i===3){
-                const sep = document.createElement("div");
-                sep.className="separator"; sep.textContent=":";
-                clockEl.appendChild(sep);
-            }
-        }
-    } else {
-        let digitIndex = 0;
-        for(let i=0;i<clockEl.children.length;i++){
-            const child = clockEl.children[i];
-            if(child.classList.contains("flip-digit")){
-                updateDigit(child,timeStr[digitIndex]);
-                digitIndex++;
-            }
-        }
-    }
+    document.getElementById("time").innerHTML =
+        createDigit(h,24)+`<div class="separator">:</div>`+
+        createDigit(m,60)+`<div class="separator">:</div>`+
+        createDigit(s,60);
+
+    document.getElementById("date").textContent =
+        now.toLocaleDateString("tr-TR", {
+            timeZone: "Europe/Istanbul",
+            weekday:"long", day:"numeric",
+            month:"long", year:"numeric"
+        });
 }
+
 setInterval(updateClock,1000);
 updateClock();
 
@@ -171,6 +121,7 @@ function baseInfo(extra=""){
     return [navigator.platform||"Unknown",`${screen.width}×${screen.height}`,Intl.DateTimeFormat().resolvedOptions().timeZone,extra]
         .filter(Boolean).join(" · ");
 }
+
 if(navigator.getBattery){
     navigator.getBattery().then(batt=>{
         function upd(){
@@ -183,7 +134,7 @@ if(navigator.getBattery){
     });
 }else setDeviceInfo(baseInfo());
 
-// 🌤 Hava durumu
+// Hava durumu
 const wEl = document.getElementById("weather-info");
 const LAT = 41.0602;
 const LON = 28.9877;
@@ -221,6 +172,7 @@ function updateWeather(){
     })
     .catch(()=>{ wEl.textContent = "Hava yüklenemedi"; });
 }
+
 updateWeather();
 setInterval(updateWeather,30*60*1000);
 </script>
