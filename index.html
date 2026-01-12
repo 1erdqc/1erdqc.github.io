@@ -66,6 +66,7 @@ html, body {
 </div>
 
 <script>
+// Flip-style saat
 function pad(n) { return n.toString().padStart(2, "0"); }
 function createDigit(value, max) {
     const v = Number(value);
@@ -103,7 +104,7 @@ function updateClock() {
 setInterval(updateClock,1000);
 updateClock();
 
-// Pil + cihaz
+// Cihaz + pil
 const di = document.getElementById("device-info");
 function setDeviceInfo(text, isLow=false) {
     di.textContent=text;
@@ -126,26 +127,28 @@ if(navigator.getBattery){
     });
 }else setDeviceInfo(baseInfo());
 
-// 🌤 Hava durumu
+// Hava durumu (Şişli / İstanbul)
 const wEl = document.getElementById("weather-info");
+const API_KEY = "def0b0640db2680125a3f2f0503d0894"; // buraya kendi OpenWeatherMap key’inizi koyun
+const LAT = 41.0602;
+const LON = 28.9877;
 
-// OpenWeatherMap API key (ücretsiz alabilirsin)
-const API_KEY = "def0b0640db2680125a3f2f0503d0894";
-const CITY = "Sisli,Istanbul,TR";
+function updateWeather(){
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&units=metric&lang=tr&appid=${API_KEY}`)
+    .then(res=>res.json())
+    .then(data=>{
+        if(data && data.main){
+            const temp=Math.round(data.main.temp);
+            const icon=data.weather[0].icon;
+            const desc=data.weather[0].description;
+            wEl.innerHTML=`<img id="weather-icon" src="https://openweathermap.org/img/wn/${icon}.png" alt=""> ${temp}°C ${desc}`;
+        }else wEl.textContent="Hava verisi yok";
+    }).catch(()=>{wEl.textContent="Hava yüklenemedi";});
+}
 
-fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(CITY)}&units=metric&lang=tr&appid=${API_KEY}`)
-.then(res => res.json())
-.then(data => {
-    if(data.main){
-        const temp = Math.round(data.main.temp);
-        const icon = data.weather[0].icon;
-        const desc = data.weather[0].description;
-        wEl.innerHTML = `<img id="weather-icon" src="https://openweathermap.org/img/wn/${icon}.png"> ${temp}°C ${desc}`;
-    } else {
-        wEl.textContent="Hava verisi yok";
-    }
-})
-.catch(()=>{ wEl.textContent="Hava yüklenemedi"; });
+// İlk yükleme + 30 dakikada bir güncelle
+updateWeather();
+setInterval(updateWeather, 30*60*1000);
 </script>
 
 </body>
