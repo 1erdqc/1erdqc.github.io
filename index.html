@@ -28,15 +28,34 @@ html, body {
 }
 
 #time { display: flex; gap: 24px; }
-.digit { width: 90px; height: 200px; position: relative; text-align: center; }
-.prev, .current, .next { position: absolute; width: 100%; left: 0; font-variant-numeric: tabular-nums; }
+
+.digit {
+    width: 90px; 
+    height: 200px; 
+    position: relative; 
+    text-align: center;
+    overflow: hidden;
+}
+
+.prev, .current, .next {
+    position: absolute; 
+    width: 100%; 
+    left: 0; 
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
 .prev { top: 0; font-size: 48px; opacity: 0.15; }
 .current { top: 50%; transform: translateY(-50%); font-size: 96px; font-weight: 300; }
 .next { bottom: 0; font-size: 48px; opacity: 0.15; }
+
+.digit.animate .prev { transform: translateY(-100%); opacity: 0; }
+.digit.animate .current { transform: translateY(-100%); opacity: 0; }
+.digit.animate .next { transform: translateY(-50%); opacity: 1; }
+
 .separator { font-size: 96px; line-height: 200px; opacity: 0.8; }
 #date { margin-top: 25px; font-size: 32px; opacity: 0.8; }
 
-/* Sağ üst cihaz info */
 #device-info {
     position: fixed; top: 12px; right: 14px;
     font-size: 14px; line-height: 1.4;
@@ -44,7 +63,6 @@ html, body {
     font-variant-numeric: tabular-nums;
 }
 
-/* Sol üst hava durumu */
 #weather-info {
     position: fixed; top: 12px; left: 14px;
     font-size: 14px; line-height: 1.4;
@@ -95,10 +113,34 @@ function updateClock() {
     const m = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", minute:"2-digit" });
     const s = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", second:"2-digit" });
 
-    document.getElementById("time").innerHTML =
+    const timeEl = document.getElementById("time");
+    const newHTML =
         createDigit(h,24)+`<div class="separator">:</div>`+
         createDigit(m,60)+`<div class="separator">:</div>`+
         createDigit(s,60);
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = newHTML;
+
+    const oldDigits = timeEl.querySelectorAll(".digit");
+    const newDigits = tempDiv.querySelectorAll(".digit");
+
+    newDigits.forEach((newDigit, i)=>{
+        const oldDigit = oldDigits[i];
+        if(oldDigit){
+            const oldVal = oldDigit.querySelector(".current").textContent;
+            const newVal = newDigit.querySelector(".current").textContent;
+            if(oldVal !== newVal){
+                oldDigit.classList.add("animate");
+                setTimeout(()=>{
+                    oldDigit.innerHTML = newDigit.innerHTML;
+                    oldDigit.classList.remove("animate");
+                }, 500);
+            }
+        } else {
+            timeEl.appendChild(newDigit);
+        }
+    });
 
     document.getElementById("date").textContent =
         now.toLocaleDateString("tr-TR", {
@@ -134,7 +176,7 @@ if(navigator.getBattery){
     });
 }else setDeviceInfo(baseInfo());
 
-// 🌤 Open-Meteo genişletilmiş hava durumu
+// Hava durumu
 const wEl = document.getElementById("weather-info");
 const LAT = 41.0602;
 const LON = 28.9877;
@@ -176,7 +218,7 @@ function updateWeather(){
 }
 
 updateWeather();
-setInterval(updateWeather,30*60*1000); // 30 dk
+setInterval(updateWeather,30*60*1000);
 </script>
 
 </body>
