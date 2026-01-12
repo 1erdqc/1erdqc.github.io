@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clock Screensaver</title>
+<title>Flip Clock + Weather</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap" rel="stylesheet">
 
@@ -15,22 +15,7 @@ html, body {
     background: black;
     font-family: "Noto Sans", sans-serif;
     overflow: hidden;
-}
-
-#bg {
-    position: fixed;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    transition: opacity 1s;
-    z-index: -2;
-}
-
-#overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    z-index: -1;
+    color: white;
 }
 
 #clock {
@@ -38,73 +23,129 @@ html, body {
     inset: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    color: white;
-    text-align: center;
+    justify-content: center;
 }
 
-#time {
-    font-size: 15vw;
-    font-weight: 300;
+#time { display: flex; gap: 24px; }
+.digit { width: 90px; height: 200px; position: relative; text-align: center; }
+.prev, .current, .next { position: absolute; width: 100%; left: 0; font-variant-numeric: tabular-nums; }
+.prev { top: 0; font-size: 48px; opacity: 0.15; }
+.current { top: 50%; transform: translateY(-50%); font-size: 96px; font-weight: 300; }
+.next { bottom: 0; font-size: 48px; opacity: 0.15; }
+.separator { font-size: 96px; line-height: 200px; opacity: 0.8; }
+#date { margin-top: 25px; font-size: 32px; opacity: 0.8; }
+
+/* Sağ üst cihaz info */
+#device-info {
+    position: fixed; top: 12px; right: 14px;
+    font-size: 14px; line-height: 1.4;
+    opacity: 0.65; text-align: right;
+    font-variant-numeric: tabular-nums;
 }
 
-#date {
-    font-size: 4vw;
-    margin-top: 10px;
+/* Sol üst hava durumu */
+#weather-info {
+    position: fixed; top: 12px; left: 14px;
+    font-size: 14px; line-height: 1.4;
+    opacity: 0.8;
+    display: flex; align-items: center; gap: 6px;
 }
+#weather-icon { width: 20px; height: 20px; }
 </style>
 </head>
 
 <body>
 
-<div id="bg"></div>
-<div id="overlay"></div>
+<div id="weather-info">Yükleniyor…</div>
+<div id="device-info"></div>
 
 <div id="clock">
-    <div id="time">00:00:00</div>
+    <div id="time"></div>
     <div id="date"></div>
 </div>
 
 <script>
+function pad(n) { return n.toString().padStart(2, "0"); }
+function createDigit(value, max) {
+    const v = Number(value);
+    const prev = (v - 1 + max) % max;
+    const next = (v + 1) % max;
+    return `
+        <div class="digit">
+            <div class="prev">${pad(prev)}</div>
+            <div class="current">${pad(v)}</div>
+            <div class="next">${pad(next)}</div>
+        </div>
+    `;
+}
+
 function updateClock() {
     const now = new Date();
 
-    document.getElementById("time").textContent =
-        now.toLocaleTimeString("tr-TR", {
-            timeZone: "Europe/Istanbul",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-        });
+    const h = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", hour:"2-digit" });
+    const m = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", minute:"2-digit" });
+    const s = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", second:"2-digit" });
+
+    document.getElementById("time").innerHTML =
+        createDigit(h,24)+`<div class="separator">:</div>`+
+        createDigit(m,60)+`<div class="separator">:</div>`+
+        createDigit(s,60);
 
     document.getElementById("date").textContent =
         now.toLocaleDateString("tr-TR", {
             timeZone: "Europe/Istanbul",
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
+            weekday:"long", day:"numeric",
+            month:"long", year:"numeric"
         });
 }
 
-setInterval(updateClock, 1000);
+setInterval(updateClock,1000);
 updateClock();
 
-// 🔹 Arkaplan (STABİL)
-const bg = document.getElementById("bg");
-
-function updateBackground() {
-    bg.style.opacity = 0;
-    setTimeout(() => {
-        bg.style.backgroundImage =
-            "url(https://picsum.photos/1280/800?random=" + Date.now() + ")";
-        bg.style.opacity = 1;
-    }, 500);
+// Pil + cihaz
+const di = document.getElementById("device-info");
+function setDeviceInfo(text, isLow=false) {
+    di.textContent=text;
+    di.style.color=isLow?"#ff4d4d":"rgba(255,255,255,0.65)";
+}
+function baseInfo(extra=""){
+    return [navigator.platform||"Unknown",`${screen.width}×${screen.height}`,Intl.DateTimeFormat().resolvedOptions().timeZone,extra]
+        .filter(Boolean).join(" · ");
 }
 
-updateBackground();
-setInterval(updateBackground, 300000); // 5 dk
+if(navigator.getBattery){
+    navigator.getBattery().then(batt=>{
+        function upd(){
+            const p=Math.round(batt.level*100);
+            setDeviceInfo(baseInfo(`${batt.charging?"⚡":"🔋"} ${p}%`), !batt.charging && p<15);
+        }
+        upd();
+        batt.addEventListener("levelchange",upd);
+        batt.addEventListener("chargingchange",upd);
+    });
+}else setDeviceInfo(baseInfo());
+
+// 🌤 Hava durumu
+const wEl = document.getElementById("weather-info");
+
+// OpenWeatherMap API key (ücretsiz alabilirsin)
+const API_KEY = "def0b0640db2680125a3f2f0503d0894";
+const CITY = "Sisli,Istanbul,TR";
+
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(CITY)}&units=metric&lang=tr&appid=${API_KEY}`)
+.then(res => res.json())
+.then(data => {
+    if(data.main){
+        const temp = Math.round(data.main.temp);
+        const icon = data.weather[0].icon;
+        const desc = data.weather[0].description;
+        wEl.innerHTML = `<img id="weather-icon" src="https://openweathermap.org/img/wn/${icon}.png"> ${temp}°C ${desc}`;
+    } else {
+        wEl.textContent="Hava verisi yok";
+    }
+})
+.catch(()=>{ wEl.textContent="Hava yüklenemedi"; });
 </script>
 
 </body>
