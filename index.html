@@ -19,27 +19,68 @@ html, body {
 }
 
 #clock {
-    position: fixed; /* absolute yerine fixed */
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* ortalama için */
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-#time { display: flex; gap: 24px; }
+/* SAAT STİLİ */
+#time { 
+    display: flex; 
+    gap: 40px; /* rakamlar arası boşluğu artırdık */
+}
 
-.digit { width: 90px; height: 200px; position: relative; text-align: center; }
-.prev, .current, .next { position: absolute; width: 100%; left: 0; font-variant-numeric: tabular-nums; }
-.prev { top: 0; font-size: 48px; opacity: 0.15; }
-.current { top: 50%; transform: translateY(-50%); font-size: 96px; font-weight: 300; }
-.next { bottom: 0; font-size: 48px; opacity: 0.15; }
+.digit { 
+    width: 110px; 
+    height: 220px; 
+    position: relative; 
+    text-align: center; 
+}
 
-.separator { font-size: 96px; line-height: 200px; opacity: 0.8; }
-#date { margin-top: 25px; font-size: 32px; opacity: 0.8; }
+.prev, .current, .next { 
+    position: absolute; 
+    width: 100%; 
+    left: 0; 
+    font-variant-numeric: tabular-nums; 
+}
 
+.prev { 
+    top: 0; 
+    font-size: 60px; 
+    opacity: 0.15; 
+}
+
+.current { 
+    top: 50%; 
+    transform: translateY(-50%); 
+    font-size: 120px; 
+    font-weight: 300; 
+}
+
+.next { 
+    bottom: 0; 
+    font-size: 60px; 
+    opacity: 0.15; 
+}
+
+.separator { 
+    font-size: 120px; 
+    line-height: 220px; 
+    opacity: 0.8; 
+}
+
+#date { 
+    margin-top: 25px; 
+    font-size: 32px; 
+    opacity: 0.8; 
+}
+
+/* Cihaz + pil */
 #device-info {
     position: fixed; top: 12px; right: 14px;
     font-size: 14px; line-height: 1.4;
@@ -47,6 +88,7 @@ html, body {
     font-variant-numeric: tabular-nums;
 }
 
+/* Hava durumu */
 #weather-info {
     position: fixed; top: 12px; left: 14px;
     font-size: 14px; line-height: 1.4;
@@ -61,6 +103,7 @@ html, body {
     gap: 6px;
 }
 .weather-line span { white-space: nowrap; }
+
 </style>
 </head>
 
