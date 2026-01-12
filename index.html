@@ -48,10 +48,17 @@ html, body {
 #weather-info {
     position: fixed; top: 12px; left: 14px;
     font-size: 14px; line-height: 1.4;
-    opacity: 0.8;
-    display: flex; align-items: center; gap: 6px;
+    opacity: 0.9;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
-#weather-icon { width: 20px; height: 20px; }
+.weather-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.weather-line span { white-space: nowrap; }
 </style>
 </head>
 
@@ -127,28 +134,49 @@ if(navigator.getBattery){
     });
 }else setDeviceInfo(baseInfo());
 
-// Hava durumu (Şişli / İstanbul)
+// 🌤 Open-Meteo genişletilmiş hava durumu
 const wEl = document.getElementById("weather-info");
-const API_KEY = "def0b0640db2680125a3f2f0503d0894"; // buraya kendi OpenWeatherMap key’inizi koyun
 const LAT = 41.0602;
 const LON = 28.9877;
 
-function updateWeather(){
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&units=metric&lang=tr&appid=${API_KEY}`)
-    .then(res=>res.json())
-    .then(data=>{
-        if(data && data.main){
-            const temp=Math.round(data.main.temp);
-            const icon=data.weather[0].icon;
-            const desc=data.weather[0].description;
-            wEl.innerHTML=`<img id="weather-icon" src="https://openweathermap.org/img/wn/${icon}.png" alt=""> ${temp}°C ${desc}`;
-        }else wEl.textContent="Hava verisi yok";
-    }).catch(()=>{wEl.textContent="Hava yüklenemedi";});
+function mapWeatherCode(code){
+    const emojiMap = {
+        0:"☀️",1:"🌤️",2:"⛅",3:"☁️",
+        45:"🌫️",48:"🌫️",
+        51:"🌦️",53:"🌦️",55:"🌧️",
+        61:"🌧️",63:"🌧️",65:"🌧️",
+        71:"❄️",73:"❄️",75:"❄️",
+        80:"🌦️",81:"🌧️",82:"🌧️",
+        95:"⛈️",99:"⛈️"
+    };
+    return emojiMap[code] || "❓";
 }
 
-// İlk yükleme + 30 dakikada bir güncelle
+function updateWeather(){
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&timezone=Europe/Istanbul`)
+    .then(res=>res.json())
+    .then(data=>{
+        if(data.current_weather){
+            const w = data.current_weather;
+            const icon = mapWeatherCode(w.weathercode);
+            const temp = Math.round(w.temperature);
+            const wind = Math.round(w.windspeed);
+            const apparent = Math.round(w.apparent_temperature || w.temperature);
+
+            wEl.innerHTML = `
+                <div class="weather-line"><span>${icon} ${temp}°C</span></div>
+                <div class="weather-line"><span>💨 Rüzgar: ${wind} km/h</span></div>
+                <div class="weather-line"><span>🌡️ Hissedilen: ${apparent}°C</span></div>
+            `;
+        } else {
+            wEl.textContent = "Hava verisi yok";
+        }
+    })
+    .catch(()=>{ wEl.textContent = "Hava yüklenemedi"; });
+}
+
 updateWeather();
-setInterval(updateWeather, 30*60*1000);
+setInterval(updateWeather,30*60*1000); // 30 dk
 </script>
 
 </body>
