@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flip Clock + Weather</title>
+<title>SM-T561/60</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap" rel="stylesheet">
 
@@ -19,8 +19,10 @@ html, body {
 }
 
 #clock {
-    position: absolute;
-    inset: 0;
+    position: fixed; /* absolute yerine fixed */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* ortalama için */
     display: flex;
     flex-direction: column;
     align-items: center;
