@@ -3,225 +3,278 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SM-T561/60</title>
+<title>Material You True AOD Clock</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
 
 <style>
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    font-family: "Noto Sans", sans-serif;
-    overflow: hidden;
-    color: white;
+:root{
+  --primary:#1a73e8;
+  --primary-soft:#8ab4f8;
+  --aod-line:rgba(255,255,255,.35);
+  --bg:#000;
+  --text:#eaeaea;
+  --card:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.14);
 }
 
-#clock {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+body.light{
+  --bg:#f5f5f5;
+  --text:#000;
+  --card:rgba(0,0,0,.06);
+  --border:rgba(0,0,0,.18);
+  --aod-line:rgba(0,0,0,.35);
 }
 
-/* SAAT STİLİ */
-#time { 
-    display: flex; 
-    gap: 40px; /* rakamlar arası boşluk */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Google Sans",sans-serif;
 }
 
-.digit { 
-    width: 110px; 
-    height: 220px; 
-    position: relative; 
-    text-align: center; 
+body{
+  background:var(--bg);
+  color:var(--text);
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
 }
 
-.prev, .current, .next { 
-    position: absolute; 
-    width: 100%; 
-    left: 0; 
-    font-variant-numeric: tabular-numbers; 
+/* ===== UI LAYER ===== */
+.screen{
+  position:fixed;
+  inset:0;
+  display:grid;
+  place-items:center;
+  z-index:1;
 }
 
-.prev { 
-    top: 0; 
-    font-size: 60px; 
-    opacity: 0.15; 
-    transform: translate(-10%, 10%); /* sola ve aşağı kaydır */
+/* ===== CONTENT ===== */
+.content{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:28px;
+  transition:transform 60s linear;
 }
 
-.current { 
-    top: 50%; 
-    transform: translateY(-50%); 
-    font-size: 120px; 
-    font-weight: 300; 
+/* STATUS */
+.status{
+  position:absolute;
+  top:24px;
+  left:24px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  font-size:1.8rem;
+  line-height:1;
+}
+.battery{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+body.aod .status span{color:var(--aod-line)}
+
+/* DEVICE INFO */
+.device-info{
+  position:absolute;
+  top:24px;
+  right:24px;
+  border-radius:22px;
+  padding:18px 20px;
+  font-size:1.1rem;
+}
+.device-info div{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+body:not(.aod) .device-info{
+  background:var(--card);
+  border:1px solid var(--border);
+}
+body:not(.aod) .device-info span{color:var(--primary-soft)}
+body.aod .device-info{
+  border:1px solid var(--aod-line);
+  color:var(--aod-line);
+}
+body.aod .device-info span{color:var(--aod-line)}
+
+/* ANALOG */
+.analog{
+  width:360px;
+  height:360px;
+  border-radius:50%;
+  position:relative;
+}
+body:not(.aod) .analog{
+  background:radial-gradient(circle,var(--primary-soft),var(--primary));
+  box-shadow:0 24px 48px rgba(26,115,232,.35);
+}
+body.aod .analog{
+  background:none;
+  border:2px solid var(--aod-line);
 }
 
-.next { 
-    bottom: 0; 
-    font-size: 60px; 
-    opacity: 0.15; 
-    transform: translate(-10%, -10%); /* sola ve yukarı kaydır */
+.num{
+  position:absolute;
+  font-size:2.6rem;
+  font-weight:500;
+  left:50%;
+  top:50%;
 }
+.num12{transform:translate(-50%,-50%) translateY(-150px)}
+.num3{transform:translate(-50%,-50%) translateX(150px)}
+.num6{transform:translate(-50%,-50%) translateY(150px)}
+.num9{transform:translate(-50%,-50%) translateX(-150px)}
+body.aod .num{color:var(--aod-line)}
+body:not(.aod) .num{color:#fff}
 
-.separator { 
-    font-size: 120px; 
-    line-height: 220px; 
-    opacity: 0.8; 
+.hand{
+  position:absolute;
+  left:50%;
+  bottom:50%;
+  transform-origin:bottom;
+  border-radius:999px;
 }
+.hour-hand{width:10px;height:90px}
+.minute-hand{width:6px;height:140px}
+.second-hand{width:3px;height:150px;background:#f44336}
+body.aod .hand{background:var(--aod-line)}
+body:not(.aod) .hour-hand{background:#fff}
+body:not(.aod) .minute-hand{background:#fff}
 
-#date { 
-    margin-top: 25px; 
-    font-size: 32px; 
-    opacity: 0.8; 
+.center-dot{
+  position:absolute;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
 }
+body.aod .center-dot{background:var(--aod-line)}
+body:not(.aod) .center-dot{background:#fff}
 
-/* Cihaz + pil */
-#device-info {
-    position: fixed; top: 12px; right: 14px;
-    font-size: 14px; line-height: 1.4;
-    opacity: 0.65; text-align: right;
-    font-variant-numeric: tabular-numbers;
-}
-
-/* Hava durumu */
-#weather-info {
-    position: fixed; top: 12px; left: 14px;
-    font-size: 14px; line-height: 1.4;
-    opacity: 0.9;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-.weather-line {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.weather-line span { white-space: nowrap; }
-
+/* DIGITAL */
+.time{font-size:5.5rem;font-weight:600; display:flex; gap:8px;}
+.date{font-size:2rem;opacity:.7}
+body.aod .time,
+body.aod .date{color:var(--aod-line)}
 </style>
 </head>
 
-<body>
+<body class="aod">
 
-<div id="weather-info">Yükleniyor…</div>
-<div id="device-info"></div>
+<div class="screen">
 
-<div id="clock">
-    <div id="time"></div>
-    <div id="date"></div>
+  <div class="status">
+    <span class="material-symbols-rounded">wifi</span>
+    <div class="battery">
+      <span class="material-symbols-rounded" id="batteryIcon">battery_full</span>
+      <span id="batteryText">--%</span>
+    </div>
+  </div>
+
+  <div class="device-info" id="deviceInfo"></div>
+
+  <div class="content" id="drift">
+    <div class="analog">
+      <div class="num num12">12</div>
+      <div class="num num3">3</div>
+      <div class="num num6">6</div>
+      <div class="num num9">9</div>
+      <div class="hand hour-hand" id="hourHand"></div>
+      <div class="hand minute-hand" id="minuteHand"></div>
+      <div class="hand second-hand" id="secondHand"></div>
+      <div class="center-dot"></div>
+    </div>
+    <div class="time">
+      <span id="clock">--:--</span><span>:</span><span id="seconds">--</span>
+    </div>
+    <div class="date" id="date"></div>
+  </div>
 </div>
 
 <script>
-// Flip-style saat
-function pad(n) { return n.toString().padStart(2, "0"); }
-function createDigit(value, max) {
-    const v = Number(value);
-    const prev = (v - 1 + max) % max;
-    const next = (v + 1) % max;
-    return `
-        <div class="digit">
-            <div class="prev">${pad(prev)}</div>
-            <div class="current">${pad(v)}</div>
-            <div class="next">${pad(next)}</div>
-        </div>
-    `;
+const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+
+/* CLOCK */
+function updateClock(){
+  const n=new Date();
+  const h=n.getHours();
+  const m=n.getMinutes();
+  const s=n.getSeconds();
+
+  clock.textContent=String(h).padStart(2,'0')+":"+String(m).padStart(2,'0');
+  seconds.textContent=String(s).padStart(2,'0');
+  date.textContent=days[n.getDay()]+" "+
+    String(n.getDate()).padStart(2,'0')+"."+String(n.getMonth()+1).padStart(2,'0')+"."+n.getFullYear();
+
+  /* Analog */
+  const minuteValue=m+s/60;
+  const hourValue=(h%12)+minuteValue/60;
+  hourHand.style.transform=`translateX(-50%) rotate(${hourValue*30}deg)`;
+  minuteHand.style.transform=`translateX(-50%) rotate(${minuteValue*6}deg)`;
+  secondHand.style.transform=`translateX(-50%) rotate(${s*6}deg)`;
 }
-
-function updateClock() {
-    const now = new Date();
-
-    const h = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", hour:"2-digit" });
-    const m = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", minute:"2-digit" });
-    const s = now.toLocaleTimeString("tr-TR", { timeZone: "Europe/Istanbul", second:"2-digit" });
-
-    document.getElementById("time").innerHTML =
-        createDigit(h,24)+`<div class="separator">:</div>`+
-        createDigit(m,60)+`<div class="separator">:</div>`+
-        createDigit(s,60);
-
-    document.getElementById("date").textContent =
-        now.toLocaleDateString("tr-TR", {
-            timeZone: "Europe/Istanbul",
-            weekday:"long", day:"numeric",
-            month:"long", year:"numeric"
-        });
-}
-
 setInterval(updateClock,1000);
 updateClock();
 
-// Cihaz + pil
-const di = document.getElementById("device-info");
-function setDeviceInfo(text, isLow=false) {
-    di.textContent=text;
-    di.style.color=isLow?"#ff4d4d":"rgba(255,255,255,0.65)";
-}
-function baseInfo(extra=""){
-    return [navigator.platform||"Unknown",`${screen.width}×${screen.height}`,Intl.DateTimeFormat().resolvedOptions().timeZone,extra]
-        .filter(Boolean).join(" · ");
-}
+/* DRIFT */
+setInterval(()=>{
+  drift.style.transform=`translate(${Math.random()*30-15}px,${Math.random()*30-15}px)`
+},60000);
 
+/* BATTERY */
 if(navigator.getBattery){
-    navigator.getBattery().then(batt=>{
-        function upd(){
-            const p=Math.round(batt.level*100);
-            setDeviceInfo(baseInfo(`${batt.charging?"⚡":"🔋"} ${p}%`), !batt.charging && p<15);
+  navigator.getBattery().then(b=>{
+    function updateBattery(){
+      const lvl=Math.round(b.level*100);
+      batteryText.textContent=lvl+"%";
+
+      if(document.body.classList.contains("aod")){
+        batteryIcon.style.color="var(--aod-line)";
+        batteryIcon.textContent=b.charging?"battery_charging_full":"battery_full";
+      } else {
+        batteryIcon.textContent=b.charging?"battery_charging_full":"battery_full";
+        if(b.charging){
+          batteryIcon.style.color="#ffffff";
+        } else if(lvl<=20){
+          batteryIcon.style.color="#F44336"; // parlak kırmızı
+        } else if(lvl<=50){
+          batteryIcon.style.color="#FF9800"; // parlak turuncu
+        } else {
+          batteryIcon.style.color="#4CAF50"; // parlak yeşil
         }
-        upd();
-        batt.addEventListener("levelchange",upd);
-        batt.addEventListener("chargingchange",upd);
-    });
-}else setDeviceInfo(baseInfo());
-
-// Hava durumu
-const wEl = document.getElementById("weather-info");
-const LAT = 41.0602;
-const LON = 28.9877;
-
-function mapWeatherCode(code){
-    const emojiMap = {
-        0:"☀️",1:"🌤️",2:"⛅",3:"☁️",
-        45:"🌫️",48:"🌫️",
-        51:"🌦️",53:"🌦️",55:"🌧️",
-        61:"🌧️",63:"🌧️",65:"🌧️",
-        71:"❄️",73:"❄️",75:"❄️",
-        80:"🌦️",81:"🌧️",82:"🌧️",
-        95:"⛈️",99:"⛈️"
-    };
-    return emojiMap[code] || "❓";
+      }
+    }
+    updateBattery();
+    b.addEventListener("levelchange",updateBattery);
+    b.addEventListener("chargingchange",updateBattery);
+  });
 }
 
-function updateWeather(){
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&timezone=Europe/Istanbul`)
-    .then(res=>res.json())
-    .then(data=>{
-        if(data.current_weather){
-            const w = data.current_weather;
-            const icon = mapWeatherCode(w.weathercode);
-            const temp = Math.round(w.temperature);
-            const wind = Math.round(w.windspeed);
-            const apparent = Math.round(w.apparent_temperature || w.temperature);
+/* DEVICE INFO */
+deviceInfo.innerHTML=`
+<div><span class="material-symbols-rounded">devices</span>${navigator.platform}</div>
+<div><span class="material-symbols-rounded">aspect_ratio</span>${screen.width}×${screen.height}</div>
+<div><span class="material-symbols-rounded">language</span>${navigator.language}</div>
+`;
 
-            wEl.innerHTML = `
-                <div class="weather-line"><span>${icon} ${temp}°C</span></div>
-                <div class="weather-line"><span>💨 Rüzgar: ${wind} km/h</span></div>
-                <div class="weather-line"><span>🌡️ Hissedilen: ${apparent}°C</span></div>
-            `;
-        } else { wEl.textContent = "Hava verisi yok"; }
-    })
-    .catch(()=>{ wEl.textContent = "Hava yüklenemedi"; });
+/* WAKE/AOD */
+let timer;
+function wake(){
+  document.body.classList.remove("aod");
+  clearTimeout(timer);
+  timer=setTimeout(()=>document.body.classList.add("aod"),5000);
 }
-
-updateWeather();
-setInterval(updateWeather,30*60*1000);
+addEventListener("touchstart",wake,{passive:true});
+addEventListener("mousemove",wake);
 </script>
 
 </body>
