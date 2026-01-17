@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Material You 3 - Large Status Bar</title>
+    <title>Material You 3 - Lite Performance</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -29,65 +29,62 @@
             font-variant-numeric: tabular-nums;
         }
 
-        .screen { position: relative; width: 100%; height: 100%; padding: 30px 50px; display: flex; flex-direction: column; }
+        .screen { position: relative; width: 100%; height: 100%; padding: 40px; display: flex; flex-direction: column; }
 
-        /* ÜST BAR - BÜYÜTÜLDÜ */
-        .top-bar { display: flex; justify-content: flex-start; margin-bottom: 10px; z-index: 10; }
+        /* ÜST BAR */
+        .top-bar { display: flex; justify-content: flex-start; margin-bottom: 10px; }
         .status-pill {
             background: var(--md-surface-variant); 
             border: 1.5px solid var(--md-outline);
-            padding: 12px 28px; /* Daha geniş dolgu */
+            padding: 12px 28px;
             border-radius: 100px;
-            display: flex; 
-            align-items: center; 
-            gap: 16px; /* İkonlar arası daha fazla boşluk */
+            display: flex; align-items: center; gap: 16px;
             color: var(--md-primary); 
-            font-size: 1.2rem; /* Daha büyük yazı */
+            font-size: 1.2rem;
             font-weight: 500;
         }
-        .status-pill .material-icons-round {
-            font-size: 28px !important; /* Daha büyük ikonlar */
-        }
+        .status-pill .material-icons-round { font-size: 28px !important; }
 
-        .main-content { flex: 1; display: flex; align-items: center; justify-content: center; gap: 80px; }
-
-        /* ANALOG SAAT */
-        .analog-clock { 
-            position: relative; width: 360px; height: 360px; border-radius: 50%; border: 2.5px solid var(--md-outline);
-            background: rgba(255,255,255,0.02); flex-shrink: 0;
+        /* MERKEZİ DİJİTAL GRUP */
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* Ortaya aldık */
+            justify-content: center; 
+            text-align: center;
         }
-        .hand { position: absolute; left: 50%; bottom: 50%; transform-origin: bottom; border-radius: 20px; }
-        .h-hand { width: 16px; height: 95px; background: var(--md-primary); z-index: 3; }
-        .m-hand { width: 9px; height: 140px; background: var(--md-text-bright); z-index: 2; opacity: 0.8; }
-        .s-hand { width: 3px; height: 155px; background: #FFB4AB; z-index: 4; }
+        
+        .greeting { font-size: 2rem; color: var(--md-primary); margin-bottom: 10px; font-weight: 500; }
+        
+        .time-wrapper { display: flex; align-items: baseline; justify-content: center; }
+        .time-text { font-size: 12rem; font-weight: 500; line-height: 0.9; letter-spacing: -6px; }
+        .sec-text { font-size: 4rem; color: var(--md-text-dim); width: 110px; margin-left: 10px; font-weight: 400; text-align: left; }
 
-        /* DİJİTAL GRUP */
-        .digital-group { 
-            display: flex; flex-direction: column; align-items: flex-start; 
-            justify-content: center; height: 360px; min-width: 500px;
-        }
-        .greeting { font-size: 1.6rem; color: var(--md-primary); margin-bottom: 2px; font-weight: 500; }
-        .time-wrapper { display: flex; align-items: baseline; }
-        .time-text { font-size: 8rem; font-weight: 500; line-height: 1; letter-spacing: -4px; }
-        .sec-text { font-size: 3.5rem; color: var(--md-text-dim); width: 90px; margin-left: 5px; font-weight: 400; }
-        .date-text { font-size: 2rem; color: var(--md-text-dim); margin-top: 8px; }
+        .date-text { font-size: 2.5rem; color: var(--md-text-dim); margin-top: 15px; }
 
         /* HAVA DURUMU */
         .weather-card {
-            margin-top: 24px; background: var(--md-surface-variant); border: 1px solid var(--md-outline);
-            padding: 18px 22px; border-radius: 30px; display: flex; flex-direction: column; gap: 12px;
-            color: var(--md-primary); width: 340px;
+            margin-top: 40px; 
+            background: var(--md-surface-variant); 
+            border: 1px solid var(--md-outline);
+            padding: 20px 30px; 
+            border-radius: 35px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px;
+            color: var(--md-primary); 
+            width: 380px;
         }
-        .current-weather { display: flex; align-items: center; gap: 14px; }
-        .location-text { font-size: 1.15rem; color: var(--md-text-bright); font-weight: 700; }
-        .weather-temp { font-size: 2.4rem; font-weight: 700; line-height: 1; }
+        .current-weather { display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .location-text { font-size: 1.3rem; color: var(--md-text-bright); font-weight: 700; }
+        .weather-temp { font-size: 3rem; font-weight: 700; line-height: 1; }
         
-        .forecast-row { display: flex; justify-content: space-between; border-top: 1px solid var(--md-outline); padding-top: 12px; }
-        .forecast-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-        .forecast-day { font-size: 0.8rem; color: var(--md-text-dim); }
-        .forecast-temp { font-size: 1rem; font-weight: 700; }
+        .forecast-row { display: flex; justify-content: space-between; border-top: 1px solid var(--md-outline); padding-top: 15px; }
+        .forecast-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .forecast-day { font-size: 0.9rem; color: var(--md-text-dim); }
+        .forecast-temp { font-size: 1.1rem; font-weight: 700; }
 
-        body.aod .s-hand { display: none; }
         body.aod .weather-card, body.aod .status-pill { background: transparent; border-color: transparent; }
     </style>
 </head>
@@ -105,31 +102,22 @@
     </div>
 
     <div class="main-content">
-        <div class="analog-clock">
-            <div class="hand h-hand" id="hHand"></div>
-            <div class="hand m-hand" id="mHand"></div>
-            <div class="hand s-hand" id="sHand"></div>
-            <div style="position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:10px; height:10px; background:#00315B; border-radius:50%;"></div>
+        <div class="greeting" id="txtGreeting">Merhaba</div>
+        <div class="time-wrapper">
+            <div class="time-text" id="dClock">00:00</div>
+            <div class="sec-text" id="dSec">:00</div>
         </div>
-
-        <div class="digital-group">
-            <div class="greeting" id="txtGreeting">Merhaba</div>
-            <div class="time-wrapper">
-                <div class="time-text" id="dClock">00:00</div>
-                <div class="sec-text" id="dSec">:00</div>
-            </div>
-            <div class="date-text" id="dDate">-- --- ----</div>
-            
-            <div class="weather-card">
-                <div class="current-weather">
-                    <span class="material-icons-round" id="wIcon" style="font-size: 44px;">wb_cloudy</span>
-                    <div class="weather-info">
-                        <div class="location-text" id="wLoc">Konum...</div>
-                        <span class="weather-temp" id="wTemp">--°C</span>
-                    </div>
+        <div class="date-text" id="dDate">-- --- ----</div>
+        
+        <div class="weather-card">
+            <div class="current-weather">
+                <span class="material-icons-round" id="wIcon" style="font-size: 54px;">wb_cloudy</span>
+                <div class="weather-info" style="text-align: left;">
+                    <div class="location-text" id="wLoc">Konum...</div>
+                    <span class="weather-temp" id="wTemp">--°C</span>
                 </div>
-                <div class="forecast-row" id="forecastRow"></div>
             </div>
+            <div class="forecast-row" id="forecastRow"></div>
         </div>
     </div>
 </div>
@@ -138,7 +126,7 @@
     const days = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
     const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 
-    function update() {
+    function updateTime() {
         const now = new Date();
         const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
         
@@ -148,10 +136,6 @@
         
         let g = h >= 5 && h < 12 ? "Günaydın! ☀️" : h >= 12 && h < 18 ? "Tünaydın! 😎" : h >= 18 && h < 22 ? "İyi Akşamlar! 🌆" : "İyi Geceler! 🌙";
         document.getElementById('txtGreeting').textContent = g;
-
-        document.getElementById('hHand').style.transform = `translateX(-50%) rotate(${(h%12)*30 + m*0.5}deg)`;
-        document.getElementById('mHand').style.transform = `translateX(-50%) rotate(${m*6}deg)`;
-        document.getElementById('sHand').style.transform = `translateX(-50%) rotate(${s*6}deg)`;
     }
 
     async function getWeather() {
@@ -159,11 +143,13 @@
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const { latitude: lat, longitude: lon } = pos.coords;
                 try {
+                    // Reverse Geocoding - SADECE İLÇE
                     const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
                     const geoData = await geoRes.json();
                     const addr = geoData.address;
                     document.getElementById('wLoc').textContent = addr.suburb || addr.town || addr.district || addr.city_district || "Bilinmiyor";
 
+                    // Hava durumu verisi
                     const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,weathercode&timezone=auto`);
                     const data = await weatherRes.json();
                     
@@ -174,11 +160,11 @@
                     let forecastHTML = '';
                     for(let i=1; i<=3; i++) {
                         const date = new Date(); date.setDate(date.getDate() + i);
-                        forecastHTML += `<div class="forecast-item"><span class="forecast-day">${days[date.getDay()].substring(0,3)}</span><span class="material-icons-round" style="font-size:20px">${codes[data.daily.weathercode[i]] || "wb_cloudy"}</span><span class="forecast-temp">${Math.round(data.daily.temperature_2m_max[i])}°C</span></div>`;
+                        forecastHTML += `<div class="forecast-item"><span class="forecast-day">${days[date.getDay()].substring(0,3)}</span><span class="material-icons-round" style="font-size:24px">${codes[data.daily.weathercode[i]] || "wb_cloudy"}</span><span class="forecast-temp">${Math.round(data.daily.temperature_2m_max[i])}°C</span></div>`;
                     }
                     document.getElementById('forecastRow').innerHTML = forecastHTML;
-                } catch(e) {}
-            }, null, { enableHighAccuracy: true });
+                } catch(e) { console.log("Hava durumu hatası."); }
+            }, null, { enableHighAccuracy: false }); // RAM dostu düşük hassasiyet
         }
     }
 
@@ -199,13 +185,17 @@
     function wake() {
         document.body.classList.remove('aod');
         clearTimeout(wTimer);
-        wTimer = setTimeout(() => document.body.classList.add('aod'), 12000);
+        wTimer = setTimeout(() => document.body.classList.add('aod'), 10000);
     }
 
     window.addEventListener('mousedown', wake);
     window.addEventListener('touchstart', wake);
-    setInterval(update, 1000);
-    update(); init();
+    
+    // ZAMANLAYICILAR
+    setInterval(updateTime, 1000); // Saat saniyede bir
+    setInterval(getWeather, 600000); // Hava durumu 10 dakikada bir (600.000 ms)
+    
+    updateTime(); init();
 </script>
 </body>
 </html>
