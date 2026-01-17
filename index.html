@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Material You 3 - AOD Line Mode</title>
+    <title>Material You 3 - Dynamic Dashboard</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -16,13 +16,16 @@
             --md-outline: rgba(210, 227, 255, 0.12);
             --md-text-dim: rgba(255, 255, 255, 0.4);
             --md-text-bright: #E2E2E6;
-            --transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-color: rgba(210, 227, 255, 0.03);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; outline: none; }
         
         body { 
             background: var(--md-surface); 
+            /* Dinamik Arkaplan Gradyanı */
+            background-image: radial-gradient(circle at 50% 50%, var(--gradient-color) 0%, transparent 70%);
             color: var(--md-text-bright); 
             font-family: "Google Sans", sans-serif; 
             width: 100vw; height: 100vh; 
@@ -31,84 +34,64 @@
             transition: var(--transition);
         }
 
-        .screen { position: relative; width: 100%; height: 100%; padding: 40px; display: flex; flex-direction: column; }
+        .screen { position: relative; width: 100%; height: 100%; padding: 40px; display: flex; flex-direction: column; z-index: 2; }
 
-        /* Üst Bar */
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         
         .status-pill {
             background: var(--md-surface-variant); 
             border: 1px solid var(--md-outline);
-            padding: 10px 24px;
-            border-radius: 100px;
+            padding: 10px 24px; border-radius: 100px;
             display: flex; align-items: center;
-            color: var(--md-primary); 
-            font-size: 1.1rem;
+            color: var(--md-primary); font-size: 1.1rem;
             transition: var(--transition);
         }
 
         .fullscreen-btn {
-            background: var(--md-surface-variant);
-            border: 1px solid var(--md-outline);
-            color: var(--md-primary);
-            padding: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: var(--transition);
+            background: var(--md-surface-variant); border: 1px solid var(--md-outline);
+            color: var(--md-primary); padding: 12px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; transition: var(--transition);
         }
 
-        /* Ana İçerik */
-        .main-content { 
-            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-        }
+        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         
-        .greeting { font-size: 2rem; color: var(--md-primary); margin-bottom: 15px; font-weight: 500; transition: var(--transition); }
-        .time-text { font-size: 13rem; font-weight: 500; line-height: 0.9; letter-spacing: -6px; transition: var(--transition); }
+        .greeting { font-size: 1.8rem; color: var(--md-primary); margin-bottom: 5px; font-weight: 500; transition: var(--transition); }
+        .time-text { font-size: 13rem; font-weight: 500; line-height: 0.85; letter-spacing: -6px; transition: var(--transition); }
         .sec-text { font-size: 4rem; color: var(--md-text-dim); width: 110px; margin-left: 10px; transition: var(--transition); }
-        .date-text { font-size: 2.5rem; color: var(--md-text-dim); margin-top: 20px; transition: var(--transition); }
-
-        /* Hava Durumu */
-        .weather-card {
-            margin-top: 50px; 
-            background: var(--md-surface-variant); 
-            border: 1px solid var(--md-outline);
-            padding: 24px 34px; 
-            border-radius: 40px; 
-            display: flex; flex-direction: column; gap: 18px;
-            color: var(--md-primary); width: 400px;
+        
+        /* GÜNÜN ODAĞI */
+        .focus-input {
+            background: transparent; border: none;
+            color: var(--md-text-dim); font-family: inherit;
+            font-size: 1.6rem; text-align: center;
+            width: 80%; margin-top: 15px;
+            border-bottom: 1px solid transparent;
             transition: var(--transition);
+        }
+        .focus-input:focus { color: var(--md-primary); border-bottom-color: var(--md-outline); user-select: text; }
+
+        .date-text { font-size: 2.2rem; color: var(--md-text-dim); margin-top: 15px; transition: var(--transition); }
+
+        .weather-card {
+            margin-top: 40px; background: var(--md-surface-variant); border: 1px solid var(--md-outline);
+            padding: 24px 34px; border-radius: 40px; 
+            display: flex; flex-direction: column; gap: 18px;
+            color: var(--md-primary); width: 420px; transition: var(--transition);
         }
         .forecast-row { display: flex; justify-content: space-between; border-top: 1px solid var(--md-outline); padding-top: 18px; transition: var(--transition); }
+        .forecast-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 
         .quote-container { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; transition: var(--transition); }
-        .quote-text { font-size: 1.2rem; color: var(--md-text-dim); font-style: italic; transition: var(--transition); }
+        .quote-text { font-size: 1.1rem; color: var(--md-text-dim); font-style: italic; transition: var(--transition); }
 
-        /* --- AOD MODU (ÇİZGİSEL TASARIM) --- */
-        body.aod-mode {
-            opacity: 0.6;
+        /* AOD MODU */
+        body.aod-mode { opacity: 0.5; }
+        body.aod-mode .status-pill, body.aod-mode .weather-card, body.aod-mode .fullscreen-btn {
+            background: transparent; border-color: rgba(255,255,255,0.1); border-radius: 0;
+            border-left: none; border-right: none; border-top: none;
         }
-
-        body.aod-mode .status-pill, 
-        body.aod-mode .weather-card, 
-        body.aod-mode .fullscreen-btn {
-            background: transparent;
-            border-color: rgba(255,255,255,0.1);
-            border-radius: 0px; /* Çizgiye dönüşme efekti */
-            border-left: none;
-            border-right: none;
-            border-top: none;
-        }
-
-        body.aod-mode .greeting, 
-        body.aod-mode .forecast-row {
-            opacity: 0; /* AOD'da bazı kalabalıkları gizle */
-        }
-
-        body.aod-mode .time-text {
-            color: var(--md-text-bright);
-            letter-spacing: 2px; /* AOD'da harf arasını aç */
-        }
+        body.aod-mode .greeting, body.aod-mode .forecast-row, body.aod-mode .focus-input { opacity: 0; }
+        body.aod-mode .time-text { letter-spacing: 2px; }
     </style>
 </head>
 <body onclick="wakeUp()">
@@ -132,14 +115,17 @@
             <div class="time-text" id="dClock">00:00</div>
             <div class="sec-text" id="dSec">:00</div>
         </div>
+        
+        <input type="text" id="focusTarget" class="focus-input" placeholder="Bugünkü odağın nedir?" oninput="saveFocus()">
+
         <div class="date-text" id="dDate">-- --- ----</div>
         
         <div class="weather-card">
             <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-                <span class="material-icons-round" id="wIcon" style="font-size: 60px;">cloud_sync</span>
+                <span class="material-icons-round" id="wIcon" style="font-size: 50px;">cloud_sync</span>
                 <div style="text-align: left;">
-                    <div class="location-text" id="wLoc" style="font-size: 1.4rem; font-weight: 700;">Konum aranıyor...</div>
-                    <span id="wTemp" style="font-size: 3.2rem; font-weight: 700;">--°C</span>
+                    <div class="location-text" id="wLoc" style="font-size: 1.2rem; font-weight: 700;">Hava Durumu</div>
+                    <span id="wTemp" style="font-size: 2.8rem; font-weight: 700;">--°C</span>
                 </div>
             </div>
             <div class="forecast-row" id="forecastRow"></div>
@@ -147,20 +133,22 @@
     </div>
 
     <div class="quote-container">
-        <div class="quote-text" id="quoteDisplay">"Hayallerinin peşinden git."</div>
+        <div class="quote-text" id="quoteDisplay">...</div>
     </div>
 </div>
 
 <script>
     let aodTimer;
-    const quotes = ["Hayat, biz planlar yaparken başımıza gelenlerdir.", "Zorluklar, başarının değerini artıran süslerdir.", "Bugün, geri kalan hayatının ilk günü.", "Gülümse; çünkü bu her şeyi değiştirir.", "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.", "Yarınlar, bugünden hazırlananlara aittir.", "Sakinlik en büyük güçtür.", "Hayallerinin peşinden git, onlar yolu biliyor.", "Küçük bir adım, büyük bir yolculuğun başlangıcıdır.", "Zamanın değerini bil, o geri gelmeyen tek şeydir."];
+    const quotes = ["Hayat, biz planlar yaparken başımıza gelenlerdir.", "Zorluklar, başarının değerini artıran süslerdir.", "Bugün, geri kalan hayatının ilk günü.", "Gülümse; çünkü bu her şeyi değiştirir.", "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.", "Yarınlar, bugünden hazırlananlara aittir.", "Sakinlik en büyük güçtür.", "Hayallerinin peşinden git.", "Küçük bir adım, büyük bir yolculuğun başlangıcıdır.", "Zamanın değerini bil."];
+
+    function saveFocus() {
+        localStorage.setItem('dailyFocus', document.getElementById('focusTarget').value);
+    }
 
     function wakeUp() {
         document.body.classList.remove('aod-mode');
         clearTimeout(aodTimer);
-        aodTimer = setTimeout(() => {
-            document.body.classList.add('aod-mode');
-        }, 10000); // 10 Saniye hareketsizlikte AOD başlar
+        aodTimer = setTimeout(() => document.body.classList.add('aod-mode'), 15000); 
     }
 
     function toggleFullscreen(e) {
@@ -178,6 +166,14 @@
         
         let g = h >= 5 && h < 12 ? "Günaydın! ☀️" : h >= 12 && h < 18 ? "Tünaydın! 😎" : h >= 18 && h < 22 ? "İyi Akşamlar! 🌆" : "İyi Geceler! 🌙";
         document.getElementById('txtGreeting').textContent = g;
+
+        // Dinamik Arkaplan Rengi (Sabah: Mavi, Öğle: Yeşilimsi, Akşam: Turuncu, Gece: Mor)
+        let color = "rgba(210, 227, 255, 0.04)";
+        if(h >= 5 && h < 11) color = "rgba(100, 200, 255, 0.05)";
+        else if(h >= 11 && h < 17) color = "rgba(100, 255, 200, 0.03)";
+        else if(h >= 17 && h < 21) color = "rgba(255, 150, 50, 0.05)";
+        else color = "rgba(150, 100, 255, 0.04)";
+        document.documentElement.style.setProperty('--gradient-color', color);
     }
 
     async function getWeather() {
@@ -189,7 +185,13 @@
                 document.getElementById('wTemp').textContent = Math.round(data.current_weather.temperature) + "°C";
                 const codes = { 0: "wb_sunny", 1: "wb_sunny", 2: "wb_cloudy", 3: "wb_cloudy", 45: "cloud", 61: "umbrella", 71: "ac_unit", 95: "thunderstorm" };
                 document.getElementById('wIcon').textContent = codes[data.current_weather.weathercode] || "wb_cloudy";
-                document.getElementById('wLoc').textContent = "Canlı Veri"; // Konum ismi basitleştirildi
+
+                let forecastHTML = '';
+                for(let i=1; i<=3; i++) {
+                    const date = new Date(); date.setDate(date.getDate() + i);
+                    forecastHTML += `<div class="forecast-item"><span class="forecast-day">${["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"][date.getDay()]}</span><span class="material-icons-round" style="font-size:24px">${codes[data.daily.weathercode[i]] || "wb_cloudy"}</span><span class="forecast-temp">${Math.round(data.daily.temperature_2m_max[i])}°C</span></div>`;
+                }
+                document.getElementById('forecastRow').innerHTML = forecastHTML;
             } catch(e) {}
         }, null, { enableHighAccuracy: false });
     }
@@ -208,6 +210,7 @@
         getWeather();
         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
         document.getElementById('quoteDisplay').textContent = `"${quotes[dayOfYear % quotes.length]}"`;
+        if(localStorage.getItem('dailyFocus')) document.getElementById('focusTarget').value = localStorage.getItem('dailyFocus');
         wakeUp();
         if ('wakeLock' in navigator) navigator.wakeLock.request('screen');
     }
