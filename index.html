@@ -3,221 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Material You 3 - Dynamic Dashboard</title>
+    <title>Nest Hub Pro - 9.6" Optimized</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <style>
         :root {
-            --md-primary: #D2E3FF; 
-            --md-surface: #000000; 
-            --md-surface-variant: rgba(210, 227, 255, 0.05);
-            --md-outline: rgba(210, 227, 255, 0.12);
-            --md-text-dim: rgba(255, 255, 255, 0.4);
-            --md-text-bright: #E2E2E6;
-            --transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            --gradient-color: rgba(210, 227, 255, 0.03);
+            --md-text: #FFFFFF;
+            --md-text-secondary: rgba(255, 255, 255, 0.75);
+            --card-bg: rgba(30, 31, 34, 0.98);
+            --google-blue: #8AB4F8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; outline: none; }
-        
-        body { 
-            background: var(--md-surface); 
-            /* Dinamik Arkaplan Gradyanı */
-            background-image: radial-gradient(circle at 50% 50%, var(--gradient-color) 0%, transparent 70%);
-            color: var(--md-text-bright); 
-            font-family: "Google Sans", sans-serif; 
-            width: 100vw; height: 100vh; 
-            overflow: hidden;
-            font-variant-numeric: tabular-nums;
-            transition: var(--transition);
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; scroll-snap-type: y mandatory; overflow-y: scroll; }
+        html::-webkit-scrollbar { display: none; }
+
+        body {
+            background: #000; color: var(--md-text);
+            font-family: "Google Sans", sans-serif;
+            width: 100vw; margin: 0;
+            overflow-x: hidden;
         }
 
-        .screen { position: relative; width: 100%; height: 100%; padding: 40px; display: flex; flex-direction: column; z-index: 2; }
-
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        
-        .status-pill {
-            background: var(--md-surface-variant); 
-            border: 1px solid var(--md-outline);
-            padding: 10px 24px; border-radius: 100px;
-            display: flex; align-items: center;
-            color: var(--md-primary); font-size: 1.1rem;
-            transition: var(--transition);
+        /* ARKA PLAN VE KARARTMA */
+        #bg-image {
+            position: fixed; inset: 0;
+            background-size: cover; background-position: center;
+            z-index: -2; transition: background-image 2s ease-in-out;
+            transform: scale(1.1);
+        }
+        .gradient-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.55); /* Karartma seviyesi artırıldı */
+            z-index: -1;
         }
 
-        .fullscreen-btn {
-            background: var(--md-surface-variant); border: 1px solid var(--md-outline);
-            color: var(--md-primary); padding: 12px; border-radius: 50%;
-            cursor: pointer; display: flex; align-items: center; transition: var(--transition);
+        section { min-height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; }
+
+        /* HUB ANA EKRAN */
+        .hub-section { padding: 5vh 6vw; justify-content: space-between; }
+
+        /* ÜST BAR */
+        .top-container { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+        .left-status { display: flex; align-items: center; gap: 25px; }
+        .status-group { display: flex; align-items: center; gap: 10px; font-size: 1.8rem; font-weight: 500; }
+        .status-group .material-icons-round { font-size: 2.5rem !important; }
+
+        .system-specs {
+            display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+            background: rgba(0,0,0,0.4); padding: 20px; border-radius: 28px;
+            backdrop-filter: blur(10px);
         }
+        .spec-item { display: flex; align-items: center; gap: 12px; font-size: 1.1rem; color: var(--md-text-secondary); }
+        .spec-item span.material-icons-round { font-size: 1.6rem !important; }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        
-        .greeting { font-size: 1.8rem; color: var(--md-primary); margin-bottom: 5px; font-weight: 500; transition: var(--transition); }
-        .time-text { font-size: 13rem; font-weight: 500; line-height: 0.85; letter-spacing: -6px; transition: var(--transition); }
-        .sec-text { font-size: 4rem; color: var(--md-text-dim); width: 110px; margin-left: 10px; transition: var(--transition); }
-        
-        /* GÜNÜN ODAĞI */
-        .focus-input {
-            background: transparent; border: none;
-            color: var(--md-text-dim); font-family: inherit;
-            font-size: 1.6rem; text-align: center;
-            width: 80%; margin-top: 15px;
-            border-bottom: 1px solid transparent;
-            transition: var(--transition);
+        /* SAAT BÖLÜMÜ */
+        .main-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .time-container { display: flex; align-items: baseline; }
+        .time-text { font-size: 26vw; font-weight: 400; line-height: 0.8; letter-spacing: -12px; }
+        .seconds-container { display: flex; align-items: baseline; color: var(--md-text-secondary); }
+        .seconds-sep { font-size: 10vw; margin: 0 5px; font-weight: 300; }
+        .seconds-text { font-size: 8vw; font-weight: 300; width: 11vw; }
+        .date-text { font-size: 3.5rem; color: var(--md-text-secondary); margin-top: 2vh; }
+
+        /* SAĞ ALT HAVA DURUMU */
+        .bottom-bar { display: flex; justify-content: flex-end; align-items: center; width: 100%; padding-bottom: 2vh; }
+        .weather-widget { display: flex; align-items: center; gap: 15px; font-size: 3rem; font-weight: 500; }
+
+        /* HABERLER */
+        .discover-section { background: #000; padding: 8vh 6vw; height: auto; min-height: 100vh; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 40px; margin-top: 40px; }
+        .news-link { text-decoration: none; color: inherit; display: block; height: 100%; transition: 0.2s; }
+        .news-card { background: var(--card-bg); border-radius: 40px; overflow: hidden; height: 100%; }
+        .news-card img { width: 100%; height: 260px; object-fit: cover; opacity: 0.9; }
+        .news-content { padding: 30px; }
+        .news-title { font-size: 1.6rem; line-height: 1.4; font-weight: 500; }
+
+        @media (orientation: portrait) {
+            .time-text { font-size: 32vw; }
+            .news-grid { grid-template-columns: 1fr; }
+            .date-text { font-size: 3rem; }
         }
-        .focus-input:focus { color: var(--md-primary); border-bottom-color: var(--md-outline); user-select: text; }
-
-        .date-text { font-size: 2.2rem; color: var(--md-text-dim); margin-top: 15px; transition: var(--transition); }
-
-        .weather-card {
-            margin-top: 40px; background: var(--md-surface-variant); border: 1px solid var(--md-outline);
-            padding: 24px 34px; border-radius: 40px; 
-            display: flex; flex-direction: column; gap: 18px;
-            color: var(--md-primary); width: 420px; transition: var(--transition);
-        }
-        .forecast-row { display: flex; justify-content: space-between; border-top: 1px solid var(--md-outline); padding-top: 18px; transition: var(--transition); }
-        .forecast-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-
-        .quote-container { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; transition: var(--transition); }
-        .quote-text { font-size: 1.1rem; color: var(--md-text-dim); font-style: italic; transition: var(--transition); }
-
-        /* AOD MODU */
-        body.aod-mode { opacity: 0.5; }
-        body.aod-mode .status-pill, body.aod-mode .weather-card, body.aod-mode .fullscreen-btn {
-            background: transparent; border-color: rgba(255,255,255,0.1); border-radius: 0;
-            border-left: none; border-right: none; border-top: none;
-        }
-        body.aod-mode .greeting, body.aod-mode .forecast-row, body.aod-mode .focus-input { opacity: 0; }
-        body.aod-mode .time-text { letter-spacing: 2px; }
     </style>
 </head>
-<body onclick="wakeUp()">
+<body>
 
-<div class="screen">
-    <div class="top-bar">
-        <div class="status-pill">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="material-icons-round" id="batIcon">battery_full</span>
+<div id="bg-image"></div>
+<div class="gradient-overlay"></div>
+
+<section class="hub-section">
+    <div class="top-container">
+        <div class="left-status">
+            <div class="status-group"><span class="material-icons-round">wifi</span></div>
+            <div class="status-group">
                 <span id="batLevel">--%</span>
+                <span class="material-icons-round">battery_full</span>
             </div>
         </div>
-        <button class="fullscreen-btn" onclick="toggleFullscreen(event)">
-            <span class="material-icons-round">fullscreen</span>
-        </button>
+
+        <div class="system-specs">
+            <div class="spec-item"><span id="osInfo">Sistem</span><span class="material-icons-round">settings_cell</span></div>
+            <div class="spec-item"><span id="browserInfo">Tarayıcı</span><span class="material-icons-round">language</span></div>
+            <div class="spec-item"><span id="cpuInfo">--</span><span class="material-icons-round">memory</span></div>
+            <div class="spec-item"><span id="resInfo">0x0</span><span class="material-icons-round">aspect_ratio</span></div>
+            <div class="spec-item"><span id="connectionType">Durum</span><span class="material-icons-round">sensors</span></div>
+        </div>
     </div>
 
     <div class="main-content">
-        <div class="greeting" id="txtGreeting">Merhaba</div>
-        <div style="display: flex; align-items: baseline; justify-content: center;">
+        <div class="time-container">
             <div class="time-text" id="dClock">00:00</div>
-            <div class="sec-text" id="dSec">:00</div>
-        </div>
-        
-        <input type="text" id="focusTarget" class="focus-input" placeholder="Bugünkü odağın nedir?" oninput="saveFocus()">
-
-        <div class="date-text" id="dDate">-- --- ----</div>
-        
-        <div class="weather-card">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-                <span class="material-icons-round" id="wIcon" style="font-size: 50px;">cloud_sync</span>
-                <div style="text-align: left;">
-                    <div class="location-text" id="wLoc" style="font-size: 1.2rem; font-weight: 700;">Hava Durumu</div>
-                    <span id="wTemp" style="font-size: 2.8rem; font-weight: 700;">--°C</span>
-                </div>
+            <div class="seconds-container">
+                <span class="seconds-sep">:</span>
+                <span class="seconds-text" id="dSeconds">00</span>
             </div>
-            <div class="forecast-row" id="forecastRow"></div>
         </div>
+        <div class="date-text" id="dDate">-- --- ----</div>
     </div>
 
-    <div class="quote-container">
-        <div class="quote-text" id="quoteDisplay">...</div>
+    <div class="bottom-bar">
+        <div class="weather-widget">
+            <span id="wTemp">22°</span>
+            <span class="material-icons-round" style="color: #FFCE44; font-size: 4.5rem !important;">wb_sunny</span>
+        </div>
     </div>
-</div>
+</section>
+
+<section class="discover-section">
+    <h2 style="font-size: 3rem; display: flex; align-items: center; gap: 20px;">
+        <span class="material-icons-round" style="color:var(--google-blue); font-size: 4rem;">explore</span>
+        Gündem
+    </h2>
+    <div class="news-grid" id="newsGrid"></div>
+</section>
 
 <script>
-    let aodTimer;
-    const quotes = ["Hayat, biz planlar yaparken başımıza gelenlerdir.", "Zorluklar, başarının değerini artıran süslerdir.", "Bugün, geri kalan hayatının ilk günü.", "Gülümse; çünkü bu her şeyi değiştirir.", "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.", "Yarınlar, bugünden hazırlananlara aittir.", "Sakinlik en büyük güçtür.", "Hayallerinin peşinden git.", "Küçük bir adım, büyük bir yolculuğun başlangıcıdır.", "Zamanın değerini bil."];
+    // OS Bilgisi Düzeltildi
+    function getSystemInfo() {
+        const ua = navigator.userAgent;
+        let os = "OS";
 
-    function saveFocus() {
-        localStorage.setItem('dailyFocus', document.getElementById('focusTarget').value);
+        // Daha kapsamlı OS taraması
+        if (ua.match(/Android/i)) os = "Android";
+        else if (ua.match(/iPhone|iPad|iPod/i)) os = "iOS";
+        else if (ua.match(/Windows/i)) os = "Windows";
+        else if (ua.match(/Macintosh/i)) os = "macOS";
+        else if (ua.match(/Linux/i)) os = "Linux";
+
+        let browser = "Web";
+        if (ua.match(/Chrome/i)) browser = "Chrome";
+        else if (ua.match(/Firefox/i)) browser = "Firefox";
+        else if (ua.match(/Safari/i) && !ua.match(/Chrome/i)) browser = "Safari";
+
+        document.getElementById('osInfo').textContent = os;
+        document.getElementById('browserInfo').textContent = browser;
+        document.getElementById('cpuInfo').textContent = (navigator.hardwareConcurrency || "4") + " Çekirdek";
+        document.getElementById('resInfo').textContent = window.innerWidth + "x" + window.innerHeight;
+        document.getElementById('connectionType').textContent = navigator.onLine ? "Çevrimiçi" : "Çevrimdışı";
     }
 
-    function wakeUp() {
-        document.body.classList.remove('aod-mode');
-        clearTimeout(aodTimer);
-        aodTimer = setTimeout(() => document.body.classList.add('aod-mode'), 15000); 
+    function changeBackground() {
+        // Yüksek çözünürlüklü manzara
+        const bgUrl = `https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80&sig=${Math.random()}`;
+        document.getElementById('bg-image').style.backgroundImage = `url('${bgUrl}')`;
     }
 
-    function toggleFullscreen(e) {
-        e.stopPropagation();
-        if (!document.fullscreenElement) document.documentElement.requestFullscreen();
-        else if (document.exitFullscreen) document.exitFullscreen();
-    }
-
-    function updateTime() {
+    function updateClock() {
         const now = new Date();
-        const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-        document.getElementById('dClock').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-        document.getElementById('dSec').textContent = `:${String(s).padStart(2,'0')}`;
-        document.getElementById('dDate').textContent = `${now.getDate()} ${["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"][now.getMonth()]} ${["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"][now.getDay()]}`;
-        
-        let g = h >= 5 && h < 12 ? "Günaydın! ☀️" : h >= 12 && h < 18 ? "Tünaydın! 😎" : h >= 18 && h < 22 ? "İyi Akşamlar! 🌆" : "İyi Geceler! 🌙";
-        document.getElementById('txtGreeting').textContent = g;
-
-        // Dinamik Arkaplan Rengi (Sabah: Mavi, Öğle: Yeşilimsi, Akşam: Turuncu, Gece: Mor)
-        let color = "rgba(210, 227, 255, 0.04)";
-        if(h >= 5 && h < 11) color = "rgba(100, 200, 255, 0.05)";
-        else if(h >= 11 && h < 17) color = "rgba(100, 255, 200, 0.03)";
-        else if(h >= 17 && h < 21) color = "rgba(255, 150, 50, 0.05)";
-        else color = "rgba(150, 100, 255, 0.04)";
-        document.documentElement.style.setProperty('--gradient-color', color);
+        document.getElementById('dClock').textContent = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('dSeconds').textContent = now.getSeconds().toString().padStart(2, '0');
+        document.getElementById('dDate').textContent = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', weekday: 'long' });
     }
 
-    async function getWeather() {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            try {
-                const { latitude: lat, longitude: lon } = pos.coords;
-                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,weathercode&timezone=auto`);
-                const data = await weatherRes.json();
-                document.getElementById('wTemp').textContent = Math.round(data.current_weather.temperature) + "°C";
-                const codes = { 0: "wb_sunny", 1: "wb_sunny", 2: "wb_cloudy", 3: "wb_cloudy", 45: "cloud", 61: "umbrella", 71: "ac_unit", 95: "thunderstorm" };
-                document.getElementById('wIcon').textContent = codes[data.current_weather.weathercode] || "wb_cloudy";
-
-                let forecastHTML = '';
-                for(let i=1; i<=3; i++) {
-                    const date = new Date(); date.setDate(date.getDate() + i);
-                    forecastHTML += `<div class="forecast-item"><span class="forecast-day">${["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"][date.getDay()]}</span><span class="material-icons-round" style="font-size:24px">${codes[data.daily.weathercode[i]] || "wb_cloudy"}</span><span class="forecast-temp">${Math.round(data.daily.temperature_2m_max[i])}°C</span></div>`;
-                }
-                document.getElementById('forecastRow').innerHTML = forecastHTML;
-            } catch(e) {}
-        }, null, { enableHighAccuracy: false });
+    async function fetchNews() {
+        try {
+            const rssUrl = encodeURIComponent('https://www.sozcu.com.tr/rss/son-dakika.xml');
+            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+            const data = await res.json();
+            const grid = document.getElementById('newsGrid');
+            if(data.status === 'ok') {
+                grid.innerHTML = '';
+                data.items.forEach(item => {
+                    const img = item.enclosure.link || item.thumbnail || "https://via.placeholder.com/800x450/202124/FFFFFF?text=Haber+Gorseli";
+                    grid.innerHTML += `
+                        <a href="${item.link}" target="_blank" class="news-link">
+                            <div class="news-card">
+                                <img src="${img}" alt="news">
+                                <div class="news-content">
+                                    <div style="color:#FBBC04; font-size:1.2rem; margin-bottom:12px; font-weight:500;">SÖZCÜ</div>
+                                    <div class="news-title">${item.title}</div>
+                                </div>
+                            </div>
+                        </a>`;
+                });
+            }
+        } catch (e) { console.error("Haber hatası"); }
     }
 
-    function init() {
-        if (navigator.getBattery) {
+    function initBattery() {
+        if(navigator.getBattery) {
             navigator.getBattery().then(bat => {
-                const u = () => {
-                    document.getElementById('batLevel').textContent = Math.floor(bat.level*100) + "%";
-                    document.getElementById('batIcon').textContent = bat.charging ? "battery_charging_full" : "battery_full";
-                };
-                u(); bat.onlevelchange = u; bat.onchargingchange = u;
+                const u = () => document.getElementById('batLevel').textContent = Math.floor(bat.level * 100) + "%";
+                u(); bat.onlevelchange = u;
             });
         }
-        updateTime();
-        getWeather();
-        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-        document.getElementById('quoteDisplay').textContent = `"${quotes[dayOfYear % quotes.length]}"`;
-        if(localStorage.getItem('dailyFocus')) document.getElementById('focusTarget').value = localStorage.getItem('dailyFocus');
-        wakeUp();
-        if ('wakeLock' in navigator) navigator.wakeLock.request('screen');
     }
 
-    setInterval(updateTime, 1000);
-    setInterval(getWeather, 600000);
-    init();
+    getSystemInfo();
+    changeBackground();
+    updateClock();
+    fetchNews();
+    initBattery();
+    setInterval(updateClock, 1000);
+    setInterval(changeBackground, 1800000);
+    setInterval(fetchNews, 600000);
+    window.addEventListener('resize', getSystemInfo);
 </script>
 </body>
 </html>
