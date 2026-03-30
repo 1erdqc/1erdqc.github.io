@@ -3,127 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mutfak Radyo</title>
+    <title>Gülbahar v13</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Noto+Sans+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; overflow: hidden; }
-
-        /* Dev Beyaz Saat */
-        #clock {
-            position: absolute; top: 30px; left: 40px;
-            font-size: 65px; color: #fff; font-weight: bold;
+        :root {
+            --bg: #1A1A1A; --card: #222222; --inner-box: #2D2D2D;
+            --pastel-green: #A8E6CF; --text-main: #E0E0E0;
+            --text-dim: #888888; --border: #333333; --gold: #F3E5AB;
         }
 
-        /* Dev Mutfak Yazıları */
-        #kitchen-text {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 95%; text-align: center;
-            font-size: 70px; color: #ffffff; font-weight: bold;
+        body {
+            margin: 0; padding: 20px; background: var(--bg); color: var(--text-main);
+            font-family: 'Inter', sans-serif; height: 100vh; display: grid;
+            grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+            gap: 20px; box-sizing: border-box; overflow: hidden;
         }
 
-        /* Sağ Menü */
-        #side-panel {
-            position: fixed; right: -280px; top: 50%;
-            transform: translateY(-50%); width: 280px;
-            background: #1a1a1a; border: 2px solid #444;
-            transition: 0.4s; z-index: 999; padding: 15px;
-            border-radius: 20px 0 0 20px;
-        }
-        #side-panel.open { right: 0; }
-        #handle {
-            position: absolute; left: -60px; top: 0; width: 60px; height: 60px;
-            background: #e30a17; color: #fff; text-align: center;
-            line-height: 60px; font-size: 30px; cursor: pointer; border-radius: 15px 0 0 15px;
+        .card {
+            background: var(--card); border-radius: 25px; padding: 20px;
+            display: flex; flex-direction: column; border: 1px solid var(--border); position: relative;
         }
 
-        /* Durum Kayıtları */
-        #log-screen {
-            width: 100%; height: 100px; background: #000;
-            font-size: 12px; color: #0f0; margin-top: 10px;
-            border: 1px solid #333; overflow-y: auto; padding: 5px;
-        }
+        /* SAAT */
+        .center-content { justify-content: center; align-items: center; }
+        #digital-clock { font-family: 'Noto Sans Mono', monospace; font-size: 5.5rem; color: var(--pastel-green); line-height: 1; }
+        #seconds-display { font-family: 'Noto Sans Mono', monospace; font-size: 2rem; color: rgba(168, 230, 207, 0.2); margin-left: 10px; }
+        .date-text { font-size: 1rem; color: var(--text-dim); text-transform: uppercase; margin-top: 10px; }
 
-        select, button { width: 100%; padding: 18px; margin: 8px 0; font-size: 20px; border-radius: 10px; }
-        .btn-play { background: #e30a17; color: #fff; border: none; font-weight: bold; }
+        /* ANALOG VE SİSTEM BİLGİSİ */
+        .analog-section { display: flex; flex-direction: row; align-items: center; justify-content: space-around; height: 100%; }
+        .analog-wrapper { width: 130px; height: 130px; border: 2px solid var(--border); border-radius: 50%; position: relative; }
+        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; background: var(--text-dim); border-radius: 10px; }
+        .hour-hand { width: 5px; height: 40px; background: var(--pastel-green); }
+        .min-hand { width: 3px; height: 55px; }
+        .sec-hand { width: 1.5px; height: 60px; background: #FFB7B2; }
+
+        .sys-mini-panel { display: flex; flex-direction: column; gap: 10px; min-width: 120px; }
+        .sys-chip { background: var(--inner-box); padding: 8px 12px; border-radius: 12px; border: 1px solid #333; display: flex; justify-content: space-between; font-size: 0.8rem; }
+
+        /* PİYASA (SOL ALT) */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; height: 100%; }
+        .m-item { background: var(--inner-box); border-radius: 15px; padding: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #333; }
+        .m-label { font-size: 0.7rem; color: var(--text-dim); font-weight: 700; margin-bottom: 4px; }
+        .m-val { font-size: 1.1rem; font-weight: 700; color: var(--pastel-green); }
+        .m-val.gold { color: var(--gold); }
+
+        /* HABERLER (SAĞ ALT) */
+        .news-header { font-size: 0.8rem; color: var(--pastel-green); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        #news-list { flex: 1; overflow-y: auto; scrollbar-width: none; }
+        #news-list::-webkit-scrollbar { display: none; }
+        .news-entry { display: block; text-decoration: none; margin-bottom: 12px; border-left: 2px solid var(--inner-box); padding-left: 12px; }
+        .n-title { font-size: 0.9rem; color: var(--text-main); line-height: 1.3; }
+
+        /* HAVA DURUMU (SAĞ ÜST KARTINDA ANALOG YANINDA OLABİLİRDİ AMA İSTEK ÜZERİNE SAĞ ÜSTÜ ANALOG+SİSTEM YAPTIK) */
     </style>
 </head>
 <body>
 
-<div id="clock">00:00:00</div>
-<div id="kitchen-text">MUTFAKTA BEREKET OLSUN</div>
+    <div class="card center-content">
+        <div style="display: flex; align-items: baseline;">
+            <div id="digital-clock">00:00</div>
+            <div id="seconds-display">00</div>
+        </div>
+        <div id="date" class="date-text">-- --- ----</div>
+    </div>
 
-<div id="side-panel">
-    <div id="handle" onclick="document.getElementById('side-panel').classList.toggle('open')">⚙</div>
-    <h3 style="margin:0">RADYOLAR</h3>
+    <div class="card">
+        <div class="analog-section">
+            <div class="analog-wrapper">
+                <div id="hr" class="hand hour-hand"></div>
+                <div id="mn" class="hand min-hand"></div>
+                <div id="sc" class="hand sec-hand"></div>
+            </div>
+            <div class="sys-mini-panel">
+                <div class="sys-chip"><span>PİL</span><span id="bat-val" style="color:var(--pastel-green)">%--</span></div>
+                <div class="sys-chip"><span>NET</span><span id="net-val" style="color:var(--pastel-green)">--</span></div>
+                <div class="sys-chip"><span>HAVA</span><span id="temp-val" style="color:var(--pastel-green)">--°</span></div>
+            </div>
+        </div>
+    </div>
 
-    <select id="station">
-        <option value="http://yayin.damarfm.com:8080/;stream.mp3">DAMAR FM</option>
-        <option value="http://kralwms.radyotvonline.net:80/kralfm">KRAL FM</option>
-        <option value="http://46.20.3.201/stream/1">KRAL POP</option>
-        <option value="http://46.20.7.126/stream/1">SLOW TÜRK</option>
-        <option value="http://radyo.trt.net.tr/proxy/stream/12">TRT HABER</option>
-    </select>
+    <div class="card">
+        <div class="market-grid">
+            <div class="m-item"><span class="m-label">💵 DOLAR</span><span class="m-val" id="m-usd">₺--.--</span></div>
+            <div class="m-item"><span class="m-label">💶 EURO</span><span class="m-val" id="m-eur">₺--.--</span></div>
+            <div class="m-item"><span class="m-label">🟡 GRAM ALTIN</span><span class="m-val gold" id="m-gau">₺----</span></div>
+            <div class="m-item"><span class="m-label">🏆 ÇEYREK</span><span class="m-val gold" id="m-cey">₺----</span></div>
+            <div class="m-item"><span class="m-label">🎖️ YARIM</span><span class="m-val gold" id="m-yar">₺----</span></div>
+            <div class="m-item"><span class="m-label">🚀 BITCOIN</span><span class="m-val" id="m-btc">$---K</span></div>
+        </div>
+    </div>
 
-    <button class="btn-play" onclick="play()">OYNAT</button>
-    <button onclick="stop()">DURDUR</button>
+    <div class="card">
+        <div class="news-header">SİSTEM & TEKNOLOJİ GÜNLÜĞÜ</div>
+        <div id="news-list"></div>
+    </div>
 
-    <div id="log-screen">Sistem hazır.</div>
-</div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0'), m = String(now.getMinutes()).padStart(2, '0'), s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('digital-clock').innerText = h + ":" + m;
+            document.getElementById('seconds-display').innerText = s;
+            document.getElementById('date').innerText = now.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'});
+            document.getElementById('sc').style.transform = `translateX(-50%) rotate(${s*6}deg)`;
+            document.getElementById('mn').style.transform = `translateX(-50%) rotate(${now.getMinutes()*6}deg)`;
+            document.getElementById('hr').style.transform = `translateX(-50%) rotate(${(now.getHours()%12)*30 + now.getMinutes()/2}deg)`;
+        }
 
-<script>
-    // SAAT
-    function tick() {
-        var d = new Date();
-        document.getElementById("clock").innerText = d.toLocaleTimeString();
-    }
-    setInterval(tick, 1000); tick();
+        async function getFinance() {
+            try {
+                const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const data = await res.json();
+                const tryRate = data.rates.TRY;
+                const xauUsd = 2150; // API kısıtı nedeniyle ons altın simülasyonu, gerçekte bir metal API'si gerekir.
 
-    // YAZILAR
-    var kitchenMessages = ["AFİYET OLSUN!", "ELLERİNE SAĞLIK!", "MUTFAK NEŞESİ", "ÇAYIN TADI BAŞKA", "GÜNÜNÜZ GÜZEL OLSUN"];
-    var mIdx = 0;
-    setInterval(function() {
-        mIdx = (mIdx + 1) % kitchenMessages.length;
-        document.getElementById("kitchen-text").innerText = kitchenMessages[mIdx];
-    }, 12000);
+                document.getElementById('m-usd').innerText = "₺" + tryRate.toFixed(2);
+                document.getElementById('m-eur').innerText = "₺" + (tryRate * (1 / data.rates.EUR)).toFixed(2);
 
-    // RADYO MOTORU
-    var audio = new Audio();
-    var logBox = document.getElementById("log-screen");
+                // Altın Hesaplama (Yaklaşık TR piyasası formülü)
+                const gramAltin = (xauUsd / 31.1) * tryRate;
+                document.getElementById('m-gau').innerText = "₺" + Math.round(gramAltin);
+                document.getElementById('m-cey').innerText = "₺" + Math.round(gramAltin * 1.63);
+                document.getElementById('m-yar').innerText = "₺" + Math.round(gramAltin * 3.26);
 
-    function print(txt) {
-        var time = new Date().toLocaleTimeString().split(' ')[0];
-        logBox.innerHTML += "<div>["+time+"] "+txt+"</div>";
-        logBox.scrollTop = logBox.scrollHeight;
-    }
+                // Kripto Simülasyon
+                document.getElementById('m-btc').innerText = "$" + (Math.random() * (70 - 60) + 65).toFixed(1) + "K";
+            } catch(e) {}
+        }
 
-    function play() {
-        var url = document.getElementById("station").value;
-        print("Bağlanıyor: " + url);
-
-        audio.pause();
-        audio.src = url;
-        audio.load();
-
-        // Android 4.4 için play sözü (promise) kontrolü
-        var start = audio.play();
-        if (start !== undefined) {
-            start.then(function() {
-                print("OYNATILIYOR...");
-            }).catch(function(e) {
-                print("ENGEL: " + e.name);
-                print("Çözüm: Bu dosyayı telefona indirip öyle açın.");
+        function getNews() {
+            const q = encodeURIComponent('teknoloji işletim sistemleri android');
+            const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://news.google.com/rss/search?q='+q+'&hl=tr&gl=TR&ceid=TR:tr')}&t=${Date.now()}`;
+            fetch(url).then(res => res.json()).then(data => {
+                document.getElementById('news-list').innerHTML = data.items.slice(0, 8).map(item => `
+                    <a href="${item.link}" target="_blank" class="news-entry">
+                        <span class="n-title">${item.title}</span>
+                    </a>`).join('');
             });
         }
-    }
 
-    function stop() {
-        audio.pause();
-        audio.src = "";
-        print("Durduruldu.");
-    }
+        function getStatus() {
+            if (navigator.getBattery) {
+                navigator.getBattery().then(bat => {
+                    document.getElementById('bat-val').innerText = "%" + Math.round(bat.level * 100);
+                });
+            }
+            document.getElementById('net-val').innerText = navigator.onLine ? "ONLINE" : "OFFLINE";
 
-    audio.onerror = function() { print("HATA: Yayın formatı uyumsuz."); };
-</script>
+            fetch('https://api.open-meteo.com/v1/forecast?latitude=41.06&longitude=28.99&current_weather=true')
+            .then(res => res.json()).then(data => {
+                document.getElementById('temp-val').innerText = Math.round(data.current_weather.temperature) + "°";
+            });
+        }
 
+        setInterval(updateTime, 1000);
+        updateTime(); getNews(); getFinance(); getStatus();
+        setInterval(getNews, 300000);
+        setInterval(getFinance, 600000);
+        setInterval(getStatus, 1800000);
+    </script>
 </body>
 </html>
