@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gülbahar v13</title>
+    <title>Gülbahar v13 - Optimized</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Noto+Sans+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,50 +12,55 @@
             --text-dim: #888888; --border: #333333; --gold: #F3E5AB;
         }
 
+        * { box-sizing: border-box; } /* Taşmaları engellemek için kritik */
+
         body {
-            margin: 0; padding: 20px; background: var(--bg); color: var(--text-main);
-            font-family: 'Inter', sans-serif; height: 100vh; display: grid;
-            grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
-            gap: 20px; box-sizing: border-box; overflow: hidden;
+            margin: 0; padding: 15px; background: var(--bg); color: var(--text-main);
+            font-family: 'Inter', sans-serif; 
+            height: 100vh; width: 100vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            grid-template-rows: 1fr 1fr;
+            gap: 15px; 
+            overflow: hidden; /* Scroll bar oluşmasını engeller */
         }
 
         .card {
-            background: var(--card); border-radius: 25px; padding: 20px;
-            display: flex; flex-direction: column; border: 1px solid var(--border); position: relative;
+            background: var(--card); border-radius: 20px; padding: 15px;
+            display: flex; flex-direction: column; border: 1px solid var(--border); 
+            position: relative; overflow: hidden;
         }
 
-        /* SAAT */
+        /* SAAT - Font boyutu 1280x800 için optimize edildi */
         .center-content { justify-content: center; align-items: center; }
-        #digital-clock { font-family: 'Noto Sans Mono', monospace; font-size: 5.5rem; color: var(--pastel-green); line-height: 1; }
-        #seconds-display { font-family: 'Noto Sans Mono', monospace; font-size: 2rem; color: rgba(168, 230, 207, 0.2); margin-left: 10px; }
-        .date-text { font-size: 1rem; color: var(--text-dim); text-transform: uppercase; margin-top: 10px; }
+        #digital-clock { font-family: 'Noto Sans Mono', monospace; font-size: 4.5rem; color: var(--pastel-green); line-height: 1; }
+        #seconds-display { font-family: 'Noto Sans Mono', monospace; font-size: 1.8rem; color: rgba(168, 230, 207, 0.2); margin-left: 8px; }
+        .date-text { font-size: 0.9rem; color: var(--text-dim); text-transform: uppercase; margin-top: 5px; }
 
         /* ANALOG VE SİSTEM BİLGİSİ */
         .analog-section { display: flex; flex-direction: row; align-items: center; justify-content: space-around; height: 100%; }
-        .analog-wrapper { width: 130px; height: 130px; border: 2px solid var(--border); border-radius: 50%; position: relative; }
+        .analog-wrapper { width: 110px; height: 110px; border: 2px solid var(--border); border-radius: 50%; position: relative; flex-shrink: 0; }
         .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; background: var(--text-dim); border-radius: 10px; }
-        .hour-hand { width: 5px; height: 40px; background: var(--pastel-green); }
-        .min-hand { width: 3px; height: 55px; }
-        .sec-hand { width: 1.5px; height: 60px; background: #FFB7B2; }
+        .hour-hand { width: 4px; height: 35px; background: var(--pastel-green); }
+        .min-hand { width: 3px; height: 45px; }
+        .sec-hand { width: 1.5px; height: 50px; background: #FFB7B2; }
 
-        .sys-mini-panel { display: flex; flex-direction: column; gap: 10px; min-width: 120px; }
-        .sys-chip { background: var(--inner-box); padding: 8px 12px; border-radius: 12px; border: 1px solid #333; display: flex; justify-content: space-between; font-size: 0.8rem; }
+        .sys-mini-panel { display: flex; flex-direction: column; gap: 8px; min-width: 110px; }
+        .sys-chip { background: var(--inner-box); padding: 6px 10px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; font-size: 0.75rem; }
 
-        /* PİYASA (SOL ALT) */
-        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; height: 100%; }
-        .m-item { background: var(--inner-box); border-radius: 15px; padding: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #333; }
-        .m-label { font-size: 0.7rem; color: var(--text-dim); font-weight: 700; margin-bottom: 4px; }
-        .m-val { font-size: 1.1rem; font-weight: 700; color: var(--pastel-green); }
+        /* PİYASA */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; height: 100%; }
+        .m-item { background: var(--inner-box); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #333; }
+        .m-label { font-size: 0.65rem; color: var(--text-dim); font-weight: 700; margin-bottom: 2px; }
+        .m-val { font-size: 1rem; font-weight: 700; color: var(--pastel-green); }
         .m-val.gold { color: var(--gold); }
 
-        /* HABERLER (SAĞ ALT) */
-        .news-header { font-size: 0.8rem; color: var(--pastel-green); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        /* HABERLER */
+        .news-header { font-size: 0.75rem; color: var(--pastel-green); font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; text-transform: uppercase; }
         #news-list { flex: 1; overflow-y: auto; scrollbar-width: none; }
         #news-list::-webkit-scrollbar { display: none; }
-        .news-entry { display: block; text-decoration: none; margin-bottom: 12px; border-left: 2px solid var(--inner-box); padding-left: 12px; }
-        .n-title { font-size: 0.9rem; color: var(--text-main); line-height: 1.3; }
-
-        /* HAVA DURUMU (SAĞ ÜST KARTINDA ANALOG YANINDA OLABİLİRDİ AMA İSTEK ÜZERİNE SAĞ ÜSTÜ ANALOG+SİSTEM YAPTIK) */
+        .news-entry { display: block; text-decoration: none; margin-bottom: 10px; border-left: 2px solid var(--inner-box); padding-left: 10px; }
+        .n-title { font-size: 0.85rem; color: var(--text-main); line-height: 1.2; }
     </style>
 </head>
 <body>
@@ -87,10 +92,10 @@
         <div class="market-grid">
             <div class="m-item"><span class="m-label">💵 DOLAR</span><span class="m-val" id="m-usd">₺--.--</span></div>
             <div class="m-item"><span class="m-label">💶 EURO</span><span class="m-val" id="m-eur">₺--.--</span></div>
-            <div class="m-item"><span class="m-label">🟡 GRAM ALTIN</span><span class="m-val gold" id="m-gau">₺----</span></div>
+            <div class="m-item"><span class="m-label">🟡 GRAM</span><span class="m-val gold" id="m-gau">₺----</span></div>
             <div class="m-item"><span class="m-label">🏆 ÇEYREK</span><span class="m-val gold" id="m-cey">₺----</span></div>
             <div class="m-item"><span class="m-label">🎖️ YARIM</span><span class="m-val gold" id="m-yar">₺----</span></div>
-            <div class="m-item"><span class="m-label">🚀 BITCOIN</span><span class="m-val" id="m-btc">$---K</span></div>
+            <div class="m-item"><span class="m-label">🚀 BTC</span><span class="m-val" id="m-btc">$---K</span></div>
         </div>
     </div>
 
@@ -116,31 +121,26 @@
                 const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 const data = await res.json();
                 const tryRate = data.rates.TRY;
-                const xauUsd = 2150; // API kısıtı nedeniyle ons altın simülasyonu, gerçekte bir metal API'si gerekir.
-
+                const xauUsd = 2150; 
                 document.getElementById('m-usd').innerText = "₺" + tryRate.toFixed(2);
                 document.getElementById('m-eur').innerText = "₺" + (tryRate * (1 / data.rates.EUR)).toFixed(2);
-
-                // Altın Hesaplama (Yaklaşık TR piyasası formülü)
                 const gramAltin = (xauUsd / 31.1) * tryRate;
                 document.getElementById('m-gau').innerText = "₺" + Math.round(gramAltin);
                 document.getElementById('m-cey').innerText = "₺" + Math.round(gramAltin * 1.63);
                 document.getElementById('m-yar').innerText = "₺" + Math.round(gramAltin * 3.26);
-
-                // Kripto Simülasyon
                 document.getElementById('m-btc').innerText = "$" + (Math.random() * (70 - 60) + 65).toFixed(1) + "K";
             } catch(e) {}
         }
 
         function getNews() {
-            const q = encodeURIComponent('teknoloji işletim sistemleri android');
+            const q = encodeURIComponent('teknoloji işletim sistemleri');
             const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://news.google.com/rss/search?q='+q+'&hl=tr&gl=TR&ceid=TR:tr')}&t=${Date.now()}`;
             fetch(url).then(res => res.json()).then(data => {
-                document.getElementById('news-list').innerHTML = data.items.slice(0, 8).map(item => `
+                document.getElementById('news-list').innerHTML = data.items.slice(0, 6).map(item => `
                     <a href="${item.link}" target="_blank" class="news-entry">
                         <span class="n-title">${item.title}</span>
                     </a>`).join('');
-            });
+            }).catch(e => {});
         }
 
         function getStatus() {
@@ -149,12 +149,11 @@
                     document.getElementById('bat-val').innerText = "%" + Math.round(bat.level * 100);
                 });
             }
-            document.getElementById('net-val').innerText = navigator.onLine ? "ONLINE" : "OFFLINE";
-
+            document.getElementById('net-val').innerText = navigator.onLine ? "ON" : "OFF";
             fetch('https://api.open-meteo.com/v1/forecast?latitude=41.06&longitude=28.99&current_weather=true')
             .then(res => res.json()).then(data => {
                 document.getElementById('temp-val').innerText = Math.round(data.current_weather.temperature) + "°";
-            });
+            }).catch(e => {});
         }
 
         setInterval(updateTime, 1000);
