@@ -2,187 +2,186 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>1280x800 Full Screen 3D LED Clock</title>
+    <title>1280x800 Industrial LED Clock</title>
     <style>
         :root {
-            --bg-color: #050505;
-            --case-bg: #121212;
-            --border-color: #252525;
+            --bg: #000000;
+            --block-bg: #111111;
+            --border: #222222;
             --led-off: #0a0a0a;
             --led-on: #ffffff;
-            --glow: rgba(255, 255, 255, 0.45);
-            
-            /* 1280x800 Tam Ekran Ölçeklendirme */
-            --digit-w: 260px;  /* Genişlik artırıldı */
-            --digit-h: 520px;  /* Yükseklik artırıldı */
-            --seg-t: 50px;     /* Segmentler kalınlaştırıldı */
+            --glow: rgba(255, 255, 255, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg);
             width: 1280px;
             height: 800px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .main-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            /* Hafif 3D derinlik açısı */
-            transform: perspective(1500px) rotateX(5deg) rotateY(-3deg);
-        }
-
-        /* Fotoğraftaki gibi devasa plastik bloklar */
-        .digit-block {
-            position: relative;
-            width: var(--digit-w);
-            height: var(--digit-h);
-            background: var(--case-bg);
-            /* Ultra belirgin kalın border */
-            border: 8px solid var(--border-color);
-            border-radius: 20px;
-            box-shadow: 
-                20px 30px 60px rgba(0,0,0,0.8),
-                inset 4px 4px 10px rgba(255,255,255,0.03);
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .digit {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Segmentlerin yattığı derin kanallar */
-        .slot {
-            position: absolute;
-            background: #000;
-            border-radius: 5px;
-            box-shadow: inset 0 5px 15px rgba(0,0,0,1);
-        }
-
-        .seg {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--led-off);
-            border-radius: 4px;
-            transition: background 0.1s ease;
-        }
-
-        /* Beyaz LED patlaması */
-        .seg.on {
-            background: var(--led-on);
-            box-shadow: 
-                0 0 30px var(--glow),
-                0 0 60px var(--glow),
-                inset 0 0 15px #fff;
-            z-index: 5;
-        }
-
-        /* Geometrik Segment Ölçüleri */
-        .h-s { width: 75%; height: var(--seg-t); left: 12.5%; clip-path: polygon(15% 0, 85% 0, 100% 50%, 85% 100%, 15% 100%, 0 50%); }
-        .v-s { width: var(--seg-t); height: 43%; clip-path: polygon(0 15%, 50% 0, 100% 15%, 100% 85%, 50% 100%, 0 85%); }
-
-        .s-a { top: 2%; }
-        .s-b { top: 6%; right: 0; }
-        .s-c { bottom: 6%; right: 0; }
-        .s-d { bottom: 2%; }
-        .s-e { bottom: 6%; left: 0; }
-        .s-f { top: 6%; left: 0; }
-        .s-g { top: calc(50% - (var(--seg-t) / 2)); }
-
-        /* Ayraç Bloğu */
-        .dot-block {
-            width: 80px;
-            height: 350px;
-            background: var(--case-bg);
-            border: 6px solid var(--border-color);
-            border-radius: 15px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 80px;
-            box-shadow: 15px 20px 40px rgba(0,0,0,0.6);
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .dot {
-            width: 30px;
-            height: 30px;
+        /* ANA SAAT ALANI */
+        .clock-stage {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: -50px; /* Tarihe yer açmak için hafif yukarı çekildi */
+        }
+
+        .digit-brick {
+            width: 220px;
+            height: 440px;
+            background: var(--block-bg);
+            border: 10px solid var(--border);
+            border-radius: 4px;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .digit-container { position: relative; width: 100%; height: 100%; }
+
+        /* SEGMENTLER */
+        .segment {
+            position: absolute;
+            background: var(--led-off);
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.9);
+            transition: all 0.1s ease;
+        }
+
+        .segment.active {
             background: var(--led-on);
-            border-radius: 50%;
-            box-shadow: 0 0 40px var(--glow);
-            animation: pulse 1s step-end infinite;
+            box-shadow: 0 0 30px var(--glow), inset 0 0 10px #fff;
         }
 
-        @keyframes pulse { 50% { opacity: 0.1; } }
+        .h { width: 100%; height: 35px; clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%); }
+        .v { width: 35px; height: 48%; clip-path: polygon(0 10%, 50% 0, 100% 10%, 100% 90%, 50% 100%, 0 90%); }
+
+        .seg-a { top: 0; left: 0; }
+        .seg-b { top: 2%; right: 0; }
+        .seg-c { bottom: 2%; right: 0; }
+        .seg-d { bottom: 0; left: 0; }
+        .seg-e { bottom: 2%; left: 0; }
+        .seg-f { top: 2%; left: 0; }
+        .seg-g { top: calc(50% - 17.5px); left: 0; width: 100%; }
+
+        /* İKİ NOKTA */
+        .separator-brick {
+            width: 60px; height: 180px;
+            background: var(--block-bg); border: 8px solid var(--border);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 50px;
+        }
+        .dot { width: 20px; height: 20px; background: var(--led-on); border-radius: 50%; box-shadow: 0 0 20px var(--glow); animation: blink 1s step-end infinite; }
+
+        /* ALT ORTA TARİH PANELİ */
+        .date-container {
+            position: absolute;
+            bottom: 60px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .date-brick {
+            background: var(--block-bg);
+            border: 5px solid var(--border);
+            border-radius: 4px;
+            padding: 15px 30px;
+            color: var(--led-on);
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            min-width: 250px;
+            text-align: center;
+        }
+
+        .day-brick {
+            min-width: 320px;
+            color: #ffffff;
+            border-color: #333; /* Gün kısmını biraz daha vurgulu yapabiliriz */
+        }
+
+        @keyframes blink { 50% { opacity: 0.1; } }
     </style>
 </head>
 <body>
 
-<div class="main-container">
-    <div class="digit-block"><div class="digit" id="h1"></div></div>
-    <div class="digit-block"><div class="digit" id="h2"></div></div>
-    
-    <div class="dot-block">
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
+<div class="clock-stage">
+    <div class="digit-brick" id="brick-0"><div class="digit-container" id="d0"></div></div>
+    <div class="digit-brick" id="brick-1"><div class="digit-container" id="d1"></div></div>
+    <div class="separator-brick"><div class="dot"></div><div class="dot"></div></div>
+    <div class="digit-brick" id="brick-2"><div class="digit-container" id="d2"></div></div>
+    <div class="digit-brick" id="brick-3"><div class="digit-container" id="d3"></div></div>
+</div>
 
-    <div class="digit-block"><div class="digit" id="m1"></div></div>
-    <div class="digit-block"><div class="digit" id="m2"></div></div>
+<div class="date-container">
+    <div class="date-brick" id="full-date">19.04.2026</div>
+    <div class="date-brick day-brick" id="day-name">PAZARTESİ</div>
 </div>
 
 <script>
-    const map = [
+    const segMap = [
         [1,1,1,1,1,1,0], [0,1,1,0,0,0,0], [1,1,0,1,1,0,1], [1,1,1,1,0,0,1], [0,1,1,0,0,1,1],
         [1,0,1,1,0,1,1], [1,0,1,1,1,1,1], [1,1,1,0,0,0,0], [1,1,1,1,1,1,1], [1,1,1,1,0,1,1]
     ];
 
-    function create() {
-        ['h1', 'h2', 'm1', 'm2'].forEach(id => {
-            const el = document.getElementById(id);
-            ['a', 'b', 'c', 'd', 'e', 'f', 'g'].forEach(s => {
-                const slot = document.createElement('div');
-                slot.className = `slot s-${s} ${['a','g','d'].includes(s) ? 'h-s' : 'v-s'}`;
-                const seg = document.createElement('div');
-                seg.className = 'seg';
-                slot.appendChild(seg);
-                el.appendChild(slot);
+    function createSegments() {
+        ['d0', 'd1', 'd2', 'd3'].forEach(id => {
+            const container = document.getElementById(id);
+            ['seg-a','seg-b','seg-c','seg-d','seg-e','seg-f','seg-g'].forEach((cls, i) => {
+                const div = document.createElement('div');
+                div.className = `segment ${cls} ${[0,3,6].includes(i) ? 'h' : 'v'}`;
+                container.appendChild(div);
             });
         });
-        update();
-        setInterval(update, 1000);
     }
 
-    function update() {
-        const d = new Date();
-        const t = [Math.floor(d.getHours()/10), d.getHours()%10, Math.floor(d.getMinutes()/10), d.getMinutes()%10];
-        ['h1','h2','m1','m2'].forEach((id, i) => {
-            const block = document.getElementById(id).parentElement;
-            const segs = document.getElementById(id).children;
+    function updateAll() {
+        const now = new Date();
+        
+        // SAAT GÜNCELLEME
+        const hrs = now.getHours().toString().padStart(2, '0');
+        const mins = now.getMinutes().toString().padStart(2, '0');
+        const timeStr = hrs + mins;
+
+        for (let i = 0; i < 4; i++) {
+            const segments = document.getElementById(`d${i}`).children;
+            const digit = parseInt(timeStr[i]);
+            const brick = document.getElementById(`brick-${i}`);
             
-            if (i === 0 && t[i] === 0) {
-                block.style.opacity = "0.05"; // İlk hane 0 ise tamamen söndür
+            if (i === 0 && digit === 0) {
+                brick.style.opacity = "0.05";
             } else {
-                block.style.opacity = "1";
-                map[t[i]].forEach((on, j) => {
-                    segs[j].firstChild.classList.toggle('on', on === 1);
+                brick.style.opacity = "1";
+                segMap[digit].forEach((val, sIdx) => {
+                    segments[sIdx].classList.toggle('active', val === 1);
                 });
             }
-        });
+        }
+
+        // TARİH GÜNCELLEME
+        const days = ["PAZAR", "PAZARTESİ", "SALI", "ÇARŞAMBA", "PERŞEMBE", "CUMA", "CUMARTESİ"];
+        document.getElementById('day-name').textContent = days[now.getDay()];
+        
+        const dateStr = now.getDate().toString().padStart(2, '0') + "." + 
+                        (now.getMonth() + 1).toString().padStart(2, '0') + "." + 
+                        now.getFullYear();
+        document.getElementById('full-date').textContent = dateStr;
     }
-    create();
+
+    createSegments();
+    setInterval(updateAll, 1000);
+    updateAll();
 </script>
 </body>
 </html>
