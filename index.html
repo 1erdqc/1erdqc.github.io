@@ -2,165 +2,190 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gülbahar v13 - Optimized</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Noto+Sans+Mono:wght@500&display=swap" rel="stylesheet">
+    <title>1280x800 Ultra Realistik LED Saat</title>
     <style>
         :root {
-            --bg: #1A1A1A; --card: #222222; --inner-box: #2D2D2D;
-            --pastel-green: #A8E6CF; --text-main: #E0E0E0;
-            --text-dim: #888888; --border: #333333; --gold: #F3E5AB;
+            --bg: #000;
+            --led-off: #111;
+            --led-on: #fff;
+            --glow-color: rgba(255, 255, 255, 0.45);
+            
+            /* 1280x800 için optimize edilmiş sabit boyutlar */
+            --digit-w: 220px;
+            --digit-h: 400px;
+            --seg-t: 32px; /* Segment kalınlığı */
+            --gap: 20px;
         }
 
-        * { box-sizing: border-box; } /* Taşmaları engellemek için kritik */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            margin: 0; padding: 15px; background: var(--bg); color: var(--text-main);
-            font-family: 'Inter', sans-serif; 
-            height: 100vh; width: 100vw;
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            grid-template-rows: 1fr 1fr;
-            gap: 15px; 
-            overflow: hidden; /* Scroll bar oluşmasını engeller */
+            background-color: var(--bg);
+            width: 1280px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: sans-serif;
         }
 
-        .card {
-            background: var(--card); border-radius: 20px; padding: 15px;
-            display: flex; flex-direction: column; border: 1px solid var(--border); 
-            position: relative; overflow: hidden;
+        /* Saatin ana gövdesi (Plastik kasa derinliği) */
+        .clock-case {
+            display: flex;
+            align-items: center;
+            padding: 50px;
+            background: linear-gradient(145deg, #0a0a0a, #020202);
+            border-radius: 24px;
+            gap: 25px;
+            box-shadow: 
+                0 40px 80px rgba(0,0,0,0.9),
+                inset 1px 1px 2px rgba(255,255,255,0.05);
+            border: 1px solid #111;
+            /* 1280x800 ekranda tam odak için hafif perspektif */
+            transform: perspective(1000px) rotateX(4deg);
         }
 
-        /* SAAT - Font boyutu 1280x800 için optimize edildi */
-        .center-content { justify-content: center; align-items: center; }
-        #digital-clock { font-family: 'Noto Sans Mono', monospace; font-size: 4.5rem; color: var(--pastel-green); line-height: 1; }
-        #seconds-display { font-family: 'Noto Sans Mono', monospace; font-size: 1.8rem; color: rgba(168, 230, 207, 0.2); margin-left: 8px; }
-        .date-text { font-size: 0.9rem; color: var(--text-dim); text-transform: uppercase; margin-top: 5px; }
+        .digit {
+            position: relative;
+            width: var(--digit-w);
+            height: var(--digit-h);
+            filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));
+        }
 
-        /* ANALOG VE SİSTEM BİLGİSİ */
-        .analog-section { display: flex; flex-direction: row; align-items: center; justify-content: space-around; height: 100%; }
-        .analog-wrapper { width: 110px; height: 110px; border: 2px solid var(--border); border-radius: 50%; position: relative; flex-shrink: 0; }
-        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom; background: var(--text-dim); border-radius: 10px; }
-        .hour-hand { width: 4px; height: 35px; background: var(--pastel-green); }
-        .min-hand { width: 3px; height: 45px; }
-        .sec-hand { width: 1.5px; height: 50px; background: #FFB7B2; }
+        /* 7-Segment Parçaları */
+        .seg {
+            position: absolute;
+            background: var(--led-off);
+            border-radius: 4px;
+            transition: background 0.1s ease;
+            box-shadow: inset 2px 2px 6px rgba(0,0,0,0.7);
+        }
 
-        .sys-mini-panel { display: flex; flex-direction: column; gap: 8px; min-width: 110px; }
-        .sys-chip { background: var(--inner-box); padding: 6px 10px; border-radius: 10px; border: 1px solid #333; display: flex; justify-content: space-between; font-size: 0.75rem; }
+        .seg.on {
+            background: var(--led-on);
+            box-shadow: 
+                0 0 25px var(--glow-color),
+                0 0 50px var(--glow-color),
+                inset 0 0 8px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
 
-        /* PİYASA */
-        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; height: 100%; }
-        .m-item { background: var(--inner-box); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #333; }
-        .m-label { font-size: 0.65rem; color: var(--text-dim); font-weight: 700; margin-bottom: 2px; }
-        .m-val { font-size: 1rem; font-weight: 700; color: var(--pastel-green); }
-        .m-val.gold { color: var(--gold); }
+        /* Geometrik Segment Yapısı */
+        .h { 
+            width: calc(100% - (var(--seg-t) * 1.6)); 
+            height: var(--seg-t); 
+            left: calc(var(--seg-t) * 0.8);
+            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+        }
+        .v { 
+            width: var(--seg-t); 
+            height: calc(50% - (var(--seg-t) * 0.7)); 
+            clip-path: polygon(0 10%, 50% 0, 100% 10%, 100% 90%, 50% 100%, 0 90%);
+        }
 
-        /* HABERLER */
-        .news-header { font-size: 0.75rem; color: var(--pastel-green); font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; text-transform: uppercase; }
-        #news-list { flex: 1; overflow-y: auto; scrollbar-width: none; }
-        #news-list::-webkit-scrollbar { display: none; }
-        .news-entry { display: block; text-decoration: none; margin-bottom: 10px; border-left: 2px solid var(--inner-box); padding-left: 10px; }
-        .n-title { font-size: 0.85rem; color: var(--text-main); line-height: 1.2; }
+        .s-a { top: 0; }
+        .s-b { top: calc(var(--seg-t) * 0.35); right: 0; }
+        .s-c { bottom: calc(var(--seg-t) * 0.35); right: 0; }
+        .s-d { bottom: 0; }
+        .s-e { bottom: calc(var(--seg-t) * 0.35); left: 0; }
+        .s-f { top: calc(var(--seg-t) * 0.35); left: 0; }
+        .s-g { top: calc(50% - (var(--seg-t) / 2)); }
+
+        /* İki Nokta (Flaşör) */
+        .separator {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            padding: 0 10px;
+        }
+
+        .dot {
+            width: calc(var(--seg-t) * 1.1);
+            height: calc(var(--seg-t) * 1.1);
+            background: var(--led-on);
+            border-radius: 50%;
+            box-shadow: 0 0 30px var(--glow-color);
+            animation: flash 1s step-end infinite;
+        }
+
+        @keyframes flash {
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="card center-content">
-        <div style="display: flex; align-items: baseline;">
-            <div id="digital-clock">00:00</div>
-            <div id="seconds-display">00</div>
-        </div>
-        <div id="date" class="date-text">-- --- ----</div>
+<div class="clock-case">
+    <div class="digit" id="h1"></div>
+    <div class="digit" id="h2"></div>
+    
+    <div class="separator">
+        <div class="dot"></div>
+        <div class="dot"></div>
     </div>
 
-    <div class="card">
-        <div class="analog-section">
-            <div class="analog-wrapper">
-                <div id="hr" class="hand hour-hand"></div>
-                <div id="mn" class="hand min-hand"></div>
-                <div id="sc" class="hand sec-hand"></div>
-            </div>
-            <div class="sys-mini-panel">
-                <div class="sys-chip"><span>PİL</span><span id="bat-val" style="color:var(--pastel-green)">%--</span></div>
-                <div class="sys-chip"><span>NET</span><span id="net-val" style="color:var(--pastel-green)">--</span></div>
-                <div class="sys-chip"><span>HAVA</span><span id="temp-val" style="color:var(--pastel-green)">--°</span></div>
-            </div>
-        </div>
-    </div>
+    <div class="digit" id="m1"></div>
+    <div class="digit" id="m2"></div>
+</div>
 
-    <div class="card">
-        <div class="market-grid">
-            <div class="m-item"><span class="m-label">💵 DOLAR</span><span class="m-val" id="m-usd">₺--.--</span></div>
-            <div class="m-item"><span class="m-label">💶 EURO</span><span class="m-val" id="m-eur">₺--.--</span></div>
-            <div class="m-item"><span class="m-label">🟡 GRAM</span><span class="m-val gold" id="m-gau">₺----</span></div>
-            <div class="m-item"><span class="m-label">🏆 ÇEYREK</span><span class="m-val gold" id="m-cey">₺----</span></div>
-            <div class="m-item"><span class="m-label">🎖️ YARIM</span><span class="m-val gold" id="m-yar">₺----</span></div>
-            <div class="m-item"><span class="m-label">🚀 BTC</span><span class="m-val" id="m-btc">$---K</span></div>
-        </div>
-    </div>
+<script>
+    const segmentMap = [
+        [1,1,1,1,1,1,0], // 0
+        [0,1,1,0,0,0,0], // 1
+        [1,1,0,1,1,0,1], // 2
+        [1,1,1,1,0,0,1], // 3
+        [0,1,1,0,0,1,1], // 4
+        [1,0,1,1,0,1,1], // 5
+        [1,0,1,1,1,1,1], // 6
+        [1,1,1,0,0,0,0], // 7
+        [1,1,1,1,1,1,1], // 8
+        [1,1,1,1,0,1,1]  // 9
+    ];
 
-    <div class="card">
-        <div class="news-header">SİSTEM & TEKNOLOJİ GÜNLÜĞÜ</div>
-        <div id="news-list"></div>
-    </div>
+    function createSegments(id) {
+        const container = document.getElementById(id);
+        const types = ['a','b','c','d','e','f','g'];
+        types.forEach(t => {
+            const div = document.createElement('div');
+            div.className = `seg s-${t} ${['a','g','d'].includes(t) ? 'h' : 'v'}`;
+            container.appendChild(div);
+        });
+    }
 
-    <script>
-        function updateTime() {
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0'), m = String(now.getMinutes()).padStart(2, '0'), s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('digital-clock').innerText = h + ":" + m;
-            document.getElementById('seconds-display').innerText = s;
-            document.getElementById('date').innerText = now.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'});
-            document.getElementById('sc').style.transform = `translateX(-50%) rotate(${s*6}deg)`;
-            document.getElementById('mn').style.transform = `translateX(-50%) rotate(${now.getMinutes()*6}deg)`;
-            document.getElementById('hr').style.transform = `translateX(-50%) rotate(${(now.getHours()%12)*30 + now.getMinutes()/2}deg)`;
-        }
+    ['h1','h2','m1','m2'].forEach(createSegments);
 
-        async function getFinance() {
-            try {
-                const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-                const data = await res.json();
-                const tryRate = data.rates.TRY;
-                const xauUsd = 2150; 
-                document.getElementById('m-usd').innerText = "₺" + tryRate.toFixed(2);
-                document.getElementById('m-eur').innerText = "₺" + (tryRate * (1 / data.rates.EUR)).toFixed(2);
-                const gramAltin = (xauUsd / 31.1) * tryRate;
-                document.getElementById('m-gau').innerText = "₺" + Math.round(gramAltin);
-                document.getElementById('m-cey').innerText = "₺" + Math.round(gramAltin * 1.63);
-                document.getElementById('m-yar').innerText = "₺" + Math.round(gramAltin * 3.26);
-                document.getElementById('m-btc').innerText = "$" + (Math.random() * (70 - 60) + 65).toFixed(1) + "K";
-            } catch(e) {}
-        }
+    function update() {
+        const now = new Date();
+        const hrs = now.getHours();
+        const mins = now.getMinutes();
+        
+        const digits = [
+            Math.floor(hrs / 10),
+            hrs % 10,
+            Math.floor(mins / 10),
+            mins % 10
+        ];
 
-        function getNews() {
-            const q = encodeURIComponent('teknoloji işletim sistemleri');
-            const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://news.google.com/rss/search?q='+q+'&hl=tr&gl=TR&ceid=TR:tr')}&t=${Date.now()}`;
-            fetch(url).then(res => res.json()).then(data => {
-                document.getElementById('news-list').innerHTML = data.items.slice(0, 6).map(item => `
-                    <a href="${item.link}" target="_blank" class="news-entry">
-                        <span class="n-title">${item.title}</span>
-                    </a>`).join('');
-            }).catch(e => {});
-        }
+        ['h1','h2','m1','m2'].forEach((id, i) => {
+            const el = document.getElementById(id);
+            const segs = el.children;
+            const val = digits[i];
 
-        function getStatus() {
-            if (navigator.getBattery) {
-                navigator.getBattery().then(bat => {
-                    document.getElementById('bat-val').innerText = "%" + Math.round(bat.level * 100);
+            // Saat 10'dan küçükse en baştaki 0'ı sönük yap (Gerçekçilik için)
+            if (i === 0 && val === 0) {
+                el.style.opacity = "0.05";
+            } else {
+                el.style.opacity = "1";
+                segmentMap[val].forEach((state, sIdx) => {
+                    segs[sIdx].classList.toggle('on', state === 1);
                 });
             }
-            document.getElementById('net-val').innerText = navigator.onLine ? "ON" : "OFF";
-            fetch('https://api.open-meteo.com/v1/forecast?latitude=41.06&longitude=28.99&current_weather=true')
-            .then(res => res.json()).then(data => {
-                document.getElementById('temp-val').innerText = Math.round(data.current_weather.temperature) + "°";
-            }).catch(e => {});
-        }
+        });
+    }
 
-        setInterval(updateTime, 1000);
-        updateTime(); getNews(); getFinance(); getStatus();
-        setInterval(getNews, 300000);
-        setInterval(getFinance, 600000);
-        setInterval(getStatus, 1800000);
-    </script>
+    setInterval(update, 1000);
+    update();
+</script>
 </body>
 </html>
