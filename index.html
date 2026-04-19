@@ -2,21 +2,20 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>1280x800 Inverted 3D Clock</title>
+    <title>1280x800 Full Screen 3D LED Clock</title>
     <style>
         :root {
-            /* Renk Paleti (Invert Edilmiş) */
-            --bg-color: #f0f0f0;      /* Açık gri arka plan */
-            --case-bg: #ffffff;      /* Beyaz plastik kasa */
-            --border-color: #d1d1d1; /* Kasa çerçevesi */
-            --led-off: #e8e8e8;      /* Sönük segment (hafif çukur) */
-            --led-on: #1a1a1a;       /* Yanan segment (Siyah/Koyu Gri) */
-            --glow: rgba(0, 0, 0, 0.15); /* Siyah "ışık" sızması (gölge gibi) */
+            --bg-color: #050505;
+            --case-bg: #121212;
+            --border-color: #252525;
+            --led-off: #0a0a0a;
+            --led-on: #ffffff;
+            --glow: rgba(255, 255, 255, 0.45);
             
             /* 1280x800 Tam Ekran Ölçeklendirme */
-            --digit-w: 260px;
-            --digit-h: 520px;
-            --seg-t: 50px;
+            --digit-w: 260px;  /* Genişlik artırıldı */
+            --digit-h: 520px;  /* Yükseklik artırıldı */
+            --seg-t: 50px;     /* Segmentler kalınlaştırıldı */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,8 +28,6 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            /* Aydınlık oda hissi için gradyan */
-            background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d9d9d9 100%);
         }
 
         .main-container {
@@ -38,21 +35,22 @@
             align-items: center;
             justify-content: center;
             gap: 25px;
-            transform: perspective(1500px) rotateX(8deg) rotateY(-4deg);
+            /* Hafif 3D derinlik açısı */
+            transform: perspective(1500px) rotateX(5deg) rotateY(-3deg);
         }
 
-        /* Beyaz 3D Bloklar */
+        /* Fotoğraftaki gibi devasa plastik bloklar */
         .digit-block {
             position: relative;
             width: var(--digit-w);
             height: var(--digit-h);
             background: var(--case-bg);
+            /* Ultra belirgin kalın border */
             border: 8px solid var(--border-color);
             border-radius: 20px;
-            /* Beyaz kasa için gölge derinliği */
             box-shadow: 
-                15px 25px 50px rgba(0,0,0,0.1),
-                inset 2px 2px 5px rgba(255,255,255,0.8);
+                20px 30px 60px rgba(0,0,0,0.8),
+                inset 4px 4px 10px rgba(255,255,255,0.03);
             padding: 15px;
             display: flex;
             justify-content: center;
@@ -65,12 +63,12 @@
             height: 100%;
         }
 
-        /* Segment Kanalları */
+        /* Segmentlerin yattığı derin kanallar */
         .slot {
             position: absolute;
-            background: #f5f5f5;
+            background: #000;
             border-radius: 5px;
-            box-shadow: inset 2px 4px 10px rgba(0,0,0,0.05);
+            box-shadow: inset 0 5px 15px rgba(0,0,0,1);
         }
 
         .seg {
@@ -78,20 +76,20 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background: var(--led-off);
             border-radius: 4px;
-            transition: background 0.12s ease;
+            transition: background 0.1s ease;
         }
 
-        /* Siyah LED (Aktif) */
+        /* Beyaz LED patlaması */
         .seg.on {
             background: var(--led-on);
-            /* Siyah renkte "parlama" yerine derinlikli bir iç gölge */
             box-shadow: 
-                0 2px 5px rgba(0,0,0,0.3),
-                inset 0 0 10px rgba(0,0,0,0.5);
+                0 0 30px var(--glow),
+                0 0 60px var(--glow),
+                inset 0 0 15px #fff;
             z-index: 5;
         }
 
-        /* Geometri */
+        /* Geometrik Segment Ölçüleri */
         .h-s { width: 75%; height: var(--seg-t); left: 12.5%; clip-path: polygon(15% 0, 85% 0, 100% 50%, 85% 100%, 15% 100%, 0 50%); }
         .v-s { width: var(--seg-t); height: 43%; clip-path: polygon(0 15%, 50% 0, 100% 15%, 100% 85%, 50% 100%, 0 85%); }
 
@@ -103,7 +101,7 @@
         .s-f { top: 6%; left: 0; }
         .s-g { top: calc(50% - (var(--seg-t) / 2)); }
 
-        /* Ayraç Bloğu (Invert) */
+        /* Ayraç Bloğu */
         .dot-block {
             width: 80px;
             height: 350px;
@@ -115,7 +113,7 @@
             justify-content: center;
             align-items: center;
             gap: 80px;
-            box-shadow: 10px 15px 30px rgba(0,0,0,0.05);
+            box-shadow: 15px 20px 40px rgba(0,0,0,0.6);
         }
 
         .dot {
@@ -123,6 +121,7 @@
             height: 30px;
             background: var(--led-on);
             border-radius: 50%;
+            box-shadow: 0 0 40px var(--glow);
             animation: pulse 1s step-end infinite;
         }
 
@@ -174,7 +173,7 @@
             const segs = document.getElementById(id).children;
             
             if (i === 0 && t[i] === 0) {
-                block.style.opacity = "0.15"; 
+                block.style.opacity = "0.05"; // İlk hane 0 ise tamamen söndür
             } else {
                 block.style.opacity = "1";
                 map[t[i]].forEach((on, j) => {
